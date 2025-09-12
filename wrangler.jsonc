@@ -2,10 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "portfolio-backend",
   "main": "src/index.ts",
-  "compatibility_date": "2025-09-12"
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
+  "compatibility_date": "2025-09-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
@@ -17,8 +17,8 @@
   // ],
   // "r2_buckets": [
   //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
+  //     "binding": "COMPANIES_BUCKET",
+  //     "bucket_name": "companies"
   //   }
   // ],
   // "d1_databases": [

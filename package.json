@@ -8,9 +8,16 @@
   },
   "dependencies": {
     "hono": "^4.9.7",
-    "mongodb": "^6.19.0"
+    "mongodb": "^6.19.0",
+    "google-play-scraper": "^10.0.1",
+    "playstore-scraper": "^1.0.1",
+    "nodemailer": "^7.0.5",
+    "zod": "^4.0.5"
   },
   "devDependencies": {
+    "@types/node": "^24.3.1",
+    "@types/nodemailer": "^7.0.1",
+    "typescript": "^5.9.2",
     "wrangler": "^4.4.0"
   }
 }
