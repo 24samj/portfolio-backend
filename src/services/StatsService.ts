@@ -39,7 +39,6 @@ export class StatsService {
     try {
       const db = await getDatabase();
       const companiesCollection = db.collection("companies");
-      const closedTestsCollection = db.collection("closed_tests");
 
       // Get all companies
       const companies = await companiesCollection.find({}).toArray();

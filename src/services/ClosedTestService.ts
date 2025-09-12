@@ -14,11 +14,8 @@ export class ClosedTestService {
       const db = await getDatabase();
       const collection = db.collection(COLLECTION_NAME);
 
-      // Get all tests and filter for active ones (handle both boolean true and truthy values)
-      const tests = await collection
-        .find({})
-        .sort({ createdAt: -1 })
-        .toArray();
+      // Get all tests and filter for active ones
+      const tests = await collection.find({}).toArray();
 
       return tests
         .filter((doc) => {
