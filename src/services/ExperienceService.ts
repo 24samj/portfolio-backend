@@ -14,12 +14,19 @@ export class ExperienceService {
    * Get all experiences with optimized sorting and caching
    */
   static async getAll(): Promise<Company[]> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
-      // Use MongoDB aggregation pipeline for better performance
-      const experiences = await collection.find({}).toArray();
+      // Use MongoDB aggregation pipeline for better performance with timeout protection
+      const experiences = await Promise.race([
+        collection.find({}).toArray(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
+        ),
+      ]);
       const sorted = experiences.sort((a, b) => {
         // Current positions first (workEnd is null)
         if (a.workEnd === null && b.workEnd !== null) return -1;
@@ -50,6 +57,15 @@ export class ExperienceService {
     } catch (error) {
       console.error("Error fetching experiences:", error);
       throw new Error("Failed to fetch experiences");
+    } finally {
+      // Close connection after request
+      if (client) {
+        try {
+          await client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+      }
     }
   }
 
@@ -57,12 +73,19 @@ export class ExperienceService {
    * Get experience by ID with optimized error handling
    */
   static async getById(id: string): Promise<Company | null> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
-      // Query by string _id (not ObjectId)
-      const experience = await collection.findOne({ _id: id } as any);
+      // Query by string _id (not ObjectId) with timeout protection
+      const experience = await Promise.race([
+        collection.findOne({ _id: id } as any),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
+        ),
+      ]);
 
       if (!experience) {
         return null;
@@ -75,6 +98,15 @@ export class ExperienceService {
     } catch (error) {
       console.error("Error fetching experience:", error);
       throw new Error("Failed to fetch experience");
+    } finally {
+      // Close connection after request
+      if (client) {
+        try {
+          await client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+      }
     }
   }
 
@@ -82,14 +114,30 @@ export class ExperienceService {
    * Get experiences count for pagination (future use)
    */
   static async getCount(): Promise<number> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
-      return await collection.countDocuments();
+      return await Promise.race([
+        collection.countDocuments(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
+        ),
+      ]);
     } catch (error) {
       console.error("Error counting experiences:", error);
       throw new Error("Failed to count experiences");
+    } finally {
+      // Close connection after request
+      if (client) {
+        try {
+          await client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+      }
     }
   }
 }

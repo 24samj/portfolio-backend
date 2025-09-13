@@ -37,12 +37,19 @@ export class StatsService {
    * Get portfolio statistics
    */
   static async getStats(): Promise<PortfolioStats> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const companiesCollection = db.collection(COLLECTIONS.COMPANIES);
 
-      // Get all companies
-      const companies = await companiesCollection.find({}).toArray();
+      // Get all companies with timeout protection
+      const companies = await Promise.race([
+        companiesCollection.find({}).toArray(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
+        ),
+      ]);
 
       // Calculate total experience
       const currentPosition = companies.some((company) => !company.workEnd);
@@ -98,6 +105,15 @@ export class StatsService {
     } catch (error) {
       console.error("Error calculating stats:", error);
       throw new Error("Failed to calculate statistics");
+    } finally {
+      // Close connection after request
+      if (client) {
+        try {
+          await client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+      }
     }
   }
 

@@ -1,6 +1,6 @@
-import app from './app';
-import { dbManager } from './database/manager';
-import { setMongoClient } from './routes/health';
+import app from "./app";
+import { dbManager } from "./database/manager";
+import { setMongoClient } from "./routes/health";
 
 // Initialize MongoDB connection on startup
 async function initializeApp() {
@@ -10,7 +10,7 @@ async function initializeApp() {
       setMongoClient(dbManager.getClient());
     }
   } catch (error) {
-    console.error('Failed to initialize app:', error);
+    console.error("Failed to initialize app:", error);
   }
 }
 
