@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { MongoClient } from 'mongodb';
+import { dbManager } from '../database/manager';
 
 const health = new Hono();
 
@@ -14,7 +15,13 @@ export const setMongoClient = (client: MongoClient | null) => {
 // Health check endpoint
 health.get('/', async (c) => {
   try {
-    const isMongoConnected = mongoClient ? await mongoClient.db().admin().ping() : false;
+    // Try to connect if not already connected
+    if (!dbManager.isConnectedToDatabase()) {
+      console.log('MongoDB not connected, attempting to connect...');
+      await dbManager.connect();
+    }
+    
+    const isMongoConnected = dbManager.isConnectedToDatabase();
     
     const healthStatus = {
       status: 'ok',
@@ -26,6 +33,7 @@ health.get('/', async (c) => {
     
     return c.json(healthStatus, isMongoConnected ? 200 : 503);
   } catch (error) {
+    console.error('Health check error:', error);
     return c.json({
       status: 'error',
       timestamp: new Date().toISOString(),

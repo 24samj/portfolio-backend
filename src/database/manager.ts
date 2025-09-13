@@ -17,17 +17,30 @@ class DatabaseManager {
   async connect(): Promise<boolean> {
     try {
       const uri = process.env.MONGODB_URI;
+      
       if (!uri) {
         throw new Error('MONGODB_URI environment variable is not set');
       }
       
-      this.client = new MongoClient(uri);
+      this.client = new MongoClient(uri, {
+        serverSelectionTimeoutMS: 10000, // 10 second timeout
+        connectTimeoutMS: 10000,
+        maxPoolSize: 1, // Reduce pool size for Workers
+        retryWrites: true,
+        retryReads: true,
+      });
+      
       await this.client.connect();
+      
+      // Test database access
+      const db = this.client.db('portfolio');
+      await db.admin().ping();
+      
       this.isConnected = true;
-      console.log('Connected to MongoDB successfully');
+      console.log('✅ Connected to MongoDB successfully');
       return true;
     } catch (error) {
-      console.error('Failed to connect to MongoDB:', error);
+      console.error('❌ Failed to connect to MongoDB:', error);
       this.isConnected = false;
       return false;
     }
