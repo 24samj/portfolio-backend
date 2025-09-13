@@ -10,29 +10,32 @@ export const RATE_LIMITS = {
 
 // CORS allowed origins
 export const ALLOWED_ORIGINS = [
-  'https://sumit.codes',
-  'http://localhost:3000',
-  'http://127.0.0.1:3000'
+  "https://sumit.codes",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://127.0.0.1:3000",
+  "http://127.0.0.1:3001",
 ] as const;
 
 // Database collection names
 export const COLLECTIONS = {
-  COMPANIES: 'companies',
-  CLOSED_TESTS: 'closed_tests',
+  COMPANIES: "companies",
+  CLOSED_TESTS: "closed_tests",
 } as const;
 
 // API response messages
 export const MESSAGES = {
   SUCCESS: {
-    EMAIL_SENT: "Your message has been sent successfully! I'll get back to you soon.",
-    DATA_FETCHED: 'Data fetched successfully',
+    EMAIL_SENT:
+      "Your message has been sent successfully! I'll get back to you soon.",
+    DATA_FETCHED: "Data fetched successfully",
   },
   ERROR: {
-    DATABASE_CONNECTION: 'Failed to connect to database',
-    INVALID_ID: 'Invalid ID provided',
-    NOT_FOUND: 'Resource not found',
-    VALIDATION_FAILED: 'Validation failed',
-    RATE_LIMIT_EXCEEDED: 'Rate limit exceeded',
-    INTERNAL_SERVER_ERROR: 'Internal server error',
+    DATABASE_CONNECTION: "Failed to connect to database",
+    INVALID_ID: "Invalid ID provided",
+    NOT_FOUND: "Resource not found",
+    VALIDATION_FAILED: "Validation failed",
+    RATE_LIMIT_EXCEEDED: "Rate limit exceeded",
+    INTERNAL_SERVER_ERROR: "Internal server error",
   },
 } as const;

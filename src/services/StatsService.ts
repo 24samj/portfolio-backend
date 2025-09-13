@@ -1,3 +1,4 @@
+import { COLLECTIONS } from "../constants";
 import { getDatabase } from "../database/connection";
 import { PortfolioStats } from "../types/ClosedTest";
 
@@ -38,7 +39,7 @@ export class StatsService {
   static async getStats(): Promise<PortfolioStats> {
     try {
       const db = await getDatabase();
-      const companiesCollection = db.collection("companies");
+      const companiesCollection = db.collection(COLLECTIONS.COMPANIES);
 
       // Get all companies
       const companies = await companiesCollection.find({}).toArray();
