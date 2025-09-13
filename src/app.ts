@@ -13,18 +13,21 @@ const app = new Hono();
 // Apply CORS middleware to all routes
 app.use('*', corsMiddleware);
 
-// Mount route handlers
-app.route('/health', health);
-app.route('/experiences', experiences);
-app.route('/apps', apps);
-app.route('/closed-tests', closedTests);
-app.route('/contact', contact);
-app.route('/stats', stats);
-app.route('/utils', utils);
+// Mount route handlers with /api prefix
+app.route('/api/health', health);
+app.route('/api/experiences', experiences);
+app.route('/api/apps', apps);
+app.route('/api/closed-tests', closedTests);
+app.route('/api/contact', contact);
+app.route('/api/stats', stats);
+app.route('/api/utils', utils);
 
 // Root endpoint
 app.get('/', (c) => {
-  return c.text('Portfolio Backend API - Use /health for health check');
+  return c.text('Portfolio Backend API - Use /api/health for health check');
 });
+
+// Legacy health endpoint for backward compatibility
+app.route('/health', health);
 
 export default app;

@@ -86,9 +86,11 @@ npm run deploy
 
 ### Health Check
 
-**GET** `/health`
+**GET** `/api/health`
 
 Check the health status of the API and its dependencies.
+
+**Legacy endpoint:** `/health` (for backward compatibility)
 
 **Response:**
 ```json
@@ -111,7 +113,7 @@ Check the health status of the API and its dependencies.
 
 #### Get All Experiences
 
-**GET** `/experiences`
+**GET** `/api/experiences`
 
 Retrieve all work experiences/companies from the database.
 
@@ -143,7 +145,7 @@ Retrieve all work experiences/companies from the database.
 
 #### Get Experience by ID
 
-**GET** `/experiences/{id}`
+**GET** `/api/experiences/{id}`
 
 Retrieve a specific work experience by ID.
 
@@ -174,7 +176,7 @@ Retrieve a specific work experience by ID.
 
 #### Get App Store App Data
 
-**GET** `/apps/app-store/{id}`
+**GET** `/api/apps/app-store/{id}`
 
 Fetch iOS App Store app data by app ID.
 
@@ -207,43 +209,26 @@ Fetch iOS App Store app data by app ID.
 
 #### Get Play Store App Data
 
-**GET** `/apps/play-store/{id}`
+**GET** `/api/apps/play-store/{id}`
 
-Fetch Google Play Store app data by package name.
+⚠️ **DEPRECATED** - This endpoint is deprecated due to unreliable web scraping.
 
-**Parameters:**
-- `id` (string) - Play Store package name
+**Why Deprecated:**
+- Google Play Store HTML structure changes frequently
+- Web scraping is fragile and breaks often
+- Rate limiting and anti-bot measures
+- Inconsistent data extraction
 
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "id": "com.example.app",
-    "name": "App Name",
-    "description": "App description...",
-    "summary": "App summary...",
-    "icon": "https://play-lh.googleusercontent.com/...",
-    "screenshots": ["https://...", "https://..."],
-    "playStoreUrl": "https://play.google.com/store/apps/...",
-    "version": "1.0.0",
-    "rating": 4.3,
-    "ratingCount": 5678,
-    "installs": "10,000+",
-    "price": 0,
-    "free": true,
-    "developer": "Developer Name",
-    "category": "Productivity",
-    "releaseDate": "2024-01-01",
-    "size": "50 MB",
-    "androidVersion": "5.0",
-    "contentRating": "Everyone"
-  }
-}
-```
+**Current Status:**
+- Returns HTTP 410 (Gone) with deprecation message
+- Use the frontend implementation instead
+
+**Alternative:**
+Use the frontend implementation at `/api/play-store/[id]` which handles Play Store data more reliably.
 
 **Status Codes:**
-- `200` - App data retrieved successfully
+- `410` - Endpoint deprecated (Gone)
+- `200` - App data retrieved successfully (iOS only)
 - `404` - App not found
 - `500` - Server error or external API failure
 
@@ -253,7 +238,7 @@ Fetch Google Play Store app data by package name.
 
 #### Send Contact Email
 
-**POST** `/contact`
+**POST** `/api/contact`
 
 Send a contact form email.
 
@@ -290,7 +275,7 @@ Send a contact form email.
 
 #### Get All Closed Tests
 
-**GET** `/closed-tests`
+**GET** `/api/closed-tests`
 
 Retrieve all apps currently in closed testing.
 
@@ -318,7 +303,7 @@ Retrieve all apps currently in closed testing.
 
 #### Get Closed Test by ID
 
-**GET** `/closed-tests/{id}`
+**GET** `/api/closed-tests/{id}`
 
 Retrieve detailed information about a specific closed test.
 
@@ -346,7 +331,7 @@ Retrieve detailed information about a specific closed test.
 
 #### Check App Testing Status
 
-**GET** `/closed-tests/check/{packageName}`
+**GET** `/api/closed-tests/check/{packageName}`
 
 Check if an app is currently in closed testing by attempting to fetch its Play Store data.
 
@@ -378,7 +363,7 @@ Check if an app is currently in closed testing by attempting to fetch its Play S
 
 #### Get Portfolio Statistics
 
-**GET** `/stats`
+**GET** `/api/stats`
 
 Retrieve calculated statistics about the portfolio.
 
