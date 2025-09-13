@@ -6,7 +6,10 @@ export class StatsService {
   /**
    * Calculate total experience duration
    */
-  private static calculateDuration(startDate: string, endDate: string | null): string {
+  private static calculateDuration(
+    startDate: string,
+    endDate: string | null
+  ): string {
     const start = new Date(startDate);
     const end = endDate ? new Date(endDate) : new Date();
 
@@ -22,15 +25,12 @@ export class StatsService {
       months += 12;
     }
 
-    if (years > 0 && months > 0) {
-      return `${years} year${years > 1 ? "s" : ""} ${months} month${months > 1 ? "s" : ""}`;
-    } else if (years > 0) {
-      return `${years} year${years > 1 ? "s" : ""}`;
-    } else if (months > 0) {
-      return `${months} month${months > 1 ? "s" : ""}`;
-    } else {
-      return "Less than a month";
+    const totalMonths = years * 12 + months;
+    if (totalMonths === 0) {
+      return "0.0";
     }
+    const decimalYears = (totalMonths / 12).toFixed(1);
+    return decimalYears;
   }
 
   /**
@@ -45,7 +45,7 @@ export class StatsService {
       const companies = await companiesCollection.find({}).toArray();
 
       // Calculate total experience
-      const currentPosition = companies.some(company => !company.workEnd);
+      const currentPosition = companies.some((company) => !company.workEnd);
       const totalCompanies = companies.length;
 
       // Calculate total projects
@@ -59,7 +59,9 @@ export class StatsService {
       }, 0);
 
       // Get unique technologies
-      const allTechnologies = companies.flatMap(company => company.technologies || []);
+      const allTechnologies = companies.flatMap(
+        (company) => company.technologies || []
+      );
       const uniqueTechnologies = [...new Set(allTechnologies)];
       const totalTechnologies = uniqueTechnologies.length;
 
@@ -80,8 +82,8 @@ export class StatsService {
         }, new Date(companies[0].workEnd || new Date()));
 
         totalExperience = this.calculateDuration(
-          earliestStart.toISOString().split('T')[0],
-          latestEnd.toISOString().split('T')[0]
+          earliestStart.toISOString().split("T")[0],
+          latestEnd.toISOString().split("T")[0]
         );
       }
 
