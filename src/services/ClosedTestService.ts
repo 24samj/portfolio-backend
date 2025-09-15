@@ -10,49 +10,57 @@ export class ClosedTestService {
    * Get all active closed tests
    */
   static async getAll(): Promise<ClosedTest[]> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
       // Get all tests and filter for active ones with timeout
       const tests = await Promise.race([
         collection.find({}).toArray(),
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 3000)
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
         ),
       ]);
 
+      const normalizeDate = (value: any): string => {
+        if (!value) return new Date().toISOString();
+        if (typeof value === "string") return new Date(value).toISOString();
+        if (value instanceof Date) return value.toISOString();
+        if (typeof value === "object" && value.$date)
+          return new Date(value.$date).toISOString();
+        if (typeof value === "object" && value.$timestamp)
+          return new Date(value.$timestamp).toISOString();
+        try {
+          return new Date(value).toISOString();
+        } catch {
+          return new Date().toISOString();
+        }
+      };
+
       return tests
         .filter((doc) => {
-          // Consider active if isActive is true, "true", or if the field doesn't exist (default to active)
+          // Treat as active unless explicitly false or "false"
           const isActive = doc.isActive;
-          return (
-            isActive === true ||
-            isActive === "true" ||
-            isActive === "" ||
-            isActive === undefined
-          );
+          return !(isActive === false || isActive === "false");
         })
         .map((doc) => ({
           ...doc,
           _id: doc._id.toString(),
-          // Convert MongoDB timestamps to ISO strings
-          createdAt: doc.createdAt?.$timestamp
-            ? new Date(doc.createdAt.$timestamp).toISOString()
-            : new Date().toISOString(),
-          updatedAt: doc.updatedAt?.$timestamp
-            ? new Date(doc.updatedAt.$timestamp).toISOString()
-            : new Date().toISOString(),
-          // Ensure isActive is a boolean
-          isActive:
-            doc.isActive === true ||
-            doc.isActive === "true" ||
-            doc.isActive === "" ||
-            doc.isActive === undefined,
+          createdAt: normalizeDate(doc.createdAt),
+          updatedAt: normalizeDate(doc.updatedAt),
+          isActive: !(doc.isActive === false || doc.isActive === "false"),
         })) as ClosedTest[];
     } catch (error) {
       console.error("Error fetching closed tests:", error);
       throw new Error("Failed to fetch closed tests");
+    } finally {
+      if (client) {
+        try {
+          await client.close();
+        } catch {}
+      }
     }
   }
 
@@ -60,8 +68,10 @@ export class ClosedTestService {
    * Get closed test by ID
    */
   static async getById(id: string): Promise<ClosedTest | null> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
       // Try to find by ObjectId first, then by string ID with timeout
@@ -70,14 +80,14 @@ export class ClosedTestService {
         test = await Promise.race([
           collection.findOne({ _id: new ObjectId(id) }),
           new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error("Database query timeout")), 3000)
+            setTimeout(() => reject(new Error("Database query timeout")), 5000)
           ),
         ]);
       } else {
         test = await Promise.race([
           collection.findOne({ _id: id } as any),
           new Promise<never>((_, reject) =>
-            setTimeout(() => reject(new Error("Database query timeout")), 3000)
+            setTimeout(() => reject(new Error("Database query timeout")), 5000)
           ),
         ]);
       }
@@ -86,26 +96,37 @@ export class ClosedTestService {
         return null;
       }
 
+      const normalizeDate = (value: any): string => {
+        if (!value) return new Date().toISOString();
+        if (typeof value === "string") return new Date(value).toISOString();
+        if (value instanceof Date) return value.toISOString();
+        if (typeof value === "object" && value.$date)
+          return new Date(value.$date).toISOString();
+        if (typeof value === "object" && value.$timestamp)
+          return new Date(value.$timestamp).toISOString();
+        try {
+          return new Date(value).toISOString();
+        } catch {
+          return new Date().toISOString();
+        }
+      };
+
       return {
         ...test,
         _id: test._id.toString(),
-        // Convert MongoDB timestamps to ISO strings
-        createdAt: test.createdAt?.$timestamp
-          ? new Date(test.createdAt.$timestamp).toISOString()
-          : new Date().toISOString(),
-        updatedAt: test.updatedAt?.$timestamp
-          ? new Date(test.updatedAt.$timestamp).toISOString()
-          : new Date().toISOString(),
-        // Ensure isActive is a boolean
-        isActive:
-          test.isActive === true ||
-          test.isActive === "true" ||
-          test.isActive === "" ||
-          test.isActive === undefined,
+        createdAt: normalizeDate(test.createdAt),
+        updatedAt: normalizeDate(test.updatedAt),
+        isActive: !(test.isActive === false || test.isActive === "false"),
       } as ClosedTest;
     } catch (error) {
       console.error("Error fetching closed test:", error);
       throw new Error("Failed to fetch closed test");
+    } finally {
+      if (client) {
+        try {
+          await client.close();
+        } catch {}
+      }
     }
   }
 
@@ -115,14 +136,16 @@ export class ClosedTestService {
   static async getByPackageName(
     packageName: string
   ): Promise<ClosedTest | null> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
       const test = await Promise.race([
         collection.findOne({ packageName }),
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 3000)
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
         ),
       ]);
 
@@ -130,26 +153,37 @@ export class ClosedTestService {
         return null;
       }
 
+      const normalizeDate = (value: any): string => {
+        if (!value) return new Date().toISOString();
+        if (typeof value === "string") return new Date(value).toISOString();
+        if (value instanceof Date) return value.toISOString();
+        if (typeof value === "object" && value.$date)
+          return new Date(value.$date).toISOString();
+        if (typeof value === "object" && value.$timestamp)
+          return new Date(value.$timestamp).toISOString();
+        try {
+          return new Date(value).toISOString();
+        } catch {
+          return new Date().toISOString();
+        }
+      };
+
       return {
         ...test,
         _id: test._id.toString(),
-        // Convert MongoDB timestamps to ISO strings
-        createdAt: test.createdAt?.$timestamp
-          ? new Date(test.createdAt.$timestamp).toISOString()
-          : new Date().toISOString(),
-        updatedAt: test.updatedAt?.$timestamp
-          ? new Date(test.updatedAt.$timestamp).toISOString()
-          : new Date().toISOString(),
-        // Ensure isActive is a boolean
-        isActive:
-          test.isActive === true ||
-          test.isActive === "true" ||
-          test.isActive === "" ||
-          test.isActive === undefined,
+        createdAt: normalizeDate(test.createdAt),
+        updatedAt: normalizeDate(test.updatedAt),
+        isActive: !(test.isActive === false || test.isActive === "false"),
       } as ClosedTest;
     } catch (error) {
       console.error("Error fetching closed test by package name:", error);
       throw new Error("Failed to fetch closed test");
+    } finally {
+      if (client) {
+        try {
+          await client.close();
+        } catch {}
+      }
     }
   }
 
@@ -182,19 +216,30 @@ export class ClosedTestService {
    * Get count of active closed tests
    */
   static async getCount(): Promise<number> {
+    let client: any = null;
     try {
-      const db = await getDatabase();
+      const { db, client: mongoClient } = await getDatabase();
+      client = mongoClient;
       const collection = db.collection(COLLECTION_NAME);
 
       return await Promise.race([
-        collection.countDocuments({ isActive: true }),
+        // Count only explicitly active or missing flag (treat missing as active)
+        collection.countDocuments({
+          $or: [{ isActive: true }, { isActive: { $exists: false } }],
+        }),
         new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 3000)
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
         ),
       ]);
     } catch (error) {
       console.error("Error counting closed tests:", error);
       throw new Error("Failed to count closed tests");
+    } finally {
+      if (client) {
+        try {
+          await client.close();
+        } catch {}
+      }
     }
   }
 }
