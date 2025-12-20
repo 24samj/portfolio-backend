@@ -75,30 +75,33 @@ class DatabaseManager {
       }
 
       // For local development, use direct connection to avoid SRV record issues
+      // Check if we're in a local environment (wrangler dev runs locally)
       const isLocalDev =
         process.env.NODE_ENV === "development" ||
         process.env.NODE_ENV === "local" ||
-        process.env.WRANGLER_ENV === "local";
+        process.env.WRANGLER_ENV === "local" ||
+        (typeof process !== 'undefined' && process.env && !process.env.CF_PAGES);
 
-      // Try to convert SRV connection string to direct connection for local dev
+      // Always convert SRV to direct connection in local dev to avoid DNS SRV lookup issues
       let connectionUri = uri;
-      if (isLocalDev && uri.includes("mongodb+srv://")) {
-        console.log(
-          "🔄 Converting SRV connection string to direct connection for local development"
-        );
-        // Extract the connection details and convert to direct connection
+      if (uri.includes("mongodb+srv://")) {
+        // Try to convert SRV to direct connection (works better in local environments)
         const match = uri.match(
           /mongodb\+srv:\/\/([^:]+):([^@]+)@([^/]+)\/(.+)/
         );
         if (match) {
           const [, username, password, host, database] = match;
-          // Use the first host from the cluster for direct connection
-          const directHost = host.split(".")[0] + ".mongodb.net";
+          // Extract cluster name and build direct connection
+          const clusterName = host.split(".")[0];
+          const directHost = `${clusterName}.mongodb.net`;
           connectionUri = `mongodb://${username}:${password}@${directHost}:27017/${database}?ssl=true&authSource=admin&retryWrites=false&retryReads=false`;
-          console.log(
-            "🔄 Using direct connection:",
-            connectionUri.replace(/\/\/[^:]+:[^@]+@/, "//***:***@")
-          );
+          
+          if (isLocalDev) {
+            console.log(
+              "🔄 Converting SRV to direct connection for local development:",
+              connectionUri.replace(/\/\/[^:]+:[^@]+@/, "//***:***@")
+            );
+          }
         }
       }
 
@@ -112,12 +115,6 @@ class DatabaseManager {
         retryReads: false,
         // Force direct connection in local development to avoid SRV record issues
         directConnection: isLocalDev,
-        // Additional options for local development
-        ...(isLocalDev && {
-          // Use direct connection string format for local dev
-          useUnifiedTopology: true,
-          useNewUrlParser: true,
-        }),
         // Optimized for serverless - reduce heartbeat frequency
         heartbeatFrequencyMS: 30000, // 30 seconds
         // Add connection timeout
