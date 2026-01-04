@@ -5,7 +5,7 @@ import { COLLECTIONS } from "../constants";
 import { MongoCompanyDocument } from "../types/MongoDB";
 
 const COLLECTION_NAME = COLLECTIONS.COMPANIES;
-const DATABASE_NAME = "portfolio"; // companies collection is in portfolio database
+const DATABASE_NAME = "portfolio2"; // companies collection is in portfolio database
 
 /**
  * Service for managing experience/company data
