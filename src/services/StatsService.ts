@@ -1,7 +1,9 @@
-import { MongoClient } from "mongodb";
 import { COLLECTIONS } from "../constants";
-import { getDatabase } from "../database/connection";
+import { executeWithDatabaseTimeout } from "../database/connection";
 import { PortfolioStats } from "../types/Stats";
+import { MongoCompanyDocument, MongoSkillCategoryDocument } from "../types/MongoDB";
+
+const DATABASE_NAME = "portfolio2"; // experiences, works, and skills are in portfolio2 database
 
 export class StatsService {
   /**
@@ -38,33 +40,42 @@ export class StatsService {
    * Get portfolio statistics
    */
   static async getStats(): Promise<PortfolioStats> {
-    let client: MongoClient | null = null;
     try {
-      const { db, client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      const companiesCollection = db.collection(COLLECTIONS.EXPERIENCES);
+      // Get experiences/companies
+      const companies = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoCompanyDocument>(COLLECTIONS.EXPERIENCES);
+        return await collection.find({}).toArray();
+      }, DATABASE_NAME);
 
-      // Get all companies with timeout protection
-      const companies = await Promise.race([
-        companiesCollection.find({}).toArray(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
+      // Get total projects count from works collection
+      const totalProjects = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection(COLLECTIONS.WORKS);
+        return await collection.countDocuments();
+      }, DATABASE_NAME);
+
+      // Get total unique technologies from skills collection
+      const totalTechnologies = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoSkillCategoryDocument>(COLLECTIONS.SKILLS);
+        const skillCategories = await collection.find({}).toArray();
+        
+        // Collect all unique skill names across all categories
+        const uniqueTechnologies = new Set<string>();
+        for (const category of skillCategories) {
+          if (category.skills && Array.isArray(category.skills)) {
+            for (const skill of category.skills) {
+              if (skill.name && typeof skill.name === 'string' && skill.name.trim().length > 0) {
+                uniqueTechnologies.add(skill.name.trim());
+              }
+            }
+          }
+        }
+        
+        return uniqueTechnologies.size;
+      }, DATABASE_NAME);
 
       // Calculate total experience
       const currentPosition = companies.some((company) => !company.workEnd);
       const totalCompanies = companies.length;
-
-      // Calculate total projects from works array
-      // Note: This is a simplified count - actual project count should come from works collection
-      const totalProjects = companies.reduce((acc, company) => {
-        return acc + (company.works?.length || 0);
-      }, 0);
-
-      // Technologies are now stored in skills collection, not in companies
-      // This will be calculated separately from skills API
-      const totalTechnologies = 0; // Will be fetched from skills API
 
       // Calculate total experience duration
       let totalExperience = "0 years";
@@ -99,15 +110,6 @@ export class StatsService {
     } catch (error) {
       console.error("Error calculating stats:", error);
       throw new Error("Failed to calculate statistics");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 
