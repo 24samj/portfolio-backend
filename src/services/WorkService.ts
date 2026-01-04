@@ -264,6 +264,52 @@ export class WorkService {
   }
 
   /**
+   * Get multiple works by IDs
+   */
+  static async getByIds(ids: string[]): Promise<MongoWorkDocument[]> {
+    if (!ids || ids.length === 0) {
+      return [];
+    }
+
+    let client: MongoClient | null = null;
+    try {
+      const { client: mongoClient } = await getDatabase();
+      client = mongoClient;
+      
+      // Use portfolio2 database
+      const portfolio2Db = mongoClient.db(DATABASE_NAME);
+      const collection = portfolio2Db.collection<MongoWorkDocument>(COLLECTION_NAME);
+
+      // Works use string IDs, not ObjectId
+      const works = await Promise.race([
+        collection.find({ _id: { $in: ids } }).toArray(),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error("Database query timeout")), 5000)
+        ),
+      ]) as MongoWorkDocument[];
+
+      // Enrich each work with store data (screenshots, rating, category)
+      const enrichedWorks = await Promise.all(
+        works.map((work) => this.enrichWorkWithStoreData(work))
+      );
+
+      return enrichedWorks;
+    } catch (error) {
+      console.error("Error fetching works by IDs:", error);
+      throw new Error("Failed to fetch works by IDs");
+    } finally {
+      // Close connection after request
+      if (client) {
+        try {
+          await client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+      }
+    }
+  }
+
+  /**
    * Get works count for pagination (future use)
    */
   static async getCount(): Promise<number> {
@@ -301,3 +347,4 @@ export class WorkService {
 // Backward compatibility exports
 export const getWorks = WorkService.getAll;
 export const getWorkById = WorkService.getById;
+export const getWorksByIds = WorkService.getByIds;

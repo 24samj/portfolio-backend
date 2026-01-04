@@ -4,16 +4,47 @@ import { rateLimitMiddleware } from "../middleware/rateLimit";
 
 const works = new Hono();
 
-// Get all works
+// Get all works or works by IDs
 works.get("/", rateLimitMiddleware("works"), async (c) => {
   try {
-    const works = await WorkService.getAll();
+    // Check if ids query parameter is provided
+    const idsParam = c.req.query("ids");
+    
+    if (idsParam) {
+      // Parse comma-separated IDs
+      const ids = idsParam
+        .split(",")
+        .map((id) => id.trim())
+        .filter((id) => id.length > 0);
 
-    return c.json({
-      success: true,
-      count: works.length,
-      data: works,
-    });
+      if (ids.length === 0) {
+        return c.json(
+          {
+            success: false,
+            error: "Invalid IDs parameter",
+            message: "At least one valid ID must be provided",
+          },
+          400
+        );
+      }
+
+      const works = await WorkService.getByIds(ids);
+
+      return c.json({
+        success: true,
+        count: works.length,
+        data: works,
+      });
+    } else {
+      // Get all works
+      const works = await WorkService.getAll();
+
+      return c.json({
+        success: true,
+        count: works.length,
+        data: works,
+      });
+    }
   } catch (error) {
     console.error("Error fetching works:", error);
     return c.json(

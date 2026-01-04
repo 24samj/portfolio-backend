@@ -121,6 +121,50 @@ Check the health status of the API and its dependencies.
 
 Retrieve all works/projects from the database. Works are automatically enriched with app store data (screenshots, ratings, categories) when available.
 
+#### Get Works by IDs
+
+**GET** `/api/works?ids={id1},{id2},{id3}`
+
+Retrieve multiple works/projects by their IDs. Works are automatically enriched with app store data (screenshots, ratings, categories) when available.
+
+**Query Parameters:**
+- `ids` (string, comma-separated) - One or more work IDs
+
+**Example:**
+```
+GET /api/works?ids=eazydukan,bvmrf,rhia
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 3,
+  "data": [
+    {
+      "_id": "eazydukan",
+      "name": "EazyDukan",
+      ...
+    },
+    {
+      "_id": "bvmrf",
+      "name": "BVM Research Foundation",
+      ...
+    },
+    {
+      "_id": "rhia",
+      "name": "RHIA",
+      ...
+    }
+  ]
+}
+```
+
+**Status Codes:**
+- `200` - Works retrieved successfully
+- `400` - Invalid IDs parameter (empty or no valid IDs)
+- `500` - Server error
+
 **Response:**
 ```json
 {
