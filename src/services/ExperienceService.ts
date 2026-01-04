@@ -1,21 +1,21 @@
 import { ObjectId } from "mongodb";
 import { executeWithDatabaseTimeout } from "../database/connection";
-import { Company } from "../types/Company";
+import { Experience } from "../types/Company";
 import { COLLECTIONS } from "../constants";
 import { MongoCompanyDocument } from "../types/MongoDB";
 
-const COLLECTION_NAME = COLLECTIONS.COMPANIES;
-const DATABASE_NAME = "portfolio2"; // companies collection is in portfolio database
+const COLLECTION_NAME = COLLECTIONS.EXPERIENCES;
+const DATABASE_NAME = "portfolio2"; // experiences collection is in portfolio2 database
 
 /**
- * Service for managing experience/company data
+ * Service for managing experience data
  * Uses optimized database connection with caching
  */
 export class ExperienceService {
   /**
    * Get all experiences with optimized sorting and caching
    */
-  static async getAll(): Promise<Company[]> {
+  static async getAll(): Promise<Experience[]> {
     return executeWithDatabaseTimeout(async (db) => {
       const collection = db.collection(COLLECTION_NAME);
       const experiences = await collection.find({}).toArray();
@@ -46,14 +46,14 @@ export class ExperienceService {
       return sorted.map((doc) => ({
         ...doc,
         _id: doc._id.toString(),
-      })) as Company[];
+      })) as Experience[];
     }, DATABASE_NAME);
   }
 
   /**
    * Get experience by ID with optimized error handling
    */
-  static async getById(id: string): Promise<Company | null> {
+  static async getById(id: string): Promise<Experience | null> {
     return executeWithDatabaseTimeout(async (db) => {
       const collection = db.collection<MongoCompanyDocument>(COLLECTION_NAME);
       let experience: MongoCompanyDocument | null;
@@ -71,7 +71,7 @@ export class ExperienceService {
       return {
         ...experience,
         _id: experience._id.toString(),
-      } as Company;
+      } as Experience;
     }, DATABASE_NAME);
   }
 

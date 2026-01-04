@@ -42,7 +42,7 @@ export class StatsService {
     try {
       const { db, client: mongoClient } = await getDatabase();
       client = mongoClient;
-      const companiesCollection = db.collection(COLLECTIONS.COMPANIES);
+      const companiesCollection = db.collection(COLLECTIONS.EXPERIENCES);
 
       // Get all companies with timeout protection
       const companies = await Promise.race([

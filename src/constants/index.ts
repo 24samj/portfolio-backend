@@ -25,7 +25,7 @@ export const DEVELOPMENT_ORIGINS = [
 
 // Database collection names
 export const COLLECTIONS = {
-  COMPANIES: "companies",
+  EXPERIENCES: "experiences",
   WORKS: "works",
   EDUCATIONS: "educations",
   CERTIFICATIONS: "certifications",
