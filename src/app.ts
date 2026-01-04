@@ -3,10 +3,14 @@ import { corsMiddleware } from "./middleware/cors";
 import health from "./routes/health";
 import experiences from "./routes/experiences";
 import apps from "./routes/apps";
-import closedTests from "./routes/closed-tests";
 import contact from "./routes/contact";
 import stats from "./routes/stats";
 import utils from "./routes/utils";
+import works from "./routes/works";
+import educations from "./routes/educations";
+import certifications from "./routes/certifications";
+import skills from "./routes/skills";
+import me from "./routes/me";
 
 const app = new Hono();
 
@@ -30,10 +34,14 @@ app.use("*", corsMiddleware);
 app.route("/api/health", health);
 app.route("/api/experiences", experiences);
 app.route("/api/apps", apps);
-app.route("/api/closed-tests", closedTests);
 app.route("/api/contact", contact);
 app.route("/api/stats", stats);
 app.route("/api/utils", utils);
+app.route("/api/works", works);
+app.route("/api/educations", educations);
+app.route("/api/certifications", certifications);
+app.route("/api/skills", skills);
+app.route("/api/me", me);
 
 // Root endpoint
 app.get("/", (c) => {
@@ -42,6 +50,9 @@ app.get("/", (c) => {
 
 // Legacy health endpoint for backward compatibility
 app.route("/health", health);
+
+// Legacy works endpoint for backward compatibility
+app.route("/works", works);
 
 // 404 handler for unmatched routes
 app.notFound((c) => {

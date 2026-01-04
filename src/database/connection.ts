@@ -1,5 +1,12 @@
 import { Db, MongoClient } from "mongodb";
+import { EventEmitter } from "events";
 import { dbManager } from "./manager";
+import { MongoClientWithTopology } from "../types/MongoDB";
+
+// Set default max listeners for all EventEmitters to prevent memory leak warnings
+// MongoDB driver creates multiple internal EventEmitters (Topology, ServerSelection, etc.)
+// In serverless environments, we create new clients per request, which is expected behavior
+EventEmitter.defaultMaxListeners = 25;
 
 /**
  * Get database connection - create new connection for each request in Cloudflare Workers
@@ -51,22 +58,54 @@ export async function getDatabase(): Promise<{ db: Db; client: MongoClient }> {
       maxIdleTimeMS: 30000,
     });
 
-    // Connect with timeout
-    await Promise.race([
-      client.connect(),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Connection timeout")), 5000)
-      ),
-    ]);
+    // Note: maxListeners is set globally via EventEmitter.defaultMaxListeners
+    // This applies to all EventEmitters including MongoDB's internal ones (Topology, ServerSelection, etc.)
+
+    // Connect with timeout - using simple Promise.race with proper cleanup
+    let connectTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    try {
+      await Promise.race([
+        client.connect(),
+        new Promise<never>((_, reject) => {
+          connectTimeoutId = setTimeout(() => {
+            reject(new Error("Connection timeout"));
+          }, 5000);
+        }),
+      ]);
+      
+      // Set maxListeners on internal MongoDB EventEmitters after connection
+      // The topology and server selection EventEmitters are created during connect()
+      const topology = (client as MongoClientWithTopology).topology;
+      if (topology && typeof topology.setMaxListeners === 'function') {
+        topology.setMaxListeners(25);
+      }
+      const serverSelection = (client as MongoClientWithTopology).topology?.s?.serverSelection;
+      if (serverSelection && typeof serverSelection.setMaxListeners === 'function') {
+        serverSelection.setMaxListeners(25);
+      }
+    } finally {
+      if (connectTimeoutId) {
+        clearTimeout(connectTimeoutId);
+      }
+    }
 
     // Test connection with timeout
     const db = client.db("portfolio");
-    await Promise.race([
-      db.admin().ping(),
-      new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error("Ping timeout")), 2000)
-      ),
-    ]);
+    let pingTimeoutId: ReturnType<typeof setTimeout> | null = null;
+    try {
+      await Promise.race([
+        db.admin().ping(),
+        new Promise<never>((_, reject) => {
+          pingTimeoutId = setTimeout(() => {
+            reject(new Error("Ping timeout"));
+          }, 2000);
+        }),
+      ]);
+    } finally {
+      if (pingTimeoutId) {
+        clearTimeout(pingTimeoutId);
+      }
+    }
 
     console.log("✅ Connected to MongoDB successfully");
     return { db, client };
@@ -81,4 +120,59 @@ export async function getDatabase(): Promise<{ db: Db; client: MongoClient }> {
  */
 export async function closeDatabase(): Promise<void> {
   await dbManager.disconnect();
+}
+
+/**
+ * Execute a database operation with automatic connection management
+ * This helper ensures proper connection handling, cleanup, and error management
+ * 
+ * @param operation - Function that receives the database instance and performs operations
+ * @param dbName - Database name to use (default: "portfolio2")
+ * @returns The result of the operation
+ */
+export async function executeWithDatabase<T>(
+  operation: (db: Db) => Promise<T>,
+  dbName: string = "portfolio2"
+): Promise<T> {
+  let client: MongoClient | null = null;
+  try {
+    const { client: mongoClient } = await getDatabase();
+    client = mongoClient;
+    const db = mongoClient.db(dbName);
+    return await operation(db);
+  } catch (error) {
+    console.error(`Database operation failed (${dbName}):`, error);
+    throw error;
+  } finally {
+    // Always close the connection after the operation
+    if (client) {
+      try {
+        await client.close();
+      } catch (e) {
+        // Ignore close errors - connection might already be closed
+      }
+    }
+  }
+}
+
+/**
+ * Execute a database operation with timeout protection
+ * Wraps executeWithDatabase with timeout handling
+ * 
+ * @param operation - Function that receives the database instance and performs operations
+ * @param dbName - Database name to use (default: "portfolio2")
+ * @param timeoutMs - Timeout in milliseconds (default: 5000)
+ * @returns The result of the operation
+ */
+export async function executeWithDatabaseTimeout<T>(
+  operation: (db: Db) => Promise<T>,
+  dbName: string = "portfolio2",
+  timeoutMs: number = 5000
+): Promise<T> {
+  return Promise.race([
+    executeWithDatabase(operation, dbName),
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Database operation timeout")), timeoutMs)
+    ),
+  ]);
 }

@@ -1,16 +1,22 @@
 // Rate limiting configurations
 export const RATE_LIMITS = {
-  contact: { windowMs: 60 * 1000, maxRequests: 5 }, // 5 requests per minute
+  contact: { windowMs: 60 * 1000, maxRequests: 1 }, // 1 request per minute
   appStore: { windowMs: 60 * 1000, maxRequests: 100 }, // 100 requests per minute
   experiences: { windowMs: 60 * 1000, maxRequests: 1000 }, // 1000 requests per minute
-  closedTests: { windowMs: 60 * 1000, maxRequests: 200 }, // 200 requests per minute
   stats: { windowMs: 60 * 1000, maxRequests: 500 }, // 500 requests per minute
+  works: { windowMs: 60 * 1000, maxRequests: 1000 }, // 1000 requests per minute
+  educations: { windowMs: 60 * 1000, maxRequests: 1000 }, // 1000 requests per minute
+  certifications: { windowMs: 60 * 1000, maxRequests: 1000 }, // 1000 requests per minute
+  skills: { windowMs: 60 * 1000, maxRequests: 1000 }, // 1000 requests per minute
   default: { windowMs: 60 * 1000, maxRequests: 100 }, // 100 requests per minute
 } as const;
 
-// CORS allowed origins
-export const ALLOWED_ORIGINS = [
+// Environment-specific allowed origins
+export const PRODUCTION_ORIGINS = [
   "https://sumit.codes",
+] as const;
+
+export const DEVELOPMENT_ORIGINS = [
   "http://localhost:3000",
   "http://localhost:3001",
   "http://127.0.0.1:3000",
@@ -20,7 +26,10 @@ export const ALLOWED_ORIGINS = [
 // Database collection names
 export const COLLECTIONS = {
   COMPANIES: "companies",
-  CLOSED_TESTS: "closed_tests",
+  WORKS: "works",
+  EDUCATIONS: "educations",
+  CERTIFICATIONS: "certifications",
+  SKILLS: "skills",
 } as const;
 
 // API response messages

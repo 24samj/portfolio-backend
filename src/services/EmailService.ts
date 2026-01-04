@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { z } from "zod";
-import { ContactFormData, EmailResult } from "../types/ClosedTest";
+import { ContactFormData, EmailResult } from "../types/Contact";
 
 // Validation schema for contact form
 const contactFormSchema = z.object({
@@ -16,14 +16,25 @@ export class EmailService {
    * Initialize email transporter
    */
   private static getTransporter(): nodemailer.Transporter {
+    // In Cloudflare Workers, static variables may not persist between requests
+    // So we recreate the transporter if needed
     if (!this.transporter) {
+      const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
+      const smtpPort = parseInt(process.env.SMTP_PORT || "587");
+      const smtpUser = process.env.SMTP_USER;
+      const smtpPass = process.env.SMTP_PASS;
+
+      if (!smtpUser || !smtpPass) {
+        throw new Error("SMTP credentials are not configured. Please set SMTP_USER and SMTP_PASS environment variables.");
+      }
+
       this.transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST || "smtp.gmail.com",
-        port: parseInt(process.env.SMTP_PORT || "587"),
-        secure: false, // true for 465, false for other ports
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465, // true for 465, false for other ports
         auth: {
-          user: process.env.SMTP_USER,
-          pass: process.env.SMTP_PASS,
+          user: smtpUser,
+          pass: smtpPass,
         },
       });
     }
@@ -40,6 +51,20 @@ export class EmailService {
 
       const transporter = this.getTransporter();
 
+      // Sanitize user input to prevent HTML injection
+      const sanitizeHtml = (str: string): string => {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#x27;");
+      };
+
+      const sanitizedName = sanitizeHtml(validatedData.name);
+      const sanitizedEmail = sanitizeHtml(validatedData.email);
+      const sanitizedMessage = sanitizeHtml(validatedData.message).replace(/\n/g, "<br>");
+
       // Email template
       const emailHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -47,13 +72,13 @@ export class EmailService {
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
             <h3 style="margin-top: 0; color: #333;">Contact Details</h3>
-            <p><strong>Name:</strong> ${validatedData.name}</p>
-            <p><strong>Email:</strong> ${validatedData.email}</p>
+            <p><strong>Name:</strong> ${sanitizedName}</p>
+            <p><strong>Email:</strong> ${sanitizedEmail}</p>
           </div>
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px;">
             <h3 style="margin-top: 0; color: #333;">Message</h3>
-            <p style="line-height: 1.6; white-space: pre-wrap;">${validatedData.message}</p>
+            <p style="line-height: 1.6; white-space: pre-wrap;">${sanitizedMessage}</p>
           </div>
           
           <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">

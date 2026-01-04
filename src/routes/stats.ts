@@ -5,7 +5,7 @@ import { rateLimitMiddleware } from "../middleware/rateLimit";
 const stats = new Hono();
 
 // Get portfolio statistics
-stats.get("/", async (c) => {
+stats.get("/", rateLimitMiddleware("stats"), async (c) => {
   try {
     const stats = await StatsService.getStats();
 

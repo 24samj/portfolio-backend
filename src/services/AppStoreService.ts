@@ -1,4 +1,5 @@
-import { AppStoreApp, PlayStoreApp } from "../types/ClosedTest";
+import { AppStoreApp, PlayStoreApp } from "../types/AppStore";
+import { StructuredData, PlayStoreInitData } from "../types/MongoDB";
 
 export class AppStoreService {
   /**
@@ -86,7 +87,7 @@ export class AppStoreService {
   /**
    * Parse JSON-LD data from Play Store page
    */
-  private static parseStructuredData(html: string): any {
+  private static parseStructuredData(html: string): StructuredData | null {
     try {
       // Look for JSON-LD structured data
       const jsonLdRegex = /<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi;
@@ -125,11 +126,11 @@ export class AppStoreService {
   /**
    * Parse Play Store init data structure
    */
-  private static parsePlayStoreInitData(data: any[]): any {
+  private static parsePlayStoreInitData(data: PlayStoreInitData[]): StructuredData | null {
     try {
       // Play Store data is nested in a complex array structure
       // This is a simplified parser based on common patterns
-      const findInNestedArray = (arr: any[], key: string): any => {
+      const findInNestedArray = (arr: PlayStoreInitData[], key: string): unknown => {
         for (const item of arr) {
           if (Array.isArray(item)) {
             const result = findInNestedArray(item, key);

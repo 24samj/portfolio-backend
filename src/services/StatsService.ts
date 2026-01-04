@@ -1,6 +1,7 @@
+import { MongoClient } from "mongodb";
 import { COLLECTIONS } from "../constants";
 import { getDatabase } from "../database/connection";
-import { PortfolioStats } from "../types/ClosedTest";
+import { PortfolioStats } from "../types/Stats";
 
 export class StatsService {
   /**
@@ -37,7 +38,7 @@ export class StatsService {
    * Get portfolio statistics
    */
   static async getStats(): Promise<PortfolioStats> {
-    let client: any = null;
+    let client: MongoClient | null = null;
     try {
       const { db, client: mongoClient } = await getDatabase();
       client = mongoClient;
@@ -55,22 +56,15 @@ export class StatsService {
       const currentPosition = companies.some((company) => !company.workEnd);
       const totalCompanies = companies.length;
 
-      // Calculate total projects
+      // Calculate total projects from works array
+      // Note: This is a simplified count - actual project count should come from works collection
       const totalProjects = companies.reduce((acc, company) => {
-        return (
-          acc +
-          (company.playStoreApps?.length || 0) +
-          (company.appStoreApps?.length || 0) +
-          (company.webApps?.length || 0)
-        );
+        return acc + (company.works?.length || 0);
       }, 0);
 
-      // Get unique technologies
-      const allTechnologies = companies.flatMap(
-        (company) => company.technologies || []
-      );
-      const uniqueTechnologies = [...new Set(allTechnologies)];
-      const totalTechnologies = uniqueTechnologies.length;
+      // Technologies are now stored in skills collection, not in companies
+      // This will be calculated separately from skills API
+      const totalTechnologies = 0; // Will be fetched from skills API
 
       // Calculate total experience duration
       let totalExperience = "0 years";

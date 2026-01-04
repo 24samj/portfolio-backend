@@ -1,9 +1,11 @@
 import { ObjectId } from "mongodb";
-import { getDatabase } from "../database/connection";
+import { executeWithDatabaseTimeout } from "../database/connection";
 import { Company } from "../types/Company";
 import { COLLECTIONS } from "../constants";
+import { MongoCompanyDocument } from "../types/MongoDB";
 
 const COLLECTION_NAME = COLLECTIONS.COMPANIES;
+const DATABASE_NAME = "portfolio"; // companies collection is in portfolio database
 
 /**
  * Service for managing experience/company data
@@ -14,19 +16,10 @@ export class ExperienceService {
    * Get all experiences with optimized sorting and caching
    */
   static async getAll(): Promise<Company[]> {
-    let client: any = null;
-    try {
-      const { db, client: mongoClient } = await getDatabase();
-      client = mongoClient;
+    return executeWithDatabaseTimeout(async (db) => {
       const collection = db.collection(COLLECTION_NAME);
-
-      // Use MongoDB aggregation pipeline for better performance with timeout protection
-      const experiences = await Promise.race([
-        collection.find({}).toArray(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
+      const experiences = await collection.find({}).toArray();
+      
       const sorted = experiences.sort((a, b) => {
         // Current positions first (workEnd is null)
         if (a.workEnd === null && b.workEnd !== null) return -1;
@@ -54,38 +47,22 @@ export class ExperienceService {
         ...doc,
         _id: doc._id.toString(),
       })) as Company[];
-    } catch (error) {
-      console.error("Error fetching experiences:", error);
-      throw new Error("Failed to fetch experiences");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
-    }
+    }, DATABASE_NAME);
   }
 
   /**
    * Get experience by ID with optimized error handling
    */
   static async getById(id: string): Promise<Company | null> {
-    let client: any = null;
-    try {
-      const { db, client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      const collection = db.collection(COLLECTION_NAME);
-
-      // Query by string _id (not ObjectId) with timeout protection
-      const experience = await Promise.race([
-        collection.findOne({ _id: id } as any),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
+    return executeWithDatabaseTimeout(async (db) => {
+      const collection = db.collection<MongoCompanyDocument>(COLLECTION_NAME);
+      let experience: MongoCompanyDocument | null;
+      try {
+        experience = await collection.findOne({ _id: new ObjectId(id) });
+      } catch {
+        // If ObjectId conversion fails, try as string
+        experience = await collection.findOne({ _id: id as unknown as ObjectId });
+      }
 
       if (!experience) {
         return null;
@@ -95,50 +72,17 @@ export class ExperienceService {
         ...experience,
         _id: experience._id.toString(),
       } as Company;
-    } catch (error) {
-      console.error("Error fetching experience:", error);
-      throw new Error("Failed to fetch experience");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
-    }
+    }, DATABASE_NAME);
   }
 
   /**
    * Get experiences count for pagination (future use)
    */
   static async getCount(): Promise<number> {
-    let client: any = null;
-    try {
-      const { db, client: mongoClient } = await getDatabase();
-      client = mongoClient;
+    return executeWithDatabaseTimeout(async (db) => {
       const collection = db.collection(COLLECTION_NAME);
-
-      return await Promise.race([
-        collection.countDocuments(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
-    } catch (error) {
-      console.error("Error counting experiences:", error);
-      throw new Error("Failed to count experiences");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
-    }
+      return await collection.countDocuments();
+    }, DATABASE_NAME);
   }
 }
 
