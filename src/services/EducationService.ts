@@ -43,15 +43,10 @@ export class EducationService {
         return 0;
       });
 
-      // Transform MongoDB documents to Education objects (map database fields to API fields)
+      // Return MongoDB documents directly (just convert _id to string)
       return sorted.map((doc): Education => ({
+        ...doc,
         _id: doc._id.toString(),
-        institution: doc.schoolName,
-        degree: doc.degreeName,
-        startDate: doc.startDate,
-        endDate: doc.endDate || null,
-        description: doc.notes || undefined,
-        fieldOfStudy: doc.activities || undefined,
       }));
     }, DATABASE_NAME);
   }
@@ -74,15 +69,10 @@ export class EducationService {
         return null;
       }
 
-      // Map database fields to API response fields
+      // Return MongoDB document directly (just convert _id to string)
       return {
+        ...education,
         _id: education._id.toString(),
-        institution: education.schoolName,
-        degree: education.degreeName,
-        startDate: education.startDate,
-        endDate: education.endDate || null,
-        description: education.notes || undefined,
-        fieldOfStudy: education.activities || undefined,
       };
     }, DATABASE_NAME);
   }
