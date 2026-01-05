@@ -51,25 +51,18 @@ export class StatsService {
 
   /**
    * Get portfolio statistics
+   * Optimized to use a single database connection for all queries
    */
   static async getStats(): Promise<PortfolioStats> {
     try {
-      // Get experiences/companies
-      const companies = await executeWithDatabaseTimeout(async (db) => {
-        const collection = db.collection<MongoCompanyDocument>(COLLECTIONS.EXPERIENCES);
-        return await collection.find({}).toArray();
-      }, DATABASE_NAME);
-
-      // Get total projects count from works collection
-      const totalProjects = await executeWithDatabaseTimeout(async (db) => {
-        const collection = db.collection(COLLECTIONS.WORKS);
-        return await collection.countDocuments();
-      }, DATABASE_NAME);
-
-      // Get total unique technologies from skills collection
-      const totalTechnologies = await executeWithDatabaseTimeout(async (db) => {
-        const collection = db.collection<MongoSkillCategoryDocument>(COLLECTIONS.SKILLS);
-        const skillCategories = await collection.find({}).toArray();
+      // Use a single database connection for all queries to reduce latency
+      const { companies, totalProjects, totalTechnologies } = await executeWithDatabaseTimeout(async (db) => {
+        // Execute all queries in parallel within the same connection
+        const [companiesArray, projectsCount, skillCategories] = await Promise.all([
+          db.collection<MongoCompanyDocument>(COLLECTIONS.EXPERIENCES).find({}).toArray(),
+          db.collection(COLLECTIONS.WORKS).countDocuments(),
+          db.collection<MongoSkillCategoryDocument>(COLLECTIONS.SKILLS).find({}).toArray(),
+        ]);
         
         // Collect all unique skill names across all categories
         const uniqueTechnologies = new Set<string>();
@@ -83,8 +76,12 @@ export class StatsService {
           }
         }
         
-        return uniqueTechnologies.size;
-      }, DATABASE_NAME);
+        return {
+          companies: companiesArray,
+          totalProjects: projectsCount,
+          totalTechnologies: uniqueTechnologies.size,
+        };
+      }, DATABASE_NAME, 15000); // 15 second timeout for all queries combined
 
       // Calculate total experience
       const currentPosition = companies.some((company) => !company.workEnd);
