@@ -39,13 +39,13 @@ export interface PlayStoreApp {
  */
 export class PlayStoreService {
   /**
-   * Get Play Store app data by package ID
+   * Get Play Store app data by package ID with timeout protection
    */
-  static async getApp(appId: string, lang: string = 'en', country: string = 'us'): Promise<PlayStoreApp> {
+  static async getApp(appId: string, lang: string = 'en', country: string = 'us', timeoutMs: number = 5000): Promise<PlayStoreApp> {
     const url = `https://play.google.com/store/apps/details?id=${appId}&hl=${lang}&gl=${country}`;
     
     try {
-      const response = await fetch(url, {
+      const fetchPromise = fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -54,6 +54,12 @@ export class PlayStoreService {
           'Referer': 'https://play.google.com/',
         },
       });
+
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Play Store API timeout")), timeoutMs)
+      );
+
+      const response = await Promise.race([fetchPromise, timeoutPromise]);
 
       if (!response.ok) {
         if (response.status === 404) {

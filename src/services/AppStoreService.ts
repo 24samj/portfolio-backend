@@ -3,11 +3,11 @@ import { StructuredData, PlayStoreInitData } from "../types/MongoDB";
 
 export class AppStoreService {
   /**
-   * Get iOS App Store app data
+   * Get iOS App Store app data with timeout protection
    */
-  static async getAppStoreApp(id: string): Promise<AppStoreApp> {
+  static async getAppStoreApp(id: string, timeoutMs: number = 5000): Promise<AppStoreApp> {
     try {
-      const response = await fetch(
+      const fetchPromise = fetch(
         `https://itunes.apple.com/lookup?id=${id}&country=us`,
         {
           headers: {
@@ -16,6 +16,12 @@ export class AppStoreService {
           },
         }
       );
+
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("App Store API timeout")), timeoutMs)
+      );
+
+      const response = await Promise.race([fetchPromise, timeoutPromise]);
 
       if (!response.ok) {
         throw new Error(`iTunes API error: ${response.status}`);
