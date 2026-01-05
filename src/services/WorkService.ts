@@ -1,5 +1,5 @@
 import { ObjectId, MongoClient } from "mongodb";
-import { getDatabase } from "../database/connection";
+import { executeWithDatabaseTimeout } from "../database/connection";
 import { COLLECTIONS } from "../constants";
 import { PlayStoreService } from "./PlayStoreService";
 import { AppStoreService } from "./AppStoreService";
@@ -25,7 +25,8 @@ export class WorkService {
           const playStoreData = await PlayStoreService.getApp(
             work.playStoreId.trim(),
             "en",
-            "us"
+            "us",
+            3000 // 3 second timeout per external API call
           );
 
           // Append screenshots if available (preserve existing ones from MongoDB)
@@ -97,7 +98,7 @@ export class WorkService {
           if (appStoreId.length === 0) {
             console.warn(`App Store ID is empty for work ${work._id || work.name}`);
           } else {
-            const appStoreData = await AppStoreService.getAppStoreApp(appStoreId);
+            const appStoreData = await AppStoreService.getAppStoreApp(appStoreId, 3000); // 3 second timeout per external API call
 
             // Append screenshots if available (preserve existing ones from MongoDB)
             if (
@@ -177,44 +178,30 @@ export class WorkService {
    * Get all works with optimized query
    */
   static async getAll(): Promise<MongoWorkDocument[]> {
-    let client: MongoClient | null = null;
     try {
-      const { client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      
-      // Use portfolio2 database
-      const portfolio2Db = mongoClient.db(DATABASE_NAME);
-      const collection = portfolio2Db.collection(COLLECTION_NAME);
-
-      // Use MongoDB query with timeout protection
-      const works = await Promise.race([
-        collection.find({}).toArray(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]) as unknown as MongoWorkDocument[];
-
-      // Works already have _id as string, no transformation needed
-      const transformedWorks = works;
+      const works = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection(COLLECTION_NAME);
+        return await collection.find({}).toArray() as unknown as MongoWorkDocument[];
+      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
 
       // Enrich each work with store data (screenshots, rating, category)
-      const enrichedWorks = await Promise.all(
-        transformedWorks.map((work) => this.enrichWorkWithStoreData(work))
+      // Use Promise.allSettled to prevent one failure from blocking all
+      const enrichedWorks = await Promise.allSettled(
+        works.map((work) => this.enrichWorkWithStoreData(work))
       );
 
-      return enrichedWorks;
+      // Return successfully enriched works, or original if enrichment failed
+      return enrichedWorks.map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          console.warn(`Failed to enrich work ${works[index]._id}:`, result.reason);
+          return works[index]; // Return original work if enrichment fails
+        }
+      });
     } catch (error) {
       console.error("Error fetching works:", error);
       throw new Error("Failed to fetch works");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 
@@ -222,44 +209,27 @@ export class WorkService {
    * Get work by ID with optimized error handling
    */
   static async getById(id: string): Promise<MongoWorkDocument | null> {
-    let client: MongoClient | null = null;
     try {
-      const { client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      
-      // Use portfolio2 database
-      const portfolio2Db = mongoClient.db(DATABASE_NAME);
-      const collection = portfolio2Db.collection<MongoWorkDocument>(COLLECTION_NAME);
-
-      // Works use string IDs, not ObjectId
-      const work = await Promise.race([
-        collection.findOne({ _id: id }),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]) as MongoWorkDocument | null;
+      const work = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoWorkDocument>(COLLECTION_NAME);
+        // Works use string IDs, not ObjectId
+        return await collection.findOne({ _id: id }) as MongoWorkDocument | null;
+      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
 
       if (!work) {
         return null;
       }
 
-      // Works already have _id as string, no transformation needed
       // Enrich work with store data (screenshots, rating, category)
-      const enrichedWork = work ? await this.enrichWorkWithStoreData(work) : null;
-
-      return enrichedWork;
+      try {
+        return await this.enrichWorkWithStoreData(work);
+      } catch (error) {
+        console.warn(`Failed to enrich work ${id}:`, error);
+        return work; // Return original work if enrichment fails
+      }
     } catch (error) {
       console.error("Error fetching work:", error);
       throw new Error("Failed to fetch work");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 
@@ -271,41 +241,31 @@ export class WorkService {
       return [];
     }
 
-    let client: MongoClient | null = null;
     try {
-      const { client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      
-      // Use portfolio2 database
-      const portfolio2Db = mongoClient.db(DATABASE_NAME);
-      const collection = portfolio2Db.collection<MongoWorkDocument>(COLLECTION_NAME);
-
-      // Works use string IDs, not ObjectId
-      const works = await Promise.race([
-        collection.find({ _id: { $in: ids } }).toArray(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]) as MongoWorkDocument[];
+      const works = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoWorkDocument>(COLLECTION_NAME);
+        // Works use string IDs, not ObjectId
+        return await collection.find({ _id: { $in: ids } }).toArray() as MongoWorkDocument[];
+      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
 
       // Enrich each work with store data (screenshots, rating, category)
-      const enrichedWorks = await Promise.all(
+      // Use Promise.allSettled to prevent one failure from blocking all
+      const enrichedWorks = await Promise.allSettled(
         works.map((work) => this.enrichWorkWithStoreData(work))
       );
 
-      return enrichedWorks;
+      // Return successfully enriched works, or original if enrichment failed
+      return enrichedWorks.map((result, index) => {
+        if (result.status === 'fulfilled') {
+          return result.value;
+        } else {
+          console.warn(`Failed to enrich work ${works[index]._id}:`, result.reason);
+          return works[index]; // Return original work if enrichment fails
+        }
+      });
     } catch (error) {
       console.error("Error fetching works by IDs:", error);
       throw new Error("Failed to fetch works by IDs");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 
@@ -313,33 +273,14 @@ export class WorkService {
    * Get works count for pagination (future use)
    */
   static async getCount(): Promise<number> {
-    let client: MongoClient | null = null;
     try {
-      const { client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      
-      // Use portfolio2 database
-      const portfolio2Db = mongoClient.db(DATABASE_NAME);
-      const collection = portfolio2Db.collection(COLLECTION_NAME);
-
-      return await Promise.race([
-        collection.countDocuments(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
+      return await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection(COLLECTION_NAME);
+        return await collection.countDocuments();
+      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
     } catch (error) {
       console.error("Error counting works:", error);
       throw new Error("Failed to count works");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 }
