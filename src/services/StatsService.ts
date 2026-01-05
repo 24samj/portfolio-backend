@@ -1,10 +1,36 @@
 import { COLLECTIONS } from "../constants";
-import { getDatabase } from "../database/connection";
-import { PortfolioStats } from "../types/ClosedTest";
+import { executeWithDatabaseTimeout } from "../database/connection";
+import { PortfolioStats } from "../types/Stats";
+import { MongoCompanyDocument, MongoSkillCategoryDocument } from "../types/MongoDB";
+
+const DATABASE_NAME = "portfolio2"; // experiences, works, and skills are in portfolio2 database
 
 export class StatsService {
   /**
-   * Calculate total experience duration
+   * Calculate total experience duration in days
+   * Returns the number of days between start and end dates (inclusive)
+   * For work experience, both start and end dates count as working days
+   */
+  private static calculateDaysDuration(
+    startDate: Date,
+    endDate: Date
+  ): number {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    // Set to start of day to avoid timezone issues
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+    
+    const diffTime = end.getTime() - start.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end dates
+    
+    return diffDays;
+  }
+
+  /**
+   * Calculate total experience duration from earliest start to latest end
+   * Uses day-based calculation for precision
    */
   private static calculateDuration(
     startDate: string,
@@ -13,85 +39,96 @@ export class StatsService {
     const start = new Date(startDate);
     const end = endDate ? new Date(endDate) : new Date();
 
-    let years = end.getFullYear() - start.getFullYear();
-    let months = end.getMonth() - start.getMonth();
-
-    if (end.getDate() < start.getDate()) {
-      months--;
-    }
-
-    if (months < 0) {
-      years--;
-      months += 12;
-    }
-
-    const totalMonths = years * 12 + months;
-    if (totalMonths === 0) {
+    const days = this.calculateDaysDuration(start, end);
+    const years = days / 365.25; // Account for leap years
+    
+    if (years === 0) {
       return "0.0";
     }
-    const decimalYears = (totalMonths / 12).toFixed(1);
-    return decimalYears;
+    
+    return years.toFixed(1);
   }
 
   /**
    * Get portfolio statistics
    */
   static async getStats(): Promise<PortfolioStats> {
-    let client: any = null;
     try {
-      const { db, client: mongoClient } = await getDatabase();
-      client = mongoClient;
-      const companiesCollection = db.collection(COLLECTIONS.COMPANIES);
+      // Get experiences/companies
+      const companies = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoCompanyDocument>(COLLECTIONS.EXPERIENCES);
+        return await collection.find({}).toArray();
+      }, DATABASE_NAME);
 
-      // Get all companies with timeout protection
-      const companies = await Promise.race([
-        companiesCollection.find({}).toArray(),
-        new Promise<never>((_, reject) =>
-          setTimeout(() => reject(new Error("Database query timeout")), 5000)
-        ),
-      ]);
+      // Get total projects count from works collection
+      const totalProjects = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection(COLLECTIONS.WORKS);
+        return await collection.countDocuments();
+      }, DATABASE_NAME);
+
+      // Get total unique technologies from skills collection
+      const totalTechnologies = await executeWithDatabaseTimeout(async (db) => {
+        const collection = db.collection<MongoSkillCategoryDocument>(COLLECTIONS.SKILLS);
+        const skillCategories = await collection.find({}).toArray();
+        
+        // Collect all unique skill names across all categories
+        const uniqueTechnologies = new Set<string>();
+        for (const category of skillCategories) {
+          if (category.skills && Array.isArray(category.skills)) {
+            for (const skill of category.skills) {
+              if (skill.name && typeof skill.name === 'string' && skill.name.trim().length > 0) {
+                uniqueTechnologies.add(skill.name.trim());
+              }
+            }
+          }
+        }
+        
+        return uniqueTechnologies.size;
+      }, DATABASE_NAME);
 
       // Calculate total experience
       const currentPosition = companies.some((company) => !company.workEnd);
       const totalCompanies = companies.length;
 
-      // Calculate total projects
-      const totalProjects = companies.reduce((acc, company) => {
-        return (
-          acc +
-          (company.playStoreApps?.length || 0) +
-          (company.appStoreApps?.length || 0) +
-          (company.webApps?.length || 0)
-        );
-      }, 0);
-
-      // Get unique technologies
-      const allTechnologies = companies.flatMap(
-        (company) => company.technologies || []
-      );
-      const uniqueTechnologies = [...new Set(allTechnologies)];
-      const totalTechnologies = uniqueTechnologies.length;
-
-      // Calculate total experience duration
-      let totalExperience = "0 years";
+      // Calculate total experience duration by counting unique months
+      // This properly handles overlapping experiences
+      let totalExperience = 0.0;
       if (companies.length > 0) {
-        // Find the earliest start date
-        const earliestStart = companies.reduce((earliest, company) => {
-          const startDate = new Date(company.workStart);
-          return startDate < earliest ? startDate : earliest;
-        }, new Date(companies[0].workStart));
-
-        // Find the latest end date (or current date if still working)
-        const latestEnd = companies.reduce((latest, company) => {
-          if (!company.workEnd) return new Date(); // Current position
-          const endDate = new Date(company.workEnd);
-          return endDate > latest ? endDate : latest;
-        }, new Date(companies[0].workEnd || new Date()));
-
-        totalExperience = this.calculateDuration(
-          earliestStart.toISOString().split("T")[0],
-          latestEnd.toISOString().split("T")[0]
-        );
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        // Collect all unique months worked
+        const uniqueMonths = new Set<string>();
+        
+        companies.forEach((company) => {
+          const start = new Date(company.workStart);
+          start.setHours(0, 0, 0, 0);
+          const end = company.workEnd ? new Date(company.workEnd) : today;
+          end.setHours(0, 0, 0, 0);
+          
+          // Add each month in this experience period
+          const current = new Date(start);
+          while (current <= end) {
+            const month = current.getMonth() + 1;
+            const monthStr = month < 10 ? `0${month}` : `${month}`;
+            const monthKey = `${current.getFullYear()}-${monthStr}`;
+            uniqueMonths.add(monthKey);
+            // Move to next month
+            current.setMonth(current.getMonth() + 1);
+          }
+        });
+        
+        const totalUniqueMonths = uniqueMonths.size;
+        
+        if (totalUniqueMonths === 0) {
+          totalExperience = 0.0;
+        } else {
+          // Convert months to years: 32 months = 2 years 8 months = 2.8 years
+          // Calculate as: years + (remaining months / 10) for display
+          const years = Math.floor(totalUniqueMonths / 12);
+          const remainingMonths = totalUniqueMonths % 12;
+          totalExperience = years + (remainingMonths / 10);
+        }
       }
 
       return {
@@ -105,15 +142,6 @@ export class StatsService {
     } catch (error) {
       console.error("Error calculating stats:", error);
       throw new Error("Failed to calculate statistics");
-    } finally {
-      // Close connection after request
-      if (client) {
-        try {
-          await client.close();
-        } catch (e) {
-          // Ignore close errors
-        }
-      }
     }
   }
 

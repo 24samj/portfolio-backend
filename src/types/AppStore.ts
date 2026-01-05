@@ -1,16 +1,3 @@
-export interface ClosedTest {
-  _id: string;
-  appName: string;
-  packageName: string;
-  description: string;
-  icon: string;
-  googleGroup: string;
-  playStoreUrl: string;
-  isActive: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-}
-
 export interface AppStoreApp {
   id: string;
   name: string;
@@ -49,24 +36,4 @@ export interface PlayStoreApp {
   size: string;
   androidVersion: string;
   contentRating: string;
-}
-
-export interface ContactFormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-export interface EmailResult {
-  success: boolean;
-  message: string;
-}
-
-export interface PortfolioStats {
-  totalExperience: string;
-  totalCompanies: number;
-  totalProjects: number;
-  totalTechnologies: number;
-  currentPosition: boolean;
-  lastUpdated: string;
 }

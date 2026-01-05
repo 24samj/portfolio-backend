@@ -5,12 +5,16 @@ A Cloudflare Workers-based backend API for the portfolio website, built with Hon
 ## Overview
 
 This backend serves as the API layer for the portfolio frontend, handling:
-- Experience/company data management
-- App store data fetching (iOS App Store + Google Play Store)
-- Contact form email processing
-- Closed testing app management
-- Statistics and calculations
-- Database operations
+- **Profile Information**: Personal profile data and information
+- **Works/Projects**: Individual projects and applications with app store integration
+- **Experiences/Companies**: Work experience and company information
+- **Educations**: Educational background and qualifications
+- **Certifications**: Professional certifications and credentials
+- **Skills**: Technical skills organized by categories
+- **App store data fetching**: iOS App Store + Google Play Store integration
+- **Contact form**: Email processing for user inquiries
+- **Statistics**: Portfolio analytics and calculations
+- **Database operations**: Optimized MongoDB queries
 
 ## Tech Stack
 
@@ -109,7 +113,153 @@ Check the health status of the API and its dependencies.
 
 ---
 
-### Experiences
+### Works (Projects)
+
+#### Get All Works
+
+**GET** `/api/works`
+
+Retrieve all works/projects from the database. Works are automatically enriched with app store data (screenshots, ratings, categories) when available.
+
+#### Get Works by IDs
+
+**GET** `/api/works?ids={id1},{id2},{id3}`
+
+Retrieve multiple works/projects by their IDs. Works are automatically enriched with app store data (screenshots, ratings, categories) when available.
+
+**Query Parameters:**
+- `ids` (string, comma-separated) - One or more work IDs
+
+**Example:**
+```
+GET /api/works?ids=eazydukan,bvmrf,rhia
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 3,
+  "data": [
+    {
+      "_id": "eazydukan",
+      "name": "EazyDukan",
+      ...
+    },
+    {
+      "_id": "bvmrf",
+      "name": "BVM Research Foundation",
+      ...
+    },
+    {
+      "_id": "rhia",
+      "name": "RHIA",
+      ...
+    }
+  ]
+}
+```
+
+**Status Codes:**
+- `200` - Works retrieved successfully
+- `400` - Invalid IDs parameter (empty or no valid IDs)
+- `500` - Server error
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 10,
+  "data": [
+    {
+      "_id": "eazydukan",
+      "name": "EazyDukan",
+      "description": {
+        "short": "Multilingual retail management platform...",
+        "long": "Developed a multilingual retail management app..."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MULTI_PLATFORM",
+      "appStoreId": null,
+      "playStoreId": "com.eazydukan",
+      "isInternal": false,
+      "featured": false,
+      "companyId": "lovepack",
+      "technologies": ["React Native", "React.js", "Next.js", "TypeScript", "Redux", "Zustand", "WebSocket", "Firebase", "Razorpay", "Thermal Printers", "Bluetooth", "Axios", "GitLab", "Tailwind"],
+      "rating": 0,
+      "screenshots": [""],
+      "webUrls": ["https://www.eazydukan.com", "https://shop.eazydukan.com/"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    }
+  ]
+}
+```
+
+**Features:**
+- Automatically fetches and enriches with Play Store data if `playStoreId` is provided
+- Automatically fetches and enriches with App Store data if `appStoreId` is provided
+- Screenshots are merged from both database and app stores
+- Ratings and categories are updated from app stores when available
+
+**Testing Phase Indicator:**
+- If `googleGroupUrl` is not `null`, it indicates the app is currently in testing phase
+- The frontend should display steps for users to:
+  1. Join the Google Group using the provided `googleGroupUrl`
+  2. After joining, they can download the app from the Play Store (if `playStoreId` is available)
+- This allows controlled access to apps that are not yet publicly available
+
+#### Get Work by ID
+
+**GET** `/api/works/{id}`
+
+Retrieve a specific work/project by ID.
+
+**Parameters:**
+- `id` (string) - The work ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "eazydukan",
+    "name": "EazyDukan",
+    "description": {
+      "short": "Multilingual retail management platform (mobile & web) with subscription tiers, multi-outlet management, full POS system, and AI-powered features.",
+      "long": "Developed a multilingual retail management app (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, and support for cash, QR code, and Razorpay SMS payments."
+    },
+      "icon": "",
+      "category": "",
+      "type": "MULTI_PLATFORM",
+      "appStoreId": null,
+      "playStoreId": "com.eazydukan",
+      "isInternal": false,
+      "featured": false,
+      "companyId": "lovepack",
+      "technologies": ["React Native", "React.js", "Next.js", "TypeScript", "Redux", "Zustand", "WebSocket", "Firebase", "Razorpay", "Thermal Printers", "Bluetooth", "Axios", "GitLab", "Tailwind"],
+      "rating": 0,
+      "screenshots": [""],
+    "webUrls": ["https://www.eazydukan.com", "https://shop.eazydukan.com/"],
+    "sourceCode": null,
+    "googleGroupUrl": null
+  }
+}
+```
+
+**Note:** If `googleGroupUrl` is not `null`, the app is in testing phase. The frontend should display instructions for users to join the Google Group and then download the app.
+
+**Status Codes:**
+- `200` - Work found
+- `404` - Work not found
+- `500` - Server error
+
+**Legacy endpoint:** `/works` (for backward compatibility)
+
+---
+
+### Experiences (Companies)
 
 #### Get All Experiences
 
@@ -124,20 +274,16 @@ Retrieve all work experiences/companies from the database.
   "count": 3,
   "data": [
     {
-      "_id": "company_id_1",
-      "name": "Company Name",
-      "role": "Software Engineer",
-      "workStart": "2023-01-01",
-      "workEnd": null,
-      "location": "Remote",
-      "highlights": ["Built scalable APIs", "Led team of 5"],
-      "description": "Worked on...",
-      "technologies": ["React", "Node.js", "MongoDB"],
-      "color": "#8b5cf6",
+      "_id": "ariveguru",
+      "name": "AriveGuru Technology Solutions Pvt. Ltd.",
+      "role": "Frontend Engineer",
+      "workStart": "2024-03-14",
+      "workEnd": "2024-07-23",
+      "location": "Bangalore",
+      "description": "Developed apps for medical firms, enhancing user health tracking and assessments. Built RHIA, an AI assistant for tasks like user registration, appointment scheduling, and task management. Created a JSON to React Native component converter.",
+      "color": "from-green-500 to-teal-500",
       "type": "FULL_TIME",
-      "appStoreApps": ["123456789"],
-      "playStoreApps": ["com.example.app"],
-      "webApps": ["https://example.com"]
+      "works": ["bvmrf", "rhia"]
     }
   ]
 }
@@ -157,10 +303,16 @@ Retrieve a specific work experience by ID.
 {
   "success": true,
   "data": {
-    "_id": "company_id_1",
-    "name": "Company Name",
-    "role": "Software Engineer",
-    // ... other fields
+    "_id": "ariveguru",
+    "name": "AriveGuru Technology Solutions Pvt. Ltd.",
+    "role": "Frontend Engineer",
+    "workStart": "2024-03-14",
+    "workEnd": "2024-07-23",
+    "location": "Bangalore",
+    "description": "Developed apps for medical firms, enhancing user health tracking and assessments. Built RHIA, an AI assistant for tasks like user registration, appointment scheduling, and task management.",
+      "color": "from-green-500 to-teal-500",
+      "type": "FULL_TIME",
+      "works": ["bvmrf", "rhia"]
   }
 }
 ```
@@ -211,24 +363,43 @@ Fetch iOS App Store app data by app ID.
 
 **GET** `/api/apps/play-store/{id}`
 
-⚠️ **DEPRECATED** - This endpoint is deprecated due to unreliable web scraping.
+Fetch Google Play Store app data by app ID.
 
-**Why Deprecated:**
-- Google Play Store HTML structure changes frequently
-- Web scraping is fragile and breaks often
-- Rate limiting and anti-bot measures
-- Inconsistent data extraction
+**Parameters:**
+- `id` (string) - Play Store app ID (package name)
+- `lang` (query, optional) - Language code (default: "en")
+- `country` (query, optional) - Country code (default: "us")
 
-**Current Status:**
-- Returns HTTP 410 (Gone) with deprecation message
-- Use the frontend implementation instead
-
-**Alternative:**
-Use the frontend implementation at `/api/play-store/[id]` which handles Play Store data more reliably.
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "com.example.app",
+    "title": "App Name",
+    "description": "App description...",
+    "summary": "Short summary...",
+    "icon": "https://play-lh.googleusercontent.com/...",
+    "screenshots": ["https://...", "https://..."],
+    "playStoreUrl": "https://play.google.com/store/apps/details?id=...",
+    "version": "1.0.0",
+    "rating": 4.5,
+    "ratingCount": 1234,
+    "installs": "1,000,000+",
+    "price": 0,
+    "free": true,
+    "developer": "Developer Name",
+    "category": "Productivity",
+    "releaseDate": "2024-01-01",
+    "size": "50 MB",
+    "androidVersion": "8.0 and up",
+    "contentRating": "Everyone"
+  }
+}
+```
 
 **Status Codes:**
-- `410` - Endpoint deprecated (Gone)
-- `200` - App data retrieved successfully (iOS only)
+- `200` - App data retrieved successfully
 - `404` - App not found
 - `500` - Server error or external API failure
 
@@ -271,94 +442,6 @@ Send a contact form email.
 
 ---
 
-### Closed Tests
-
-#### Get All Closed Tests
-
-**GET** `/api/closed-tests`
-
-Retrieve all apps currently in closed testing.
-
-**Response:**
-```json
-{
-  "success": true,
-  "count": 2,
-  "data": [
-    {
-      "_id": "test_id_1",
-      "appName": "FrameFight",
-      "packageName": "codes.sumit.framefight",
-      "description": "A photo editing app for creating stunning frames",
-      "icon": "https://play-lh.googleusercontent.com/...",
-      "googleGroup": "framefight-testers@googlegroups.com",
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=codes.sumit.framefight",
-      "isActive": true,
-      "createdAt": "2024-01-01T00:00:00Z",
-      "updatedAt": "2024-01-15T00:00:00Z"
-    }
-  ]
-}
-```
-
-#### Get Closed Test by ID
-
-**GET** `/api/closed-tests/{id}`
-
-Retrieve detailed information about a specific closed test.
-
-**Parameters:**
-- `id` (string) - The closed test ID
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "_id": "test_id_1",
-    "appName": "FrameFight",
-    "packageName": "codes.sumit.framefight",
-    "description": "A photo editing app for creating stunning frames",
-    "icon": "https://play-lh.googleusercontent.com/...",
-    "googleGroup": "framefight-testers@googlegroups.com",
-    "playStoreUrl": "https://play.google.com/store/apps/details?id=codes.sumit.framefight",
-    "isActive": true,
-    "createdAt": "2024-01-01T00:00:00Z",
-    "updatedAt": "2024-01-15T00:00:00Z"
-  }
-}
-```
-
-#### Check App Testing Status
-
-**GET** `/api/closed-tests/check/{packageName}`
-
-Check if an app is currently in closed testing by attempting to fetch its Play Store data.
-
-**Parameters:**
-- `packageName` (string) - The app's package name (e.g., "codes.sumit.framefight")
-
-**Response:**
-```json
-{
-  "success": true,
-  "isInClosedTesting": true,
-  "appData": {
-    "name": "FrameFight",
-    "packageName": "codes.sumit.framefight",
-    "isAvailable": false,
-    "error": "App not found or in closed testing"
-  }
-}
-```
-
-**Status Codes:**
-- `200` - Check completed
-- `404` - App not found
-- `500` - Server error
-
----
-
 ### Statistics
 
 #### Get Portfolio Statistics
@@ -384,6 +467,341 @@ Retrieve calculated statistics about the portfolio.
 
 **Status Codes:**
 - `200` - Statistics retrieved successfully
+- `500` - Server error
+
+---
+
+### Utilities
+
+#### Format Experience Date
+
+**GET** `/api/utils/format-date/{date}`
+
+Format a date string for display in experience sections.
+
+**Parameters:**
+- `date` (string) - Date string in ISO format or "null" for current/present dates
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "formatted": "Jan 2024"
+  }
+}
+```
+
+**Examples:**
+- `GET /api/utils/format-date/2024-01-15` → `"Jan 2024"`
+- `GET /api/utils/format-date/null` → `"Present"`
+
+**Status Codes:**
+- `200` - Date formatted successfully
+- `500` - Server error
+
+---
+
+### Educations
+
+#### Get All Educations
+
+**GET** `/api/educations`
+
+Retrieve all educational qualifications from the database, sorted by end date (most recent first).
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 2,
+  "data": [
+    {
+      "_id": "6946e7af3f00b5c4c4553b91",
+      "schoolName": "Relevel by Unacademy",
+      "startDate": "Sep 2022",
+      "endDate": "Sep 2023",
+      "degreeName": "",
+      "notes": "",
+      "activities": ""
+    }
+  ]
+}
+```
+
+**Sorting:**
+- Educations are sorted by end date (most recent first)
+- Ongoing educations (no end date) are prioritized and sorted by start date
+
+#### Get Education by ID
+
+**GET** `/api/educations/{id}`
+
+Retrieve a specific education by ID.
+
+**Parameters:**
+- `id` (string) - The education ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "6946e7af3f00b5c4c4553b91",
+    "schoolName": "Relevel by Unacademy",
+    "startDate": "Sep 2022",
+    "endDate": "Sep 2023",
+    "degreeName": "",
+    "notes": "",
+    "activities": ""
+  }
+}
+```
+
+**Status Codes:**
+- `200` - Education found
+- `404` - Education not found
+- `500` - Server error
+
+---
+
+### Certifications
+
+#### Get All Certifications
+
+**GET** `/api/certifications`
+
+Retrieve all certifications from the database, sorted by date (most recent first).
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 5,
+  "data": [
+    {
+      "_id": "6946e7b53f00b5c4c4553b95",
+      "name": "Problem Solving (Basic) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialID": "C7B03CF78DFF",
+      "link": "https://www.hackerrank.com/certificates/c7b03cf78dff"
+    }
+  ]
+}
+```
+
+**Sorting:**
+- Certifications are sorted by date (most recent first)
+
+#### Get Certification by ID
+
+**GET** `/api/certifications/{id}`
+
+Retrieve a specific certification by ID.
+
+**Parameters:**
+- `id` (string) - The certification ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "6946e7b53f00b5c4c4553b95",
+    "name": "Problem Solving (Basic) Certification",
+    "issuer": "HackerRank",
+    "date": "Nov 2023",
+    "credentialID": "C7B03CF78DFF",
+    "link": "https://www.hackerrank.com/certificates/c7b03cf78dff"
+  }
+}
+```
+
+**Status Codes:**
+- `200` - Certification found
+- `404` - Certification not found
+- `500` - Server error
+
+---
+
+### Skills
+
+#### Get All Skills
+
+**GET** `/api/skills`
+
+Retrieve all skills from the database, organized by categories.
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 3,
+  "data": [
+    {
+      "_id": "6946dfb63f00b5c4c4553b83",
+      "title": "Programming Languages",
+      "icon": "Code",
+      "skills": [
+        {
+          "name": "JavaScript",
+          "experience": 2,
+          "description": "Core language for all my projects and development"
+        },
+        {
+          "name": "TypeScript",
+          "experience": 1,
+          "description": "Type-safe development for scalable applications"
+        }
+      ]
+    },
+    {
+      "_id": "6946dfb63f00b5c4c4553b84",
+      "title": "Libraries & Frameworks",
+      "icon": "Palette",
+      "skills": [
+        {
+          "name": "React",
+          "experience": 2,
+          "description": "Component-based UI development and hooks"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Sorting:**
+- Skills within each category are sorted by experience (highest first), then by name
+
+#### Get Skills by Category
+
+**GET** `/api/skills/category/{category}`
+
+Retrieve skills filtered by a specific category.
+
+**Parameters:**
+- `category` (string) - The category name to filter by
+
+**Response:**
+```json
+{
+  "success": true,
+  "count": 1,
+  "data": [
+    {
+      "_id": "6946dfb63f00b5c4c4553b83",
+      "title": "Programming Languages",
+      "icon": "Code",
+      "skills": [
+        {
+          "name": "JavaScript",
+          "experience": 2,
+          "description": "Core language for all my projects and development"
+        },
+        {
+          "name": "TypeScript",
+          "experience": 1,
+          "description": "Type-safe development for scalable applications"
+        },
+        {
+          "name": "HTML",
+          "experience": 2,
+          "description": "Semantic markup and accessibility standards"
+        },
+        {
+          "name": "CSS",
+          "experience": 2,
+          "description": "Modern styling with flexbox, grid, and animations"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### Get Skill by ID
+
+**GET** `/api/skills/{id}`
+
+Retrieve a specific skill category by ID.
+
+**Parameters:**
+- `id` (string) - The skill category ID
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "6946dfb63f00b5c4c4553b83",
+    "title": "Programming Languages",
+    "icon": "Code",
+    "skills": [
+      {
+        "name": "JavaScript",
+        "experience": 2,
+        "description": "Core language for all my projects and development"
+      },
+      {
+        "name": "TypeScript",
+        "experience": 1,
+        "description": "Type-safe development for scalable applications"
+      },
+      {
+        "name": "HTML",
+        "experience": 2,
+        "description": "Semantic markup and accessibility standards"
+      },
+      {
+        "name": "CSS",
+        "experience": 2,
+        "description": "Modern styling with flexbox, grid, and animations"
+      }
+    ]
+  }
+}
+```
+
+**Status Codes:**
+- `200` - Skill found
+- `404` - Skill not found
+- `500` - Server error
+
+---
+
+### Profile Information
+
+#### Get Profile Information
+
+**GET** `/api/me`
+
+Retrieve profile information from the info collection.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "_id": "6946e6673f00b5c4c4553b8a",
+    "type": "profile",
+    "firstName": "Sumit",
+    "lastName": "C.",
+    "headline": "Frontend Lead | Mobile/Web Apps",
+    "summary": "Passionate developer with 2 years of experience crafting polished mobile and web applications.",
+    "industry": "Software Development",
+    "location": "Guwahati, Assam, India",
+    "birthDate": "Nov 17",
+    "website": "sumit.codes",
+    "twitterHandles": []
+  }
+}
+```
+
+**Status Codes:**
+- `200` - Profile found
+- `404` - Profile not found
 - `500` - Server error
 
 ---
@@ -419,18 +837,68 @@ Rate limiting is implemented to prevent abuse:
 - Contact form: 5 requests per minute per IP
 - App store APIs: 100 requests per minute per IP
 - Experience APIs: 1000 requests per minute per IP
-- Closed tests APIs: 200 requests per minute per IP
+- Works APIs: 1000 requests per minute per IP
+- Educations APIs: 1000 requests per minute per IP
+- Certifications APIs: 1000 requests per minute per IP
+- Skills APIs: 1000 requests per minute per IP
 - Statistics API: 500 requests per minute per IP
 
 ## Caching
 
 - **App store data**: 5 minutes cache to reduce external API calls
 - **Statistics data**: 1 hour cache for performance
-- **Closed tests data**: 30 minutes cache with real-time updates
+- **Works data**: Real-time with automatic app store enrichment
+- **Educations, Certifications, Skills**: Real-time queries with optimized sorting
 
 ## Database Schema
 
-### Companies Collection
+**Database Usage:**
+- **Works**: Explicitly uses `portfolio2` database
+- **Other collections** (Experiences, Educations, Certifications, Skills, Info): Use the default database from connection (typically `portfolio` or as specified in connection string)
+
+**Note:** The connection string may specify a different database name, which takes precedence over the hardcoded `portfolio` in connection.ts
+
+### Works Collection
+
+```typescript
+interface Work {
+  _id: string;
+  name: string;
+  description: {
+    short: string;
+    long: string;
+  };
+  icon?: string;
+  category?: string;
+  type: string; // e.g., "MULTI_PLATFORM", "MOBILE", "WEB"
+  appStoreId?: string | null;
+  playStoreId?: string | null;
+  isInternal: boolean;
+  featured: boolean;
+  companyId?: string;
+  technologies: string[];
+  rating: number;
+  screenshots: string[]; // Auto-enriched from app stores
+  webUrls?: string[] | null;
+  sourceCode?: string | null;
+  googleGroupUrl?: string | null;
+}
+```
+
+**Collection Name:** `works`
+
+**Features:**
+- Automatically enriched with app store data (screenshots, ratings, categories)
+- Supports multiple platforms (iOS, Android, Web)
+- Can be linked to companies via `companyId`
+
+**Testing Phase:**
+- `googleGroupUrl`: If not `null`, indicates the app is in testing phase
+  - Frontend should show instructions to join the Google Group
+  - After joining, users can access the app via Play Store (if `playStoreId` is available)
+  - Set to `null` when the app becomes publicly available
+
+### Companies/Experiences Collection
 
 ```typescript
 interface Company {
@@ -438,42 +906,112 @@ interface Company {
   name: string;
   role: string;
   workStart: string;
-  workEnd: string | null;
-  location: string;
-  highlights: string[];
+  workEnd?: string | null;
+  location?: string;
   description: string;
-  technologies: string[];
-  color: string;
-  type: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "FREELANCE";
-  appStoreApps: string[] | null;
-  playStoreApps: string[] | null;
-  webApps: string[] | null;
+  works?: string[]; // Array of work IDs
+  logo?: string;
+  website?: string;
+  type?: string; // "FULL_TIME" | "PART_TIME" | "CONTRACT" | "FREELANCE"
+  color?: string; // Theme color for UI
 }
 ```
 
-### Closed Tests Collection
+**Collection Name:** `companies` (as defined in code constants)
+
+**Note:** The ExperienceService uses the `companies` collection name from constants. The actual MongoDB collection may be named `experiences` in the database, but the code queries using `companies`.
+
+**Features:**
+- Links to works via `works` array
+- Optional `logo` and `website` fields (defined in TypeScript type but may not be present in all documents)
+- Color coding for UI theming
+
+### Educations Collection
 
 ```typescript
-interface ClosedTest {
-  _id: string;
-  appName: string;
-  packageName: string;
-  description: string;
-  icon: string;
-  googleGroup: string;
-  playStoreUrl: string;
-  isActive: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+interface Education {
+  _id: string; // ObjectId as string
+  schoolName: string;
+  startDate: string;
+  endDate?: string | null;
+  degreeName?: string;
+  notes?: string;
+  activities?: string;
 }
 ```
 
-**Collection Name:** `closed_tests`
+**Collection Name:** `educations`
 
-**Indexes:**
-- `packageName` (unique) - For quick lookups by package name
-- `isActive` - For filtering active tests
-- `createdAt` - For sorting by creation date
+**Sorting:**
+- Sorted by end date (most recent first)
+- Ongoing educations prioritized
+
+### Certifications Collection
+
+```typescript
+interface Certification {
+  _id: string; // ObjectId as string
+  name: string;
+  issuer: string;
+  date: string;
+  credentialID?: string | null;
+  link?: string;
+  description?: string;
+  expiryDate?: string | null;
+}
+```
+
+**Collection Name:** `certifications`
+
+**Sorting:**
+- Sorted by date (most recent first)
+
+### Skills Collection
+
+```typescript
+interface SkillCategory {
+  _id: string; // ObjectId as string
+  title: string;
+  icon: string;
+  skills: Array<{
+    name: string;
+    experience: number; // Years of experience
+    description: string;
+  }>;
+}
+```
+
+**Collection Name:** `skills`
+
+**Structure:**
+- Skills are organized by categories
+- Each category contains multiple skills
+- Skills sorted by experience (highest first), then by name
+
+### Info Collection
+
+```typescript
+interface Info {
+  _id: string; // ObjectId as string
+  type: string; // e.g., "profile"
+  firstName: string;
+  lastName: string;
+  headline: string;
+  summary: string;
+  industry?: string;
+  location?: string;
+  birthDate?: string;
+  website?: string;
+  twitterHandles?: string[];
+}
+```
+
+**Collection Name:** `info`
+
+**Features:**
+- Contains profile/personal information
+- Accessed via `/api/me` endpoint
+- Typically contains one document with `type: "profile"`
 
 ## External Dependencies
 
@@ -500,22 +1038,13 @@ interface ClosedTest {
 ## Development Notes
 
 - The backend uses Cloudflare Workers runtime
-- Database connections are optimized for serverless
+- Database connections are optimized for serverless (connections closed after each request)
 - External API calls are cached to reduce latency
 - All endpoints are async and handle errors gracefully
-
-## Closed Testing Detection
-
-The system automatically detects if an app is in closed testing by:
-
-1. **Attempting to fetch app data** using the Google Play Scraper
-2. **Checking the response**:
-   - If successful: App is publicly available
-   - If error/empty: App is likely in closed testing
-3. **Updating database** with the current status
-4. **Providing appropriate instructions** based on testing status
-
-This allows the system to automatically manage which apps show up in the closed tests section without manual intervention.
+- Works are automatically enriched with app store data (screenshots, ratings, categories)
+- Database queries have 5-second timeout protection
+- All MongoDB ObjectIds are converted to strings in responses
+- The API uses the `portfolio2` database
 
 ## Support
 
