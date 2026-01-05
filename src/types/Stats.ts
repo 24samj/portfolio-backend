@@ -1,5 +1,5 @@
 export interface PortfolioStats {
-  totalExperience: string;
+  totalExperience: number;
   totalCompanies: number;
   totalProjects: number;
   totalTechnologies: number;
