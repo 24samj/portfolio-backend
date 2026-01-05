@@ -1,125 +1,53 @@
 import { Hono } from "hono";
-import { MongoClient } from "mongodb";
-import { dbManager } from "../database/manager";
+import { getDatabase } from "../database/connection";
 
 const health = new Hono();
 
-// MongoDB connection reference
-let mongoClient: MongoClient | null = null;
-
-// Set MongoDB client reference
-export const setMongoClient = (client: MongoClient | null) => {
-  mongoClient = client;
-};
-
 // Health check endpoint
+// Creates a fresh connection per request (Cloudflare Workers best practice)
+// This avoids cross-request promise resolution errors
 health.get("/", async (c) => {
+  let client = null;
   try {
-    // Check current connection status without blocking
-    const isCurrentlyConnected = dbManager.isConnectedToDatabase();
-    
-    // If not connected, try to connect but don't wait too long
-    if (!isCurrentlyConnected) {
-      console.log("MongoDB not connected, attempting to connect...");
-      // Start connection attempt but don't block - use a shorter timeout
-      // This allows the health check to return quickly even if DNS is slow
-      const connectionPromise = dbManager.connect();
-      const timeoutPromise = new Promise<boolean>((resolve) => {
-        setTimeout(() => resolve(false), 8000); // 8 second timeout for health check
-      });
-      
-      // Race between connection and timeout
-      const connectionResult = await Promise.race([
-        connectionPromise,
-        timeoutPromise,
-      ]);
-
-      // If connection succeeded, verify it with timeout
-      if (connectionResult) {
-        try {
-          const healthCheckPromise = dbManager.healthCheck();
-          const healthCheckTimeout = new Promise<boolean>((resolve) => {
-            setTimeout(() => resolve(false), 3000); // 3 second timeout for health check
-          });
-          const isMongoConnected = await Promise.race([
-            healthCheckPromise,
-            healthCheckTimeout,
-          ]);
-          return c.json(
-            {
-              status: isMongoConnected ? "ok" : "degraded",
-              timestamp: new Date().toISOString(),
-              services: {
-                mongodb: isMongoConnected ? "connected" : "disconnected",
-              },
-            },
-            isMongoConnected ? 200 : 200 // Return 200 even if degraded - service is up
-          );
-        } catch (error) {
-          // Health check failed, but service is still up
-          return c.json(
-            {
-              status: "degraded",
-              timestamp: new Date().toISOString(),
-              services: {
-                mongodb: "disconnected",
-              },
-              message: "MongoDB connection established but health check failed.",
-            },
-            200 // Service is up, just health check failed
-          );
-        }
-      } else {
-        // Connection is still in progress or failed - return degraded status
-        // Return 200 with degraded status so monitoring knows the service is up
-        return c.json(
-          {
-            status: "degraded",
-            timestamp: new Date().toISOString(),
-            services: {
-              mongodb: "connecting",
-            },
-            message: "MongoDB connection in progress. The API may function normally once connected.",
-          },
-          200 // Return 200 even if degraded - service is up, just DB connecting
-        );
+    // Create a fresh connection for this request
+    // In Cloudflare Workers, each request is isolated - we cannot maintain
+    // connections across requests due to execution context isolation
+    const healthCheckPromise = (async () => {
+      try {
+        const { db, client: mongoClient } = await getDatabase();
+        client = mongoClient;
+        // Quick ping to verify connection
+        await db.admin().ping();
+        return true;
+      } catch (error) {
+        console.error("Health check connection failed:", error);
+        return false;
       }
-    }
+    })();
 
-    // If already connected, verify it's still active with timeout
-    try {
-      const healthCheckPromise = dbManager.healthCheck();
-      const healthCheckTimeout = new Promise<boolean>((resolve) => {
-        setTimeout(() => resolve(false), 3000); // 3 second timeout for health check
-      });
-      const isMongoConnected = await Promise.race([
-        healthCheckPromise,
-        healthCheckTimeout,
-      ]);
+    const healthCheckTimeout = new Promise<boolean>((resolve) => {
+      setTimeout(() => {
+        console.log("Health check timed out after 5 seconds");
+        resolve(false);
+      }, 5000); // 5 second timeout for health check
+    });
 
-      const healthStatus = {
+    const isMongoConnected = await Promise.race([
+      healthCheckPromise,
+      healthCheckTimeout,
+    ]);
+
+    // Return health status based on MongoDB connection state
+    return c.json(
+      {
         status: isMongoConnected ? "ok" : "degraded",
         timestamp: new Date().toISOString(),
         services: {
           mongodb: isMongoConnected ? "connected" : "disconnected",
         },
-      };
-
-      return c.json(healthStatus, 200); // Always return 200 - service is up
-    } catch (error) {
-      // Health check failed, but service is still up
-      return c.json(
-        {
-          status: "degraded",
-          timestamp: new Date().toISOString(),
-          services: {
-            mongodb: "disconnected",
-          },
-          message: "MongoDB health check failed.",
-        },
-        200 // Service is up, just health check failed
-      );
-    }
+      },
+      200 // Always return 200 - service is up, just DB may be disconnected
+    );
   } catch (error) {
     console.error("Health check error:", error);
     // Return 200 with error status - service is up, just DB has issues
@@ -135,6 +63,16 @@ health.get("/", async (c) => {
       },
       200 // Service is up, just DB has problems
     );
+  } finally {
+    // Always close the connection within the same request context
+    // This prevents cross-request promise resolution errors
+    if (client) {
+      try {
+        await client.close();
+      } catch (e) {
+        // Ignore close errors - connection might already be closed
+      }
+    }
   }
 });
 

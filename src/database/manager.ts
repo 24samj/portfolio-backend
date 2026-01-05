@@ -25,16 +25,31 @@ class DatabaseManager {
   }
 
   async connect(): Promise<boolean> {
-    // If already connected, test the connection first
+    // If already connected, test the connection first to ensure it's actually alive
     if (this.isConnected && this.client) {
       try {
-        // Test the connection with a quick ping
-        await this.client.db("admin").admin().ping();
+        // Test the connection with a quick ping and timeout
+        await Promise.race([
+          this.client.db("admin").admin().ping(),
+          new Promise<never>((_, reject) => {
+            setTimeout(() => reject(new Error("Ping timeout")), 2000);
+          }),
+        ]);
+        // Connection is alive
         return true;
       } catch (error) {
-        console.log("Connection lost, reconnecting...");
+        console.log("Connection lost or stale, will reconnect...");
+        // Mark as disconnected and clean up
         this.isConnected = false;
+        if (this.client) {
+          try {
+            await this.client.close();
+          } catch (e) {
+            // Ignore close errors
+          }
+        }
         this.client = null;
+        // Fall through to reconnect logic below
       }
     }
 
@@ -44,22 +59,37 @@ class DatabaseManager {
     }
 
     // Rate limiting: don't attempt connection too frequently
+    // But allow immediate reconnection if we just detected a dead connection
     const now = Date.now();
-    if (now - this.lastConnectionAttempt < this.CONNECTION_COOLDOWN) {
-      console.log("Connection attempt too soon, waiting...");
+    const timeSinceLastAttempt = now - this.lastConnectionAttempt;
+    if (timeSinceLastAttempt < this.CONNECTION_COOLDOWN && timeSinceLastAttempt > 0) {
+      console.log(`Connection attempt too soon (${timeSinceLastAttempt}ms ago), waiting...`);
       await new Promise((resolve) =>
         setTimeout(
           resolve,
-          this.CONNECTION_COOLDOWN - (now - this.lastConnectionAttempt)
+          this.CONNECTION_COOLDOWN - timeSinceLastAttempt
         )
       );
     }
 
-    this.lastConnectionAttempt = now;
+    console.log("Attempting to connect to MongoDB...");
+    this.lastConnectionAttempt = Date.now();
     this.connectionPromise = this._connect();
-    const result = await this.connectionPromise;
-    this.connectionPromise = null;
-    return result;
+    
+    try {
+      const result = await this.connectionPromise;
+      this.connectionPromise = null;
+      if (result) {
+        console.log("✅ Successfully connected to MongoDB");
+      } else {
+        console.log("❌ Failed to connect to MongoDB");
+      }
+      return result;
+    } catch (error) {
+      this.connectionPromise = null;
+      console.error("Connection attempt failed:", error);
+      return false;
+    }
   }
 
   private async _connect(): Promise<boolean> {
@@ -138,8 +168,9 @@ class DatabaseManager {
           directConnection: useDirectConnection,
           // Optimized for serverless - reduce heartbeat frequency
           heartbeatFrequencyMS: 30000, // 30 seconds
-          // Add connection timeout
-          maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
+          // Remove maxIdleTimeMS for serverless - let connections stay alive
+          // In Cloudflare Workers, connections are ephemeral anyway, so we'll verify on each use
+          // maxIdleTimeMS: removed - connections will be verified before use
         });
 
         // Note: maxListeners is set globally via EventEmitter.defaultMaxListeners
@@ -252,6 +283,8 @@ class DatabaseManager {
   }
 
   isConnectedToDatabase(): boolean {
+    // This is a synchronous check - only returns the flag state
+    // For actual verification, use healthCheck() which is async
     return this.isConnected && this.client !== null;
   }
 
@@ -261,12 +294,42 @@ class DatabaseManager {
         return false;
       }
 
-      // Quick ping to test connection
-      await this.client.db("admin").admin().ping();
+      // Quick ping to test connection with timeout
+      await Promise.race([
+        this.client.db("admin").admin().ping(),
+        new Promise<never>((_, reject) => {
+          setTimeout(() => reject(new Error("Health check timeout")), 3000);
+        }),
+      ]);
+      
+      // Connection is alive - ensure flag is set
+      this.isConnected = true;
       return true;
     } catch (error) {
-      console.error("Database health check failed:", error);
+      console.error("Database health check failed, connection is dead:", error);
+      // Connection is dead - update state and trigger reconnection
       this.isConnected = false;
+      if (this.client) {
+        try {
+          await this.client.close();
+        } catch (e) {
+          // Ignore close errors
+        }
+        this.client = null;
+      }
+      
+      // Try to reconnect immediately (don't wait for next connect() call)
+      console.log("Attempting automatic reconnection after health check failure...");
+      try {
+        const reconnected = await this.connect();
+        if (reconnected) {
+          console.log("✅ Successfully reconnected after health check failure");
+          return true;
+        }
+      } catch (reconnectError) {
+        console.error("Automatic reconnection failed:", reconnectError);
+      }
+      
       return false;
     }
   }
