@@ -1,17 +1,15 @@
 import { Hono } from "hono";
 import { WorkService } from "../services/WorkService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const works = new Hono();
+const works = new Hono<{ Bindings: Env }>();
 
-// Get all works or works by IDs
 works.get("/", rateLimitMiddleware("works"), async (c) => {
   try {
-    // Check if ids query parameter is provided
     const idsParam = c.req.query("ids");
-    
+
     if (idsParam) {
-      // Parse comma-separated IDs
       const ids = idsParam
         .split(",")
         .map((id) => id.trim())
@@ -28,23 +26,22 @@ works.get("/", rateLimitMiddleware("works"), async (c) => {
         );
       }
 
-      const works = await WorkService.getByIds(ids);
+      const data = await WorkService.getByIds(c.env.MONGODB_URI, ids);
 
       return c.json({
         success: true,
-        count: works.length,
-        data: works,
-      });
-    } else {
-      // Get all works
-      const works = await WorkService.getAll();
-
-      return c.json({
-        success: true,
-        count: works.length,
-        data: works,
+        count: data.length,
+        data,
       });
     }
+
+    const data = await WorkService.getAll(c.env.MONGODB_URI);
+
+    return c.json({
+      success: true,
+      count: data.length,
+      data,
+    });
   } catch (error) {
     console.error("Error fetching works:", error);
     return c.json(
@@ -58,11 +55,10 @@ works.get("/", rateLimitMiddleware("works"), async (c) => {
   }
 });
 
-// Get work by ID
 works.get("/:id", rateLimitMiddleware("works"), async (c) => {
   try {
     const id = c.req.param("id");
-    const work = await WorkService.getById(id);
+    const work = await WorkService.getById(c.env.MONGODB_URI, id);
 
     if (!work) {
       return c.json(
