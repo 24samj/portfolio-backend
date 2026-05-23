@@ -82,20 +82,6 @@ export interface MongoCertificationDocument {
 }
 
 /**
- * MongoDB internal types for topology access
- */
-export interface MongoClientWithTopology {
-  topology?: {
-    setMaxListeners?: (n: number) => void;
-    s?: {
-      serverSelection?: {
-        setMaxListeners?: (n: number) => void;
-      };
-    };
-  };
-}
-
-/**
  * Play Store / App Store data types
  */
 export interface PlayStoreInitData {
