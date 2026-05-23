@@ -1,66 +1,44 @@
 import { ObjectId } from "mongodb";
-import { executeWithDatabaseTimeout } from "../database/connection";
+import { withMongo } from "../database/withMongo";
 import { Experience } from "../types/Company";
 import { COLLECTIONS } from "../constants";
 import { MongoCompanyDocument } from "../types/MongoDB";
 
 const COLLECTION_NAME = COLLECTIONS.EXPERIENCES;
-const DATABASE_NAME = "portfolio2"; // experiences collection is in portfolio2 database
+const DATABASE_NAME = "portfolio2";
 
-/**
- * Service for managing experience data
- * Uses optimized database connection with caching
- */
 export class ExperienceService {
-  /**
-   * Get all experiences with optimized sorting and caching
-   */
-  static async getAll(): Promise<Experience[]> {
-    return executeWithDatabaseTimeout(async (db) => {
+  static async getAll(uri: string): Promise<Experience[]> {
+    return withMongo(uri, DATABASE_NAME, async (db) => {
       const collection = db.collection(COLLECTION_NAME);
       const experiences = await collection.find({}).toArray();
-      
+
       const sorted = experiences.sort((a, b) => {
-        // Current positions first (workEnd is null)
         if (a.workEnd === null && b.workEnd !== null) return -1;
         if (a.workEnd !== null && b.workEnd === null) return 1;
-
-        // If both are current positions, sort by earliest start date first
         if (a.workEnd === null && b.workEnd === null) {
-          return (
-            new Date(a.workStart).getTime() - new Date(b.workStart).getTime()
-          );
+          return new Date(a.workStart).getTime() - new Date(b.workStart).getTime();
         }
-
-        // If both are past positions, sort by most recent start date first
         if (a.workEnd !== null && b.workEnd !== null) {
-          return (
-            new Date(b.workStart).getTime() - new Date(a.workStart).getTime()
-          );
+          return new Date(b.workStart).getTime() - new Date(a.workStart).getTime();
         }
-
         return 0;
       });
 
-      // Transform MongoDB documents to Company objects
       return sorted.map((doc) => ({
         ...doc,
         _id: doc._id.toString(),
       })) as Experience[];
-    }, DATABASE_NAME);
+    });
   }
 
-  /**
-   * Get experience by ID with optimized error handling
-   */
-  static async getById(id: string): Promise<Experience | null> {
-    return executeWithDatabaseTimeout(async (db) => {
+  static async getById(uri: string, id: string): Promise<Experience | null> {
+    return withMongo(uri, DATABASE_NAME, async (db) => {
       const collection = db.collection<MongoCompanyDocument>(COLLECTION_NAME);
       let experience: MongoCompanyDocument | null;
       try {
         experience = await collection.findOne({ _id: new ObjectId(id) });
       } catch {
-        // If ObjectId conversion fails, try as string
         experience = await collection.findOne({ _id: id as unknown as ObjectId });
       }
 
@@ -72,20 +50,13 @@ export class ExperienceService {
         ...experience,
         _id: experience._id.toString(),
       } as Experience;
-    }, DATABASE_NAME);
+    });
   }
 
-  /**
-   * Get experiences count for pagination (future use)
-   */
-  static async getCount(): Promise<number> {
-    return executeWithDatabaseTimeout(async (db) => {
+  static async getCount(uri: string): Promise<number> {
+    return withMongo(uri, DATABASE_NAME, async (db) => {
       const collection = db.collection(COLLECTION_NAME);
-      return await collection.countDocuments();
-    }, DATABASE_NAME);
+      return collection.countDocuments();
+    });
   }
 }
-
-// Backward compatibility exports
-export const getExperiences = ExperienceService.getAll;
-export const getExperienceById = ExperienceService.getById;
