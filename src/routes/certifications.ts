@@ -1,18 +1,18 @@
 import { Hono } from "hono";
 import { CertificationService } from "../services/CertificationService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const certifications = new Hono();
+const certifications = new Hono<{ Bindings: Env }>();
 
-// Get all certifications
 certifications.get("/", rateLimitMiddleware("certifications"), async (c) => {
   try {
-    const certifications = await CertificationService.getAll();
+    const data = await CertificationService.getAll(c.env.MONGODB_URI);
 
     return c.json({
       success: true,
-      count: certifications.length,
-      data: certifications,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Error fetching certifications:", error);
@@ -27,11 +27,10 @@ certifications.get("/", rateLimitMiddleware("certifications"), async (c) => {
   }
 });
 
-// Get certification by ID
 certifications.get("/:id", rateLimitMiddleware("certifications"), async (c) => {
   try {
     const id = c.req.param("id");
-    const certification = await CertificationService.getById(id);
+    const certification = await CertificationService.getById(c.env.MONGODB_URI, id);
 
     if (!certification) {
       return c.json(
