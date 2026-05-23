@@ -1,18 +1,18 @@
 import { Hono } from "hono";
 import { ExperienceService } from "../services/ExperienceService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const experiences = new Hono();
+const experiences = new Hono<{ Bindings: Env }>();
 
-// Get all experiences
 experiences.get("/", rateLimitMiddleware("experiences"), async (c) => {
   try {
-    const experiences = await ExperienceService.getAll();
+    const data = await ExperienceService.getAll(c.env.MONGODB_URI);
 
     return c.json({
       success: true,
-      count: experiences.length,
-      data: experiences,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Error fetching experiences:", error);
@@ -27,11 +27,10 @@ experiences.get("/", rateLimitMiddleware("experiences"), async (c) => {
   }
 });
 
-// Get experience by ID
 experiences.get("/:id", rateLimitMiddleware("experiences"), async (c) => {
   try {
     const id = c.req.param("id");
-    const experience = await ExperienceService.getById(id);
+    const experience = await ExperienceService.getById(c.env.MONGODB_URI, id);
 
     if (!experience) {
       return c.json(
