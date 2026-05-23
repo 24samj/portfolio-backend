@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { corsMiddleware } from "./middleware/cors";
+import type { Env } from "./types/Env";
 import health from "./routes/health";
 import experiences from "./routes/experiences";
 import apps from "./routes/apps";
@@ -12,7 +13,7 @@ import certifications from "./routes/certifications";
 import skills from "./routes/skills";
 import me from "./routes/me";
 
-const app = new Hono();
+const app = new Hono<{ Bindings: Env }>();
 
 // Global error handler to prevent 1101 errors
 app.onError((err, c) => {

@@ -6,7 +6,7 @@ const health = new Hono<{ Bindings: Env }>();
 
 health.get("/", async (c) => {
   try {
-    await withMongo(c.env.MONGODB_URI, "portfolio", async (db) => {
+    await withMongo(c.env.MONGODB_URI, "portfolio2", async (db) => {
       await db.admin().ping();
     });
     return c.json(
