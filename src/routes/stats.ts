@@ -1,17 +1,17 @@
 import { Hono } from "hono";
 import { StatsService } from "../services/StatsService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const stats = new Hono();
+const stats = new Hono<{ Bindings: Env }>();
 
-// Get portfolio statistics
 stats.get("/", rateLimitMiddleware("stats"), async (c) => {
   try {
-    const stats = await StatsService.getStats();
+    const data = await StatsService.getStats(c.env.MONGODB_URI);
 
     return c.json({
       success: true,
-      data: stats,
+      data,
     });
   } catch (error) {
     console.error("Error fetching stats:", error);
