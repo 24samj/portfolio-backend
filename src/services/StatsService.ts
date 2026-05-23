@@ -6,14 +6,6 @@ import { MongoCompanyDocument, MongoSkillCategoryDocument } from "../types/Mongo
 const DATABASE_NAME = "portfolio2";
 
 export class StatsService {
-  private static calculateDaysDuration(startDate: Date, endDate: Date): number {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    start.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-    return Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-  }
-
   static async getStats(uri: string): Promise<PortfolioStats> {
     try {
       const { companies, totalProjects, totalTechnologies } = await withMongo(
