@@ -1,18 +1,18 @@
 import { Hono } from "hono";
 import { EducationService } from "../services/EducationService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const educations = new Hono();
+const educations = new Hono<{ Bindings: Env }>();
 
-// Get all educations
 educations.get("/", rateLimitMiddleware("educations"), async (c) => {
   try {
-    const educations = await EducationService.getAll();
+    const data = await EducationService.getAll(c.env.MONGODB_URI);
 
     return c.json({
       success: true,
-      count: educations.length,
-      data: educations,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Error fetching educations:", error);
@@ -27,11 +27,10 @@ educations.get("/", rateLimitMiddleware("educations"), async (c) => {
   }
 });
 
-// Get education by ID
 educations.get("/:id", rateLimitMiddleware("educations"), async (c) => {
   try {
     const id = c.req.param("id");
-    const education = await EducationService.getById(id);
+    const education = await EducationService.getById(c.env.MONGODB_URI, id);
 
     if (!education) {
       return c.json(
