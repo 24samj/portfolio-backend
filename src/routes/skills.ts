@@ -1,18 +1,18 @@
 import { Hono } from "hono";
 import { SkillService } from "../services/SkillService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const skills = new Hono();
+const skills = new Hono<{ Bindings: Env }>();
 
-// Get all skills
 skills.get("/", rateLimitMiddleware("skills"), async (c) => {
   try {
-    const skills = await SkillService.getAll();
+    const data = await SkillService.getAll(c.env.MONGODB_URI);
 
     return c.json({
       success: true,
-      count: skills.length,
-      data: skills,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Error fetching skills:", error);
@@ -27,16 +27,15 @@ skills.get("/", rateLimitMiddleware("skills"), async (c) => {
   }
 });
 
-// Get skills by category
 skills.get("/category/:category", rateLimitMiddleware("skills"), async (c) => {
   try {
     const category = c.req.param("category");
-    const skills = await SkillService.getByCategory(category);
+    const data = await SkillService.getByCategory(c.env.MONGODB_URI, category);
 
     return c.json({
       success: true,
-      count: skills.length,
-      data: skills,
+      count: data.length,
+      data,
     });
   } catch (error) {
     console.error("Error fetching skills by category:", error);
@@ -51,11 +50,10 @@ skills.get("/category/:category", rateLimitMiddleware("skills"), async (c) => {
   }
 });
 
-// Get skill by ID
 skills.get("/:id", rateLimitMiddleware("skills"), async (c) => {
   try {
     const id = c.req.param("id");
-    const skill = await SkillService.getById(id);
+    const skill = await SkillService.getById(c.env.MONGODB_URI, id);
 
     if (!skill) {
       return c.json(
