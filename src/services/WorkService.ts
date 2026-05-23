@@ -1,5 +1,5 @@
-import { ObjectId, MongoClient } from "mongodb";
-import { executeWithDatabaseTimeout } from "../database/connection";
+import { ObjectId } from "mongodb";
+import { withMongo } from "../database/withMongo";
 import { COLLECTIONS } from "../constants";
 import { PlayStoreService } from "./PlayStoreService";
 import { AppStoreService } from "./AppStoreService";
@@ -177,12 +177,12 @@ export class WorkService {
   /**
    * Get all works with optimized query
    */
-  static async getAll(): Promise<MongoWorkDocument[]> {
+  static async getAll(uri: string): Promise<MongoWorkDocument[]> {
     try {
-      const works = await executeWithDatabaseTimeout(async (db) => {
+      const works = await withMongo(uri, DATABASE_NAME, async (db) => {
         const collection = db.collection(COLLECTION_NAME);
         return await collection.find({}).toArray() as unknown as MongoWorkDocument[];
-      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
+      });
 
       // Enrich each work with store data (screenshots, rating, category)
       // Use Promise.allSettled to prevent one failure from blocking all
@@ -208,13 +208,12 @@ export class WorkService {
   /**
    * Get work by ID with optimized error handling
    */
-  static async getById(id: string): Promise<MongoWorkDocument | null> {
+  static async getById(uri: string, id: string): Promise<MongoWorkDocument | null> {
     try {
-      const work = await executeWithDatabaseTimeout(async (db) => {
+      const work = await withMongo(uri, DATABASE_NAME, async (db) => {
         const collection = db.collection<MongoWorkDocument>(COLLECTION_NAME);
-        // Works use string IDs, not ObjectId
         return await collection.findOne({ _id: id }) as MongoWorkDocument | null;
-      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
+      });
 
       if (!work) {
         return null;
@@ -236,17 +235,16 @@ export class WorkService {
   /**
    * Get multiple works by IDs
    */
-  static async getByIds(ids: string[]): Promise<MongoWorkDocument[]> {
+  static async getByIds(uri: string, ids: string[]): Promise<MongoWorkDocument[]> {
     if (!ids || ids.length === 0) {
       return [];
     }
 
     try {
-      const works = await executeWithDatabaseTimeout(async (db) => {
+      const works = await withMongo(uri, DATABASE_NAME, async (db) => {
         const collection = db.collection<MongoWorkDocument>(COLLECTION_NAME);
-        // Works use string IDs, not ObjectId
         return await collection.find({ _id: { $in: ids } }).toArray() as MongoWorkDocument[];
-      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
+      });
 
       // Enrich each work with store data (screenshots, rating, category)
       // Use Promise.allSettled to prevent one failure from blocking all
@@ -272,20 +270,15 @@ export class WorkService {
   /**
    * Get works count for pagination (future use)
    */
-  static async getCount(): Promise<number> {
+  static async getCount(uri: string): Promise<number> {
     try {
-      return await executeWithDatabaseTimeout(async (db) => {
+      return await withMongo(uri, DATABASE_NAME, async (db) => {
         const collection = db.collection(COLLECTION_NAME);
-        return await collection.countDocuments();
-      }, DATABASE_NAME, 10000); // 10 second timeout for DB query
+        return collection.countDocuments();
+      });
     } catch (error) {
       console.error("Error counting works:", error);
       throw new Error("Failed to count works");
     }
   }
 }
-
-// Backward compatibility exports
-export const getWorks = WorkService.getAll;
-export const getWorkById = WorkService.getById;
-export const getWorksByIds = WorkService.getByIds;
