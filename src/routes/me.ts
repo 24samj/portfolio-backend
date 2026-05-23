@@ -1,13 +1,13 @@
 import { Hono } from "hono";
 import { InfoService } from "../services/InfoService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
+import type { Env } from "../types/Env";
 
-const me = new Hono();
+const me = new Hono<{ Bindings: Env }>();
 
-// Get profile information
 me.get("/", rateLimitMiddleware("default"), async (c) => {
   try {
-    const profile = await InfoService.getProfile();
+    const profile = await InfoService.getProfile(c.env.MONGODB_URI);
 
     if (!profile) {
       return c.json(
