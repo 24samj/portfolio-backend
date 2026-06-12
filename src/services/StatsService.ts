@@ -6,6 +6,38 @@ import { MongoCompanyDocument, MongoSkillCategoryDocument } from "../types/Mongo
 const DATABASE_NAME = "portfolio2";
 
 export class StatsService {
+  /**
+   * Total experience in decimal years, rounded to one decimal place.
+   * Each calendar month worked is counted once, so overlapping positions
+   * don't inflate the total.
+   */
+  static calculateTotalExperience(
+    companies: Pick<MongoCompanyDocument, "workStart" | "workEnd">[]
+  ): number {
+    if (companies.length === 0) return 0;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const uniqueMonths = new Set<string>();
+    companies.forEach((company) => {
+      const start = new Date(company.workStart);
+      start.setHours(0, 0, 0, 0);
+      const end = company.workEnd ? new Date(company.workEnd) : today;
+      end.setHours(0, 0, 0, 0);
+
+      const current = new Date(start);
+      while (current <= end) {
+        const month = current.getMonth() + 1;
+        const monthStr = month < 10 ? `0${month}` : `${month}`;
+        uniqueMonths.add(`${current.getFullYear()}-${monthStr}`);
+        current.setMonth(current.getMonth() + 1);
+      }
+    });
+
+    return Math.round((uniqueMonths.size / 12) * 10) / 10;
+  }
+
   static async getStats(uri: string): Promise<PortfolioStats> {
     try {
       const { companies, totalProjects, totalTechnologies } = await withMongo(
@@ -40,34 +72,7 @@ export class StatsService {
       const currentPosition = companies.some((company) => !company.workEnd);
       const totalCompanies = companies.length;
 
-      let totalExperience = 0.0;
-      if (companies.length > 0) {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        const uniqueMonths = new Set<string>();
-        companies.forEach((company) => {
-          const start = new Date(company.workStart);
-          start.setHours(0, 0, 0, 0);
-          const end = company.workEnd ? new Date(company.workEnd) : today;
-          end.setHours(0, 0, 0, 0);
-
-          const current = new Date(start);
-          while (current <= end) {
-            const month = current.getMonth() + 1;
-            const monthStr = month < 10 ? `0${month}` : `${month}`;
-            uniqueMonths.add(`${current.getFullYear()}-${monthStr}`);
-            current.setMonth(current.getMonth() + 1);
-          }
-        });
-
-        const totalUniqueMonths = uniqueMonths.size;
-        if (totalUniqueMonths > 0) {
-          const years = Math.floor(totalUniqueMonths / 12);
-          const remainingMonths = totalUniqueMonths % 12;
-          totalExperience = years + remainingMonths / 10;
-        }
-      }
+      const totalExperience = StatsService.calculateTotalExperience(companies);
 
       return {
         totalExperience,
