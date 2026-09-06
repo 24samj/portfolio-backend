@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { rateLimitMiddleware } from "@/middleware/rateLimit";
+import { rateLimitMiddleware } from "@/middleware/rate-limit";
 import { contactSchema } from "@/schemas/contact.schema";
 import { sendContactEmail } from "@/services/contact.service";
 import type { ContactResponse } from "@/types/contact.type";

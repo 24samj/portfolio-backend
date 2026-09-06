@@ -3,7 +3,11 @@
   "name": "portfolio-backend",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-12",
-  "compatibility_flags": ["nodejs_compat"],
+  // Personal account ("Samtastic"); the same one that owns the sumit.codes zone.
+  "account_id": "f9b961864417300f5e357cd35fb15c06",
+  "observability": {
+    "enabled": true
+  },
   "vars": {
     // Public, non-secret. The contact form sends *from* this address on the
     // Email-Routing-enabled zone; replies go to the visitor via Reply-To.
@@ -20,9 +24,7 @@
     {
       "binding": "PORTFOLIO_DB",
       "database_name": "portfolio-db",
-      // TODO: replace with the id from `wrangler d1 create portfolio-db` once
-      // Workers is activated on the account. Any value works for local dev.
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "92b66112-9a9e-4cf2-92d3-34625a362325",
       "migrations_dir": "migrations"
     }
   ],

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { rateLimitMiddleware } from "@/middleware/rateLimit";
+import { rateLimitMiddleware } from "@/middleware/rate-limit";
 import { getExperience, listExperiences } from "@/services/experience.service";
 import type { Env } from "@/types/env.type";
 import {

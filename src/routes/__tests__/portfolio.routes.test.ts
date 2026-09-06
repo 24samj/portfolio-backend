@@ -7,15 +7,11 @@ import type { Work } from "@/types/work.type";
 
 // The store scrapers hit apple.com / play.google.com. Fail them here so the
 // list falls back to seeded values, which is also the path worth asserting.
-vi.mock("@/services/AppStoreService", () => ({
-  AppStoreService: {
-    getAppStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
-  },
+vi.mock("@/services/app-store.service", () => ({
+  getAppStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
 }));
-vi.mock("@/services/PlayStoreService", () => ({
-  PlayStoreService: {
-    getApp: vi.fn().mockRejectedValue(new Error("offline")),
-  },
+vi.mock("@/services/play-store.service", () => ({
+  getPlayStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
 }));
 
 type List<T> = { success: true; count: number; data: T[] };

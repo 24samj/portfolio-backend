@@ -1,8 +1,8 @@
 import { count, eq, inArray } from "drizzle-orm";
 import { getDb, type WorkRow, works } from "@/db";
 import type { Work } from "@/types/work.type";
-import { AppStoreService } from "./AppStoreService";
-import { PlayStoreService } from "./PlayStoreService";
+import { getAppStoreApp } from "./app-store.service";
+import { getPlayStoreApp } from "./play-store.service";
 
 /** Per external store call, so a slow store can't stall the whole list. */
 const STORE_TIMEOUT_MS = 3000;
@@ -58,7 +58,7 @@ function logStoreMiss(store: string, id: string, error: unknown): void {
 /** Play Store fills gaps only: rating when 0, category when empty. */
 async function applyPlayStore(work: Work, playStoreId: string): Promise<Work> {
   try {
-    const app = await PlayStoreService.getApp(
+    const app = await getPlayStoreApp(
       playStoreId,
       "en",
       "us",
@@ -79,10 +79,7 @@ async function applyPlayStore(work: Work, playStoreId: string): Promise<Work> {
 /** App Store fills gaps, and its rating replaces a lower one. */
 async function applyAppStore(work: Work, appStoreId: string): Promise<Work> {
   try {
-    const app = await AppStoreService.getAppStoreApp(
-      appStoreId,
-      STORE_TIMEOUT_MS
-    );
+    const app = await getAppStoreApp(appStoreId, STORE_TIMEOUT_MS);
     return {
       ...work,
       screenshots: mergeScreenshots(work.screenshots, app.screenshots ?? []),

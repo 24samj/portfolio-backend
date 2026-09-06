@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { rateLimitMiddleware } from "@/middleware/rateLimit";
+import { rateLimitMiddleware } from "@/middleware/rate-limit";
 import {
   getCertification,
   listCertifications,

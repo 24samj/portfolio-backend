@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { corsMiddleware } from "@/middleware/cors";
-import apps from "@/routes/apps";
+import { appRoutes } from "@/routes/app.routes";
 import { certificationRoutes } from "@/routes/certification.routes";
 import { contactRoutes } from "@/routes/contact.routes";
 import { educationRoutes } from "@/routes/education.routes";
@@ -32,7 +32,7 @@ app.use("*", corsMiddleware);
 
 app.route("/api/health", healthRoutes);
 app.route("/api/experiences", experienceRoutes);
-app.route("/api/apps", apps);
+app.route("/api/apps", appRoutes);
 app.route("/api/contact", contactRoutes);
 app.route("/api/stats", statsRoutes);
 app.route("/api/utils", utilRoutes);

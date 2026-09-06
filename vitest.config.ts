@@ -21,7 +21,6 @@ export default defineConfig(async () => {
   const poolOptions = {
     miniflare: {
       compatibilityDate: "2025-09-12",
-      compatibilityFlags: ["nodejs_compat"],
       d1Databases: ["PORTFOLIO_DB"],
       bindings: {
         // Read on the Node side; consumed by the setup file via env.
