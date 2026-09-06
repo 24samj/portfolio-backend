@@ -1,6 +1,6 @@
 # Portfolio Backend API
 
-Cloudflare Workers backend for `sumit.codes`, built with Hono and MongoDB.
+Cloudflare Workers backend for `sumit.codes`, built with Hono, D1 and Drizzle.
 
 ## Overview
 
@@ -22,8 +22,8 @@ This service exposes REST APIs for:
 - Runtime: Cloudflare Workers
 - Framework: Hono
 - Language: TypeScript
-- Database: MongoDB Atlas
-- Mail: Nodemailer (SMTP)
+- Database: Cloudflare D1 (SQLite) via Drizzle, seeded by migration
+- Mail: Cloudflare Email Service (`send_email` binding)
 - Validation: Zod
 - Deployment: Wrangler
 
@@ -32,30 +32,19 @@ This service exposes REST APIs for:
 - Node.js 20+
 - npm (or bun)
 - Cloudflare account
-- MongoDB connection string
-- SMTP credentials (for contact endpoint)
+- Email Routing enabled on the zone, with the inbox as a verified destination address (for contact endpoint)
 
 ## Environment Variables
 
-Create `.env.local` (or `.env`) in `portfolio-backend/`:
+None required. There are no secrets in this project:
 
-```env
-MONGODB_URI=
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-SMTP_FROM=
-FRONTEND_URL=
-```
-
-Notes:
-
-- `MONGODB_URI` is required for all data endpoints and health DB check.
-- `SMTP_USER` + `SMTP_PASS` are required for `POST /api/contact`.
-- Allowed CORS origins are defined in code (`src/constants/index.ts`) and include:
+- Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio.sql`. Run `bun run db:local` once before `bun run dev`.
+- `POST /api/contact` uses the `EMAIL` binding plus the `CONTACT_FROM` / `CONTACT_TO` vars, all in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
+- Allowed CORS origins are defined in code (`src/constants/index.ts`):
   - Production: `https://sumit.codes`
   - Local dev: `http://localhost:3000`, `http://localhost:3001`, `127.0.0.1` variants
+
+To override a var locally, copy `.dev.vars.example` to `.dev.vars` (gitignored) and uncomment the line.
 
 ## Scripts
 
@@ -69,9 +58,11 @@ npm run deploy      # deploy worker (minified)
 ## API Base URL
 
 - Local: `http://localhost:8787`
-- Production: your deployed Cloudflare Worker URL
+- Production: `https://portfolio.sumit.codes` (custom domain declared in `wrangler.jsonc`)
 
 All primary routes are mounted under `/api/*`.
+
+**API reference is generated, not hand-written:** hit `/openapi.json` for the live OpenAPI 3.1 spec, or `/docs` for the Scalar UI. The route map below is a summary.
 
 ## Route Map
 
@@ -192,40 +183,46 @@ Rate-limit headers are returned on both success and throttled responses.
 - Hono app composition in `src/app.ts`
 - Route handlers in `src/routes/*`
 - Business logic in `src/services/*`
-- DB helpers in `src/database/*`
+- Drizzle schema + client in `src/db/*`; migrations in `migrations/`
 - CORS + rate limit middleware in `src/middleware/*`
 
-Connection behavior:
+Data:
 
-- Mongo connection is established lazily per request.
-- Health route pings Mongo and always returns HTTP 200 with status detail (`ok` or `degraded`).
-- Database helpers include timeout-protected operations.
+- Content is read-only and shipped as a seed migration. Edit `scripts/portfolio-data.json`, run `bun run build:seed`, commit the regenerated `migrations/9999_seed_portfolio.sql`. See `.claude/rules/migrations.md`.
+- Health route runs `SELECT 1` against D1 and always returns HTTP 200 with status detail (`ok` or `degraded`).
 
 ## Deployment
 
-1. Configure Cloudflare secrets/vars for required env values.
-2. Run:
+`.github/workflows/deploy.yml` ships every push to `main`: tests → `wrangler d1 migrations apply --remote` → `wrangler deploy`, sequential and fail-fast, so a schema change always lands before the code that needs it. One deploy at a time (concurrency group).
+
+Setup, once:
+
+- Repo secrets `CLOUDFLARE_API_TOKEN` (Workers Scripts + D1 edit) and `CLOUDFLARE_ACCOUNT_ID`. Without the token the job is skipped, not failed.
+- The worker must **not** also be git-connected in the Cloudflare dashboard (Workers Builds), or every merge deploys twice and the dashboard deploy skips migrations.
+
+Manual deploy from a machine logged in with `wrangler login`:
 
 ```bash
-npm run deploy
+bun run db:remote
+bun run deploy
 ```
 
-3. Smoke test:
+Smoke test:
 
 ```bash
-curl https://<worker-url>/api/health
+curl https://portfolio.sumit.codes/api/health
 ```
 
 ## Troubleshooting
 
-- `MONGODB_URI environment variable is not set`
-  - Add `MONGODB_URI` to local env and deployment env.
-- Contact endpoint returns SMTP config error
-  - Set `SMTP_USER` and `SMTP_PASS` (and host/port as needed).
+- Data endpoints 500 with `no such table`
+  - Migrations not applied: `bun run db:local` (or `db:remote` for production).
+- Contact endpoint returns 500 / `E_RECIPIENT_NOT_ALLOWED`
+  - `CONTACT_TO` must match the binding's `destination_address` in `wrangler.jsonc`, and that address must be a verified destination in the Cloudflare account.
 - CORS blocked in browser
   - Ensure request origin is in allowed origins list/constants.
 - Health reports `degraded`
-  - API is up, but Mongo connectivity failed or timed out.
+  - API is up, but the D1 query failed. Check the binding in `wrangler.jsonc` and that migrations ran.
 
 ## License
 

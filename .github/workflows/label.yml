@@ -1,0 +1,68 @@
+# This workflow will triage pull requests and apply a label based on the
+# paths that are modified in the pull request.
+#
+# To use this workflow, you will need to set up a .github/labeler.yml
+# file with configuration.  For more information, see:
+# https://github.com/actions/labeler
+
+name: Labeler
+on: [pull_request_target]
+
+jobs:
+  stats:
+    if: ${{ github.event.action }} == 'opened'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - id: step1
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        run: |
+          if [ $(($PR_NUMBER % 10)) -eq 0 ]; then echo "pass=true" >> $GITHUB_OUTPUT; else echo "pass=false" >> $GITHUB_OUTPUT; fi
+      - name: Run pull request stats
+        if: ${{ steps.step1.outputs.pass == 'true' }}
+        uses: flowwer-dev/pull-request-stats@main
+        with:
+          period: 14
+    continue-on-error: true
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  size-label:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR size
+        id: check_size
+        run: |
+          # Get the number of changed files
+          CHANGED_FILES=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.number }}/files" | \
+            jq '. | length')
+
+          if [ "$CHANGED_FILES" -gt 300 ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "Skipping size-label action for large PR with $CHANGED_FILES files"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+            echo "PR has $CHANGED_FILES files, running size-label action"
+          fi
+
+      - name: size-label
+        if: steps.check_size.outputs.skip == 'false'
+        uses: "pascalgn/size-label-action@v0.4.3"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    continue-on-error: true

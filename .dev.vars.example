@@ -1,0 +1,8 @@
+# Local overrides for `wrangler dev`. Copy to `.dev.vars` (gitignored).
+#
+# Nothing is required: there are no secrets. D1 and the email binding are wired
+# in wrangler.jsonc, and the two vars below default to the values there.
+# Uncomment to override locally.
+#
+# CONTACT_FROM=contact@sumit.codes
+# CONTACT_TO=sumit.codes.24@gmail.com   # must stay equal to the binding's destination_address

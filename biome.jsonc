@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  // Backend worker — ultracite's core preset only (no react). Mirrors
+  // ai-video-worker's biome.jsonc.
+  "extends": ["ultracite/biome/core"],
+  "files": {
+    // Negations only: everything is included except Wrangler's local state
+    // and its generated binding types, plus drizzle-kit's generated migration
+    // SQL + meta snapshots (regenerated, not hand-edited). NB: do *not* exclude
+    // `.claude/worktrees` here — this worker can itself be checked out under
+    // that path, so the pattern would match the cwd's own ancestry and exclude
+    // every file.
+    "includes": [
+      "!**/.wrangler",
+      "!**/worker-configuration.d.ts",
+      "!**/migrations"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        // Catch import cycles. NOTE: biome 2.4.16 does not resolve the `@/*`
+        // tsconfig alias, so this only sees *relative* edges — which is why
+        // intra-layer imports are kept relative (e.g. db/client → ./schema):
+        // the most likely cycle stays visible to the rule.
+        "noImportCycles": "error"
+      },
+      "performance": {
+        // Barrels (src/*/index.ts) are a deliberate convention here for `@/…`
+        // imports. wrangler bundles via esbuild, which tree-shakes the unused
+        // re-exports out of the deploy bundle, so there's no runtime cost.
+        "noBarrelFile": "off"
+      },
+      "style": {
+        // The codebase + our global rules use `type` aliases, not `interface`.
+        // Don't force the swap.
+        "useConsistentTypeDefinitions": "off",
+        // Enforce the file-naming convention (.claude/rules/file-naming.md):
+        // kebab-case stems with role suffixes — user.service.ts, user.type.ts.
+        // Dotted segments are each validated kebab-case.
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": { "filenameCases": ["kebab-case"] }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+# Path-based PR labels for actions/labeler@v4 (simple-glob config format).
+# See https://github.com/actions/labeler/tree/v4
+#
+# Same groups as ai-video-worker. `tests` also covers src/**/__tests__, which is
+# where the co-located suites live.
+
+database:
+  - 'migrations/**'
+  - 'src/db/**'
+  - 'src/schemas/**'
+
+routes:
+  - 'src/routes/**'
+
+services:
+  - 'src/services/**'
+
+tests:
+  - 'test/**'
+  - 'src/**/__tests__/**'
+
+ci:
+  - '.github/**'
