@@ -1,10 +1,16 @@
 {
   "name": "portfolio-backend",
   "type": "module",
+  "packageManager": "bun@1.4.0",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "prepare": "husky"
   },
   "dependencies": {
     "hono": "^4.9.7",
@@ -13,9 +19,20 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.16",
+    "@cloudflare/vitest-pool-workers": "^0.16.20",
     "@types/node": "^24.3.1",
     "@types/nodemailer": "^7.0.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.7",
     "typescript": "^5.9.2",
-    "wrangler": "^4.4.0"
+    "ultracite": "7.8.3",
+    "vitest": "^4.1.2",
+    "wrangler": "^4.42.0"
+  },
+  "lint-staged": {
+    "*.{ts,js,mjs,cjs,json,jsonc,md}": [
+      "ultracite fix"
+    ]
   }
 }

@@ -37,3 +37,26 @@ export interface PlayStoreApp {
   androidVersion: string;
   contentRating: string;
 }
+
+/** The subset of an iTunes Lookup API result that `getAppStoreApp` reads. */
+export interface ITunesLookupResult {
+  trackId: number;
+  trackName: string;
+  description: string;
+  artworkUrl100: string;
+  screenshotUrls?: string[];
+  trackViewUrl: string;
+  version: string;
+  averageUserRating: number;
+  userRatingCount: number;
+  price: number;
+  currency: string;
+  artistName: string;
+  primaryGenreName: string;
+  releaseDate: string;
+  fileSizeBytes: string;
+}
+
+export interface ITunesLookupResponse {
+  results: ITunesLookupResult[];
+}

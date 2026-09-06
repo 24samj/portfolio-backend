@@ -1,4 +1,4 @@
-import { AppStoreApp, PlayStoreApp } from "../types/AppStore";
+import { AppStoreApp, ITunesLookupResponse, PlayStoreApp } from "../types/AppStore";
 import { StructuredData, PlayStoreInitData } from "../types/MongoDB";
 
 export class AppStoreService {
@@ -27,7 +27,8 @@ export class AppStoreService {
         throw new Error(`iTunes API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      // Workers types return `unknown` from json(); the lookup API's shape is stable.
+      const data = (await response.json()) as ITunesLookupResponse;
 
       if (!data.results || data.results.length === 0) {
         throw new Error("App not found");
@@ -50,7 +51,8 @@ export class AppStoreService {
         developer: app.artistName,
         category: app.primaryGenreName,
         releaseDate: app.releaseDate,
-        size: app.fileSizeBytes,
+        // iTunes returns bytes as a string; AppStoreApp.size is a number.
+        size: Number(app.fileSizeBytes),
       };
     } catch (error) {
       console.error("Error fetching App Store data:", error);
@@ -136,7 +138,9 @@ export class AppStoreService {
     try {
       // Play Store data is nested in a complex array structure
       // This is a simplified parser based on common patterns
-      const findInNestedArray = (arr: PlayStoreInitData[], key: string): unknown => {
+      // `unknown[]`: the nesting mixes arrays, strings and objects, so a typed
+      // element would narrow the string branch below to `never`.
+      const findInNestedArray = (arr: unknown[], key: string): unknown => {
         for (const item of arr) {
           if (Array.isArray(item)) {
             const result = findInNestedArray(item, key);

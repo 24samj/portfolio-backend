@@ -35,3 +35,9 @@ lerna-debug.log*
 
 # superpowers docs
 docs/superpowers/
+
+# claude worktrees
+.claude/worktrees/
+
+# scratch
+.temp/

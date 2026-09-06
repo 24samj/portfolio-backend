@@ -1,0 +1,30 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  pr-title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Title Format
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            // Conventional Commits, matching the repo's commit convention.
+            const pattern = /^(feat|fix|chore|docs|refactor|test|ci|build|perf|revert)(\([\w-]+\))?!?: \S/;
+
+            if (!pattern.test(title)) {
+              core.setFailed(
+                `PR title "${title}" does not match the required format.\n` +
+                `Expected: <type>(<scope>)?: <summary> — Conventional Commits\n` +
+                `Examples:\n` +
+                `- feat: add contact form rate limit\n` +
+                `- fix(cors): allow preview origins\n` +
+                `- chore: bump wrangler`
+              );
+            } else {
+              console.log(`PR title format is valid: "${title}"`);
+            }
