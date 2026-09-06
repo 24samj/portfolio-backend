@@ -36,7 +36,7 @@ workRoutes.get(
     ],
     responses: {
       200: listDoc("Matching works", workSchema),
-      400: errorResponse("`ids` given but empty"),
+      400: errorResponse("`ids` given but holds no ids, e.g. `?ids=,`"),
       500: errorResponse("Database error"),
     },
   }),
@@ -44,7 +44,7 @@ workRoutes.get(
   async (c) => {
     try {
       const idsParam = c.req.query("ids");
-      if (idsParam === undefined) {
+      if (!idsParam) {
         return listResponse(c, await listWorks(c.env.PORTFOLIO_DB));
       }
 

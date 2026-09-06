@@ -15,7 +15,7 @@ export type AppStoreApp = {
   category: string;
   releaseDate: string;
   /** Bytes. iTunes sends it as a string; converted at the mapper. */
-  size: number;
+  size: string;
 };
 
 /** The subset of an iTunes Lookup API result that `getAppStoreApp` reads. */

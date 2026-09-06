@@ -93,6 +93,14 @@ describe("GET /api/works", () => {
 
     expect(res.status).toBe(400);
   });
+
+  it("treats a bare ?ids= as no filter", async () => {
+    const res = await get("/api/works?ids=");
+    const body = (await res.json()) as List<Work>;
+
+    expect(res.status).toBe(200);
+    expect(body.count).toBe(17);
+  });
 });
 
 describe("GET /api/skills", () => {

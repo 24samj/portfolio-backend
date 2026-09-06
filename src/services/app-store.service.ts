@@ -3,11 +3,7 @@ import type { AppStoreApp, ITunesLookupResponse } from "@/types/app-store.type";
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36";
 
-/** One iOS app via the public iTunes Lookup API. Throws when unknown or slow. */
-export async function getAppStoreApp(
-  id: string,
-  timeoutMs = 5000
-): Promise<AppStoreApp> {
+async function lookup(id: string, timeoutMs: number): Promise<AppStoreApp> {
   const response = await Promise.race([
     fetch(`https://itunes.apple.com/lookup?id=${id}&country=us`, {
       headers: { "User-Agent": USER_AGENT },
@@ -43,6 +39,24 @@ export async function getAppStoreApp(
     developer: app.artistName,
     category: app.primaryGenreName,
     releaseDate: app.releaseDate,
-    size: Number(app.fileSizeBytes),
+    // iTunes returns bytes as a string; passed through untouched.
+    size: app.fileSizeBytes,
   };
+}
+
+/**
+ * One iOS app via the public iTunes Lookup API. The real cause is logged; the
+ * caller always sees the same generic error (that's what the API has always
+ * returned, and the works enrichment matches on it).
+ */
+export async function getAppStoreApp(
+  id: string,
+  timeoutMs = 5000
+): Promise<AppStoreApp> {
+  try {
+    return await lookup(id, timeoutMs);
+  } catch (error) {
+    console.error("Error fetching App Store data:", error);
+    throw new Error("Failed to fetch App Store data");
+  }
 }

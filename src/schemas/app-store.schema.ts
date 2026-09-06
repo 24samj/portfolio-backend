@@ -17,5 +17,5 @@ export const appStoreAppSchema = z.object({
   developer: z.string(),
   category: z.string(),
   releaseDate: z.string(),
-  size: z.number(),
+  size: z.string(),
 }) satisfies z.ZodType<AppStoreApp>;
