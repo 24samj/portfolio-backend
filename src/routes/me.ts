@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { InfoService } from "../services/InfoService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
-import type { Env } from "../types/Env";
+import { InfoService } from "../services/InfoService";
+import type { Env } from "../types/env.type";
 
 const me = new Hono<{ Bindings: Env }>();
 

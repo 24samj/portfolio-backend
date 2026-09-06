@@ -23,7 +23,7 @@ This service exposes REST APIs for:
 - Framework: Hono
 - Language: TypeScript
 - Database: MongoDB Atlas
-- Mail: Nodemailer (SMTP)
+- Mail: Cloudflare Email Service (`send_email` binding)
 - Validation: Zod
 - Deployment: Wrangler
 
@@ -33,7 +33,7 @@ This service exposes REST APIs for:
 - npm (or bun)
 - Cloudflare account
 - MongoDB connection string
-- SMTP credentials (for contact endpoint)
+- Email Routing enabled on the zone, with the inbox as a verified destination address (for contact endpoint)
 
 ## Environment Variables
 
@@ -41,18 +41,13 @@ Create `.env.local` (or `.env`) in `portfolio-backend/`:
 
 ```env
 MONGODB_URI=
-SMTP_HOST=
-SMTP_PORT=
-SMTP_USER=
-SMTP_PASS=
-SMTP_FROM=
 FRONTEND_URL=
 ```
 
 Notes:
 
 - `MONGODB_URI` is required for all data endpoints and health DB check.
-- `SMTP_USER` + `SMTP_PASS` are required for `POST /api/contact`.
+- `POST /api/contact` needs no secrets: the `EMAIL` binding, `CONTACT_FROM` and `CONTACT_TO` are configured in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
 - Allowed CORS origins are defined in code (`src/constants/index.ts`) and include:
   - Production: `https://sumit.codes`
   - Local dev: `http://localhost:3000`, `http://localhost:3001`, `127.0.0.1` variants
@@ -220,8 +215,8 @@ curl https://<worker-url>/api/health
 
 - `MONGODB_URI environment variable is not set`
   - Add `MONGODB_URI` to local env and deployment env.
-- Contact endpoint returns SMTP config error
-  - Set `SMTP_USER` and `SMTP_PASS` (and host/port as needed).
+- Contact endpoint returns 500 / `E_RECIPIENT_NOT_ALLOWED`
+  - `CONTACT_TO` must match the binding's `destination_address` in `wrangler.jsonc`, and that address must be a verified destination in the Cloudflare account.
 - CORS blocked in browser
   - Ensure request origin is in allowed origins list/constants.
 - Health reports `degraded`

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { CertificationService } from "../services/CertificationService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
-import type { Env } from "../types/Env";
+import { CertificationService } from "../services/CertificationService";
+import type { Env } from "../types/env.type";
 
 const certifications = new Hono<{ Bindings: Env }>();
 
@@ -30,7 +30,10 @@ certifications.get("/", rateLimitMiddleware("certifications"), async (c) => {
 certifications.get("/:id", rateLimitMiddleware("certifications"), async (c) => {
   try {
     const id = c.req.param("id");
-    const certification = await CertificationService.getById(c.env.MONGODB_URI, id);
+    const certification = await CertificationService.getById(
+      c.env.MONGODB_URI,
+      id
+    );
 
     if (!certification) {
       return c.json(

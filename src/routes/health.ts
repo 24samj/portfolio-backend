@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { withMongo } from "../database/withMongo";
-import type { Env } from "../types/Env";
+import type { Env } from "../types/env.type";
 
 const health = new Hono<{ Bindings: Env }>();
 

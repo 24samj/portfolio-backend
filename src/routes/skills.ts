@@ -1,7 +1,7 @@
 import { Hono } from "hono";
-import { SkillService } from "../services/SkillService";
 import { rateLimitMiddleware } from "../middleware/rateLimit";
-import type { Env } from "../types/Env";
+import { SkillService } from "../services/SkillService";
+import type { Env } from "../types/env.type";
 
 const skills = new Hono<{ Bindings: Env }>();
 

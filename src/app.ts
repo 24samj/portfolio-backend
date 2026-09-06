@@ -1,17 +1,17 @@
 import { Hono } from "hono";
 import { corsMiddleware } from "./middleware/cors";
-import type { Env } from "./types/Env";
-import health from "./routes/health";
-import experiences from "./routes/experiences";
 import apps from "./routes/apps";
-import contact from "./routes/contact";
+import certifications from "./routes/certifications";
+import { contactRoutes } from "./routes/contact.routes";
+import educations from "./routes/educations";
+import experiences from "./routes/experiences";
+import health from "./routes/health";
+import me from "./routes/me";
+import skills from "./routes/skills";
 import stats from "./routes/stats";
 import utils from "./routes/utils";
 import works from "./routes/works";
-import educations from "./routes/educations";
-import certifications from "./routes/certifications";
-import skills from "./routes/skills";
-import me from "./routes/me";
+import type { Env } from "./types/env.type";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -35,7 +35,7 @@ app.use("*", corsMiddleware);
 app.route("/api/health", health);
 app.route("/api/experiences", experiences);
 app.route("/api/apps", apps);
-app.route("/api/contact", contact);
+app.route("/api/contact", contactRoutes);
 app.route("/api/stats", stats);
 app.route("/api/utils", utils);
 app.route("/api/works", works);
@@ -45,9 +45,9 @@ app.route("/api/skills", skills);
 app.route("/api/me", me);
 
 // Root endpoint
-app.get("/", (c) => {
-  return c.text("Portfolio Backend API - Use /api/health for health check");
-});
+app.get("/", (c) =>
+  c.text("Portfolio Backend API - Use /api/health for health check")
+);
 
 // Legacy health endpoint for backward compatibility
 app.route("/health", health);
@@ -56,15 +56,15 @@ app.route("/health", health);
 app.route("/works", works);
 
 // 404 handler for unmatched routes
-app.notFound((c) => {
-  return c.json(
+app.notFound((c) =>
+  c.json(
     {
       success: false,
       error: "Not found",
       message: "The requested endpoint does not exist",
     },
     404
-  );
-});
+  )
+);
 
 export default app;

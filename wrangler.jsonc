@@ -3,5 +3,24 @@
   "name": "portfolio-backend",
   "main": "src/index.ts",
   "compatibility_date": "2025-09-12",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // Public, non-secret. The contact form sends *from* this address on the
+    // Email-Routing-enabled zone; replies go to the visitor via Reply-To.
+    "CONTACT_FROM": "contact@sumit.codes",
+    // Must equal the binding's destination_address below: the binding rejects
+    // anything else, and the runtime type needs an explicit `to`.
+    "CONTACT_TO": "sumit.codes.24@gmail.com"
+  },
+  // Contact-form outbound mail. Locked to the one verified destination address
+  // (the inbox hi@sumit.codes forwards to), which is what keeps sending free on
+  // the Workers Free plan — and means a bug here can't mail anyone else.
+  // `remote: true` sends real mail from `wrangler dev`; drop it to simulate.
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "destination_address": "sumit.codes.24@gmail.com",
+      "remote": true
+    }
+  ]
 }

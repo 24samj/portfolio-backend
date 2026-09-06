@@ -15,14 +15,12 @@
   "dependencies": {
     "hono": "^4.9.7",
     "mongodb": "^6.19.0",
-    "nodemailer": "^7.0.5",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
     "@cloudflare/vitest-pool-workers": "^0.16.20",
     "@types/node": "^24.3.1",
-    "@types/nodemailer": "^7.0.1",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
     "typescript": "^5.9.2",
