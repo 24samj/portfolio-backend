@@ -193,17 +193,24 @@ Data:
 
 ## Deployment
 
-1. Configure Cloudflare secrets/vars for required env values.
-2. Run:
+`.github/workflows/deploy.yml` ships every push to `main`: tests → `wrangler d1 migrations apply --remote` → `wrangler deploy`, sequential and fail-fast, so a schema change always lands before the code that needs it. One deploy at a time (concurrency group).
+
+Setup, once:
+
+- Repo secrets `CLOUDFLARE_API_TOKEN` (Workers Scripts + D1 edit) and `CLOUDFLARE_ACCOUNT_ID`. Without the token the job is skipped, not failed.
+- The worker must **not** also be git-connected in the Cloudflare dashboard (Workers Builds), or every merge deploys twice and the dashboard deploy skips migrations.
+
+Manual deploy from a machine logged in with `wrangler login`:
 
 ```bash
-npm run deploy
+bun run db:remote
+bun run deploy
 ```
 
-3. Smoke test:
+Smoke test:
 
 ```bash
-curl https://<worker-url>/api/health
+curl https://portfolio.sumit.codes/api/health
 ```
 
 ## Troubleshooting
