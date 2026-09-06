@@ -1,5 +1,11 @@
 import { z } from "zod";
-import type { ContactRequest } from "@/types/contact.type";
+import type { ContactRequest, ContactResponse } from "@/types/contact.type";
+
+/** What the form renders. Documentation only (see `ContactResponse`). */
+export const contactResponseSchema = z.object({
+  success: z.boolean(),
+  message: z.string(),
+}) satisfies z.ZodType<ContactResponse>;
 
 /** `POST /api/contact` body. Messages are shown verbatim by the form. */
 export const contactSchema = z.object({

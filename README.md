@@ -66,6 +66,8 @@ npm run deploy      # deploy worker (minified)
 
 All primary routes are mounted under `/api/*`.
 
+**API reference is generated, not hand-written:** hit `/openapi.json` for the live OpenAPI 3.1 spec, or `/docs` for the Scalar UI. The route map below is a summary.
+
 ## Route Map
 
 ### Health

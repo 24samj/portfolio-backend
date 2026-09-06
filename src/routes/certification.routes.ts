@@ -1,10 +1,17 @@
 import { Hono } from "hono";
+import { describeRoute } from "hono-openapi";
 import { rateLimitMiddleware } from "@/middleware/rate-limit";
+import { certificationSchema } from "@/schemas/certification.schema";
 import {
   getCertification,
   listCertifications,
 } from "@/services/certification.service";
 import type { Env } from "@/types/env.type";
+import {
+  errorResponse,
+  itemResponse as itemDoc,
+  listResponse as listDoc,
+} from "@/utils/openapi.util";
 import {
   failureResponse,
   itemResponse,
@@ -16,6 +23,15 @@ export const certificationRoutes = new Hono<{ Bindings: Env }>();
 
 certificationRoutes.get(
   "/",
+  describeRoute({
+    tags: ["Certifications"],
+    summary: "List certifications",
+    description: "Newest first.",
+    responses: {
+      200: listDoc("All certifications", certificationSchema),
+      500: errorResponse("Database error"),
+    },
+  }),
   rateLimitMiddleware("certifications"),
   async (c) => {
     try {
@@ -28,6 +44,15 @@ certificationRoutes.get(
 
 certificationRoutes.get(
   "/:id",
+  describeRoute({
+    tags: ["Certifications"],
+    summary: "Get one certification",
+    responses: {
+      200: itemDoc("The certification", certificationSchema),
+      404: errorResponse("Unknown id"),
+      500: errorResponse("Database error"),
+    },
+  }),
   rateLimitMiddleware("certifications"),
   async (c) => {
     try {
