@@ -1,0 +1,77 @@
+name: Deploy
+
+# main is the source of truth. Every push to main ships: run tests, apply D1
+# migrations to the remote database, then deploy the worker — sequential steps,
+# fail-fast, so a schema change lands before the code that needs it. Secrets live
+# in repo settings: CLOUDFLARE_API_TOKEN (Workers + D1 scope) and
+# CLOUDFLARE_ACCOUNT_ID.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One deploy at a time — never let two merges race.
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
+
+jobs:
+  # Until the Cloudflare resources exist there is nothing to deploy to, and an
+  # unconfigured repo should read as "not wired up yet", not as a broken build.
+  # So the deploy job is SKIPPED rather than failed when the token is absent.
+  # `secrets` can't be read from a job-level `if`, but a job output can — hence
+  # this one-step gate.
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      configured: ${{ steps.check.outputs.configured }}
+    steps:
+      - name: Check the deploy credentials exist
+        id: check
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::CLOUDFLARE_API_TOKEN is not set — skipping deploy."
+          fi
+
+  deploy:
+    needs: gate
+    if: needs.gate.outputs.configured == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies (fast)
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Run Vitest
+        run: bun run test
+
+      - name: Apply D1 migrations (remote)
+        run: bun run db:remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Deploy worker
+        run: bun run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

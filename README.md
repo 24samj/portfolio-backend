@@ -193,25 +193,17 @@ Data:
 
 ## Deployment
 
-The worker is git-connected in Cloudflare (Workers Builds). Every push to `main` builds and deploys production; other branches get a preview version. There is no deploy workflow in this repo and no Cloudflare token in GitHub.
-
-The build's deploy command must run migrations first, so a schema change lands before the code that needs it:
+1. Configure Cloudflare secrets/vars for required env values.
+2. Run:
 
 ```bash
-bun run db:remote && bunx wrangler deploy --minify
+npm run deploy
 ```
 
-Manual deploy from a machine logged in with `wrangler login`:
+3. Smoke test:
 
 ```bash
-bun run db:remote
-bun run deploy
-```
-
-Smoke test:
-
-```bash
-curl https://portfolio.sumit.codes/api/health
+curl https://<worker-url>/api/health
 ```
 
 ## Troubleshooting
