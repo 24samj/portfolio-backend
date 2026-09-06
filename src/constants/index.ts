@@ -23,14 +23,6 @@ export const DEVELOPMENT_ORIGINS = [
   "http://127.0.0.1:3001",
 ] as const;
 
-// Database collection names
-export const COLLECTIONS = {
-  EXPERIENCES: "experiences",
-  WORKS: "works",
-  EDUCATIONS: "educations",
-  CERTIFICATIONS: "certifications",
-  SKILLS: "skills",
-} as const;
 
 // API response messages
 export const MESSAGES = {

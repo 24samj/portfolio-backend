@@ -1,6 +1,6 @@
 # Portfolio Backend API
 
-Cloudflare Workers backend for `sumit.codes`, built with Hono and MongoDB.
+Cloudflare Workers backend for `sumit.codes`, built with Hono, D1 and Drizzle.
 
 ## Overview
 
@@ -22,7 +22,7 @@ This service exposes REST APIs for:
 - Runtime: Cloudflare Workers
 - Framework: Hono
 - Language: TypeScript
-- Database: MongoDB Atlas
+- Database: Cloudflare D1 (SQLite) via Drizzle, seeded by migration
 - Mail: Cloudflare Email Service (`send_email` binding)
 - Validation: Zod
 - Deployment: Wrangler
@@ -32,7 +32,6 @@ This service exposes REST APIs for:
 - Node.js 20+
 - npm (or bun)
 - Cloudflare account
-- MongoDB connection string
 - Email Routing enabled on the zone, with the inbox as a verified destination address (for contact endpoint)
 
 ## Environment Variables
@@ -40,13 +39,12 @@ This service exposes REST APIs for:
 Create `.env.local` (or `.env`) in `portfolio-backend/`:
 
 ```env
-MONGODB_URI=
 FRONTEND_URL=
 ```
 
 Notes:
 
-- `MONGODB_URI` is required for all data endpoints and health DB check.
+- There are no database secrets. Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio.sql`. Run `bun run db:local` once before `bun run dev`.
 - `POST /api/contact` needs no secrets: the `EMAIL` binding, `CONTACT_FROM` and `CONTACT_TO` are configured in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
 - Allowed CORS origins are defined in code (`src/constants/index.ts`) and include:
   - Production: `https://sumit.codes`
@@ -187,14 +185,13 @@ Rate-limit headers are returned on both success and throttled responses.
 - Hono app composition in `src/app.ts`
 - Route handlers in `src/routes/*`
 - Business logic in `src/services/*`
-- DB helpers in `src/database/*`
+- Drizzle schema + client in `src/db/*`; migrations in `migrations/`
 - CORS + rate limit middleware in `src/middleware/*`
 
-Connection behavior:
+Data:
 
-- Mongo connection is established lazily per request.
-- Health route pings Mongo and always returns HTTP 200 with status detail (`ok` or `degraded`).
-- Database helpers include timeout-protected operations.
+- Content is read-only and shipped as a seed migration. Edit `scripts/portfolio-data.json`, run `bun run build:seed`, commit the regenerated `migrations/9999_seed_portfolio.sql`. See `.claude/rules/migrations.md`.
+- Health route runs `SELECT 1` against D1 and always returns HTTP 200 with status detail (`ok` or `degraded`).
 
 ## Deployment
 
@@ -213,14 +210,14 @@ curl https://<worker-url>/api/health
 
 ## Troubleshooting
 
-- `MONGODB_URI environment variable is not set`
-  - Add `MONGODB_URI` to local env and deployment env.
+- Data endpoints 500 with `no such table`
+  - Migrations not applied: `bun run db:local` (or `db:remote` for production).
 - Contact endpoint returns 500 / `E_RECIPIENT_NOT_ALLOWED`
   - `CONTACT_TO` must match the binding's `destination_address` in `wrangler.jsonc`, and that address must be a verified destination in the Cloudflare account.
 - CORS blocked in browser
   - Ensure request origin is in allowed origins list/constants.
 - Health reports `degraded`
-  - API is up, but Mongo connectivity failed or timed out.
+  - API is up, but the D1 query failed. Check the binding in `wrangler.jsonc` and that migrations ran.
 
 ## License
 

@@ -1,8 +1,10 @@
 name: Deploy
 
-# main is the source of truth. Every push to main ships: run tests, then deploy
-# the worker — sequential steps, fail-fast. Secrets live in repo settings:
-# CLOUDFLARE_API_TOKEN (Workers scope) and CLOUDFLARE_ACCOUNT_ID.
+# main is the source of truth. Every push to main ships: run tests, apply D1
+# migrations to the remote database, then deploy the worker — sequential steps,
+# fail-fast, so a schema change lands before the code that needs it. Secrets live
+# in repo settings: CLOUDFLARE_API_TOKEN (Workers + D1 scope) and
+# CLOUDFLARE_ACCOUNT_ID.
 on:
   push:
     branches: [main]
@@ -61,6 +63,12 @@ jobs:
 
       - name: Run Vitest
         run: bun run test
+
+      - name: Apply D1 migrations (remote)
+        run: bun run db:remote
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Deploy worker
         run: bun run deploy

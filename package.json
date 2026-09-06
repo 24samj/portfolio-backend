@@ -10,17 +10,22 @@
     "fix": "ultracite fix",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build:seed": "bun run scripts/build-seed.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:local": "wrangler d1 migrations apply portfolio-db --local",
+    "db:remote": "wrangler d1 migrations apply portfolio-db --remote"
   },
   "dependencies": {
+    "drizzle-orm": "^0.45.2",
     "hono": "^4.9.7",
-    "mongodb": "^6.19.0",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
     "@cloudflare/vitest-pool-workers": "^0.16.20",
     "@types/node": "^24.3.1",
+    "drizzle-kit": "^0.31.10",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.7",
     "typescript": "^5.9.2",

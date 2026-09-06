@@ -1,7 +1,7 @@
 /** Bindings + vars on `c.env`. Mirrors wrangler.jsonc. */
 export type Env = {
-  /** MongoDB Atlas connection string. Secret. Goes away with the D1 migration. */
-  MONGODB_URI: string;
+  /** D1 (SQLite) — the only store this worker has. Read-only, seeded by migration. */
+  PORTFOLIO_DB: D1Database;
   /** Contact-form outbound mail. Locked to CONTACT_TO by the binding config. */
   EMAIL: SendEmail;
   /** Sender on the Email-Routing-enabled zone. Non-secret. */

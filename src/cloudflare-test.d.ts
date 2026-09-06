@@ -6,8 +6,11 @@ import type { Env } from "./types/env.type";
 
 /**
  * Types the `env` that `cloudflare:test` hands to tests. Without this, `env` is
- * an empty record and every binding access is a type error.
+ * an empty record and every binding access is a type error. The extra binding is
+ * injected by vitest.config.ts and consumed by test/apply-d1-migrations.ts.
  */
 declare module "cloudflare:test" {
-  interface ProvidedEnv extends Env {}
+  interface ProvidedEnv extends Env {
+    TEST_MIGRATIONS: D1Migration[];
+  }
 }

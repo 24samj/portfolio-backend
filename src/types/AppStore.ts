@@ -60,3 +60,15 @@ export interface ITunesLookupResult {
 export interface ITunesLookupResponse {
   results: ITunesLookupResult[];
 }
+
+/** Play Store `AF_initDataCallback` payload — shape unknown, probed by key. */
+export interface PlayStoreInitData {
+  [key: string]: unknown;
+}
+
+/** JSON-LD / init-data fields the Play Store scraper extracts. */
+export interface StructuredData {
+  "@type"?: string;
+  applicationCategory?: string;
+  [key: string]: unknown;
+}

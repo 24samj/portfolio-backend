@@ -1,0 +1,1148 @@
+{
+  "profile": [
+    {
+      "id": "6946e6673f00b5c4c4553b8a",
+      "type": "profile",
+      "firstName": "Sumit",
+      "lastName": "C.",
+      "headline": "Frontend Lead | Mobile/Web Apps",
+      "summary": "No inspirational quote here bro. I've done and continue to do a lot more than just code. You can read more below or just skip. Honestly, who even has time to read all of this crap anyway?",
+      "industry": "Software Development",
+      "location": "Guwahati, Assam, India",
+      "birthDate": "Nov 17",
+      "website": "sumit.codes",
+      "twitterHandles": []
+    }
+  ],
+  "experiences": [
+    {
+      "id": "ariveguru",
+      "name": "AriveGuru Technology Solutions Pvt. Ltd.",
+      "role": "Frontend Engineer",
+      "workStart": "2024-03-14",
+      "workEnd": "2024-07-23",
+      "location": "Bangalore",
+      "description": "Developed applications for medical firms, enhancing user health tracking and assessments while learning to handle sensitive personal data securely and comply with industry standards. Built RHIA, an AI assistant for tasks including user registration, appointment scheduling, and task management, deployable across multiple office locations, leveraging AI technologies to streamline office operations and improve productivity. Created a JSON to React Native component converter to improve frontend management and development efficiency. Directly coordinated with clients to translate their requirements into pixel-perfect solutions, consistently meeting deadlines and delivering high-quality, responsive designs and interfaces that gained confidence in frontend skills and knowledge.",
+      "type": "FULL_TIME",
+      "works": ["bvmrf", "rhia"],
+      "gradient": {
+        "from": "green",
+        "to": "teal"
+      }
+    },
+    {
+      "id": "konversi",
+      "name": "Konversi Pvt. Ltd.",
+      "role": "Mobile Developer",
+      "workStart": "2024-10-01",
+      "workEnd": "2025-04-30",
+      "location": "Remote",
+      "description": "Developed a Fleet Management App with comprehensive job flow management, job history tracking, and real-time location tracking for job assignments, along with image uploads and technician maintenance workflows. Built a POS App for park operations that handled up to 1000+ transactions per day, integrating thermal printer support, transaction history management, and report data printing capabilities. Created an Attendance Logging App using Expo's geolocation services and camera-based photo verification to enforce secure clock-in/out functionality, manage leave requests, and track daily work hours for employees.",
+      "type": "CONTRACT",
+      "works": ["konversi-fleet", "konversi-pos", "konversi-attendance"],
+      "gradient": {
+        "from": "purple",
+        "to": "pink"
+      }
+    },
+    {
+      "id": "lovepack",
+      "name": "Lovepack Consumers Pvt. Ltd.",
+      "role": "Software Engineer",
+      "workStart": "2024-08-01",
+      "workEnd": null,
+      "location": "Remote",
+      "description": "Developed three major applications: EazyDukan, a multilingual retail management platform (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, AI-powered menu scanning, promotional material generation, and online ordering with delivery coordination. Built WebRasoi, a restaurant-focused version with enhanced AI-based menu creation from photos and streamlined inventory management. Created Zluper, a thrift fashion marketplace with an Instagram Reels-like feed optimized with HLS video streaming and WebP images, featuring wishlisting, rewards, referrals, wallet cashbacks, creator program, and a comprehensive admin dashboard for managing inventory, orders, and platform operations. All projects utilized modern tech stacks including React Native, React.js, Next.js, TypeScript, and various cloud services.",
+      "type": "PART_TIME",
+      "works": ["eazydukan", "webrasoi", "zluper"],
+      "gradient": {
+        "from": "blue",
+        "to": "indigo"
+      }
+    },
+    {
+      "id": "physicswallah",
+      "name": "PW (PhysicsWallah) Skills",
+      "role": "Content Writer/Developer",
+      "workStart": "2023-05-01",
+      "workEnd": "2024-01-01",
+      "location": "Remote",
+      "description": "Developed an in-depth React Native course tailored for students to learn React Native from the ground up, with a special focus on developing applications using Expo, ensuring comprehensive coverage of essential skills and concepts. Provided extensive guidance to students through a variety of detailed examples, hands-on exercises, and real-world projects, ensuring students gained a practical and thorough understanding of React Native development that enabled them to apply their knowledge effectively. Carefully structured the course content to cover all critical aspects of React Native, from initial setup and basic components to advanced features and optimization techniques, creating a robust curriculum designed to offer students a well-rounded and deep learning experience in React Native.",
+      "type": "FREELANCE",
+      "works": [],
+      "gradient": {
+        "from": "red",
+        "to": "orange"
+      }
+    },
+    {
+      "id": "renovateai",
+      "name": "Trial & Error Inc.",
+      "role": "Software Engineer",
+      "workStart": "2025-09-01",
+      "workEnd": null,
+      "location": "Remote",
+      "description": "Contributed to the development of RenovateAI, an AI-powered home design application that enables users to visualize and plan home renovations by transforming photos of their spaces into professionally styled interiors with virtual staging, wall paint previews, and furniture arrangement. Completely revamped key user-facing features including the onboarding flow, renovation experience, and home screen, resulting in increased user conversions. Implemented comprehensive accessibility (a11y) improvements across all features worked on, ensuring the app is usable and inclusive for all users. Improved the legacy codebase architecture and optimized performance throughout the app, significantly reducing technical debt and enhancing overall app responsiveness. Handled on-call responsibilities and resolved critical production bugs to ensure a seamless and frictionless user experience for homeowners planning their renovation projects.",
+      "type": "FULL_TIME",
+      "works": ["renovate-ai"],
+      "gradient": {
+        "from": "pink",
+        "to": "orange"
+      }
+    }
+  ],
+  "works": [
+    {
+      "id": "eazydukan",
+      "name": "EazyDukan",
+      "description": {
+        "short": "Multilingual retail management platform (mobile & web) with subscription tiers, multi-outlet management, full POS system, and AI-powered features. Web platform provides a large UI for managing inventory, adding transactions (POS), and quick commerce functionality.",
+        "long": "Developed a multilingual retail management app (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, and support for cash, QR code, and Razorpay SMS payments. Integrated AI capabilities to auto-scan restaurant menus into inventory, generate promotional materials, manage coupons, handle product returns, and offer a one-click \"86\" function, alongside detailed sales, revenue, and analytics reporting. Built online ordering with delivery coordination (in-house or third-party), WhatsApp-based customer feedback, and a Customer Display mode for scrolling in-store promotions. The web project is mainly the mobile app but easier to manage stuff like a large UI for managing inventory, adding transactions (POS), etc. The shop.eazydukan.com is a quick commerce platform that shows shops nearby, and users could buy from them. The \"shop\" is a wildcard subdomain and could be named to anything based on your eazydukan account, so you could advertise your shop as dominos.eazydukan.com and it would take the user to a page where the user could purchase anything from your shop online, and the store owner could have it delivered to them."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MULTI_PLATFORM",
+      "appStoreId": null,
+      "playStoreId": "com.eazydukan",
+      "isInternal": false,
+      "featured": false,
+      "companyId": "lovepack",
+      "technologies": [
+        "React Native",
+        "React.js",
+        "Next.js",
+        "TypeScript",
+        "Redux",
+        "Zustand",
+        "WebSocket",
+        "Firebase",
+        "Razorpay",
+        "Thermal Printers",
+        "Bluetooth",
+        "Axios",
+        "GitLab",
+        "Tailwind"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": ["https://www.eazydukan.com", "https://shop.eazydukan.com/"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "webrasoi",
+      "name": "WebRasoi",
+      "description": {
+        "short": "Restaurant-focused version of EazyDukan with enhanced functionality for restaurants, including AI-based menu creation, one-click \"86\" feature, and AI-generated images and descriptions for a polished experience.",
+        "long": "WebRasoi is a restaurant-focused version of EazyDukan with way better functionality specifically designed for restaurants. It features AI-based inventory (menu) creation, one-click \"86\" feature for out-of-stock items, and AI-generated images and descriptions so it never felt bland. Similar to EazyDukan, when adding inventory, you could just take a picture of what the item is, and AI would fill all of the relevant details, ask you to confirm, and done. This streamlined the menu creation process and ensured consistent, professional-looking menu items with AI-generated content."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": "com.webrasoi",
+      "isInternal": false,
+      "featured": false,
+      "companyId": "lovepack",
+      "technologies": [
+        "React Native",
+        "TypeScript",
+        "Redux",
+        "Zustand",
+        "WebSocket",
+        "Firebase",
+        "Razorpay",
+        "Thermal Printers",
+        "Bluetooth",
+        "Axios",
+        "GitLab"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": ["webrasoi.com"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "zluper",
+      "name": "Zluper",
+      "description": {
+        "short": "Thrift fashion app where users can discover and purchase amazing thrift clothing from top brands. Features an Instagram Reels-like feed with HLS-optimized video streaming via expo-video and WebP-optimized images, wishlisting, rewards, referrals, wallet cashbacks, and a creator program for influencer events. Built an admin dashboard for easier management of inventory, data, orders, and more.",
+        "long": "Zluper is a thrift fashion app where users can checkout amazing thrift clothing from top brands, buy them, share them, buy them for friends, get rewards, and participate in influencer events through Zluper's creator program (sign up available on web). The mobile version is WAY better with an Instagram Reels-like feed on the homescreen that you can scroll through all day to checkout amazing fashion. It uses HLS with expo-video for videos to ensure network quality does not affect how fast/slow the media loads, only the quality, and WebP format with expo-image for optimized image loading. The app leverages Expo Application Services (EAS) for OTA updates and easier version releases on app stores. Key features include the performant Instagram Reels-like feed with support for both videos and images, wishlisting, buying, coupon codes, referrals, sharing, rewards, wallet cashbacks, referral earnings, and more. The web version is also available for purchasing, though the mobile experience is significantly enhanced. Additionally, I built a comprehensive admin dashboard that provides easier management of inventory, inventory data, orders, and other administrative tasks, streamlining the backend operations for the platform."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MULTI_PLATFORM",
+      "appStoreId": "6754866276",
+      "playStoreId": "com.zluper",
+      "isInternal": false,
+      "featured": true,
+      "companyId": "lovepack",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "React.js",
+        "Vite",
+        "Tailwind",
+        "NativeWind",
+        "React Query",
+        "Zustand",
+        "AWS",
+        "Google Cloud Console",
+        "EAS",
+        "Redux",
+        "Firebase",
+        "Sentry",
+        "TypeScript",
+        "PostHog",
+        "Razorpay SDK"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": ["zluper.com", "web.zluper.com"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "konversi-fleet",
+      "name": "Konversi Fleet - Truck Fleet Management App",
+      "description": {
+        "short": "Truck fleet management app with job flow, job history, real-time location tracking for job assignments, image uploads, and technician maintenance workflows.",
+        "long": "Developed a Fleet Management App job flow, job history and real-time location tracking for job assignments, image uploads, and technician maintenance workflows."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": true,
+      "featured": false,
+      "companyId": "konversi",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "TypeScript",
+        "Axios",
+        "Redux",
+        "GitHub",
+        "CI/CD",
+        "SumoLogic"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "konversi-pos",
+      "name": "Konversi POS - Full-fledged POS App",
+      "description": {
+        "short": "Full-fledged POS app for park operations with thermal printer support, transaction history, and report data printing. Handled 500-1000+ daily transactions seamlessly.",
+        "long": "Built a POS App for park operations, integrating thermal printer support, transaction history, and report data printing. The app handled 500-1000+ transactions daily seamlessly with no hiccups."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": true,
+      "featured": false,
+      "companyId": "konversi",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "TypeScript",
+        "Axios",
+        "Redux",
+        "GitHub",
+        "CI/CD",
+        "SumoLogic",
+        "Bluetooth",
+        "Thermal Printers"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "konversi-attendance",
+      "name": "KWork - Attendance Tracking/Logging App",
+      "description": {
+        "short": "Attendance tracking app using Expo geolocation and camera-based photo verification for secure clock-in/out, leave management, and daily work hour tracking.",
+        "long": "Created an Attendance Logging App using Expo's geolocation services and camera-based photo verification to enforce secure clock-in/out, manage leave requests, and track daily work hours."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": true,
+      "featured": false,
+      "companyId": "konversi",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "TypeScript",
+        "GitHub",
+        "CI/CD",
+        "Axios",
+        "SumoLogic",
+        "Redux"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "bvmrf",
+      "name": "BVMRF - Vet Health",
+      "description": {
+        "short": "Comprehensive mobile app designed to support Veterans in their health and well-being journey, offering educational resources, personalized content on therapeutic areas, VA facility directory, and information on eligibility and benefits.",
+        "long": "BVMRF Vet-Health is a comprehensive mobile application designed to support Veterans in their health and well-being journey. It offers a wealth of educational resources, personalized content on specific therapeutic areas, and valuable information on VA-related topics and services. Users can access a vast library of educational content tailored to their specific needs, stay informed about relevant therapeutic areas, and learn about the latest treatments and therapies available for Veterans. The app also provides a comprehensive directory of VA facilities and services, guidance on eligibility and benefits, and updates on VA-related news. Additionally, it keeps users informed about advancements in medical research and clinical trials, offering opportunities to participate in studies that may benefit them and contribute to the advancement of Veterans healthcare. The app is developed by the Bronx Veterans Medical Research Foundation (BVMRF), a nonprofit organization dedicated to advancing research and education activities to enhance the quality of care and health for Veterans."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": "6476032857",
+      "playStoreId": "my.bvmrf.app",
+      "isInternal": false,
+      "featured": true,
+      "companyId": "ariveguru",
+      "technologies": [
+        "React Native",
+        "Bitbucket",
+        "JavaScript",
+        "Redux",
+        "Redux Saga"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "rhia",
+      "name": "RHIA - Life-like AI Assistant",
+      "description": {
+        "short": "Life-like AI assistant for user registration, appointment scheduling, and task management, deployable across multiple office locations to streamline operations and improve productivity.",
+        "long": "Built RHIA, an AI assistant for tasks like user registration, appointment scheduling, and task management, deployable across multiple office locations. Leveraged AI technologies efficiently to streamline office operations and improve productivity. This was a POC project, supposed to be demo'd at the Bengaluru Tech Summit. You would literally talk to a person (AI) on screen, regarding whatever you wanted to talk about (obviously it being relevant to who RHIA would be working for OR what data was fed into RHIA)."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": "ariveguru",
+      "technologies": [
+        "React",
+        "Vite",
+        "Tailwind",
+        "HeyGen",
+        "AI/ML",
+        "OpenAI",
+        "Gemini",
+        "Zustand",
+        "Axios",
+        "JavaScript",
+        "Bitbucket",
+        "WebSocket"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "renovate-ai",
+      "name": "Renovate AI",
+      "description": {
+        "short": "AI-powered home design and renovation app with virtual staging, 3D elevations, image upscaling, and over 100 curated styles. Revamped onboarding and home screen, significantly improving user conversions and app performance.",
+        "long": "Worked on various projects/part of the Renovate AI mobile app, such as completely revamping the onboarding, renovation experience, home screen, and more, increasing user conversions. Worked on improving legacy codebase and increased performance throughout the app, removing a huge chunk of technical debt. Handled on-call as well as critical bugs in production, ensuring end users have a frictionless app experience. Renovate AI is a cutting-edge application that revolutionizes home design and renovation processes using advanced AI. It features virtual staging, 3D elevations, image upscaling to 4K, exterior renovation, landscaping design with over 40 styles, sketch-to-render capabilities, wall makeovers, exterior painting, and object removal. The app is powered by over 10 AI models and offers more than 100 curated styles for interior and exterior design."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": "1661709494",
+      "playStoreId": "app.renovateai",
+      "isInternal": false,
+      "featured": true,
+      "companyId": "renovateai",
+      "technologies": [
+        "React Native",
+        "TypeScript",
+        "Redux",
+        "Axios",
+        "React Query",
+        "Redux Saga",
+        "GitHub",
+        "CI/CD",
+        "Expo",
+        "Expo UI",
+        "Firebase",
+        "RevenueCat",
+        "Sentry",
+        "PostHog"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "clientflow",
+      "name": "ClientFlow - Customer Relationship Management Application",
+      "description": {
+        "short": "CRM application with three distinct user roles (Admins, Engineers, Customers) with secure access control through AuthN and AuthZ protocols.",
+        "long": "Developed a system with three distinct user roles: Admins, Engineers, and Customers. Implemented secure access control measures through AuthN and AuthZ protocols. Utilized MongoDB as the backend database, Express for API handling, and created a user-friendly React frontend."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "coinscout",
+      "name": "CoinScout - Cryptocurrency Tracking Application",
+      "description": {
+        "short": "Dynamic React-based crypto asset tracking app with search functionality and interactive price history graphs.",
+        "long": "Developed a dynamic React-based Crypto Asset-Tracking App to enable seamless tracking and analysis of various cryptocurrencies. Implemented a user-friendly interface allowing users to search and explore detailed information about different crypto coins. Incorporated a visually appealing graph feature to showcase price history for selected time ranges, enhancing data visualization and analysis capabilities."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "JavaScript"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "flickbook",
+      "name": "FlickBook - Movie Booking Application",
+      "description": {
+        "short": "Movie booking system with three user roles (Admins, Hall Owners, Users) with secure authentication and authorization.",
+        "long": "Created and designed a dynamic system with three distinct user roles: Admins, Hall Owners, and Users. Implemented robust security measures by integrating AuthN and AuthZ protocols for secure access. Leveraged MongoDB as the database backbone to ensure efficient data storage and retrieval. Utilized Express framework to handle APIs, ensuring seamless communication between the frontend and backend. Developed a user-friendly and intuitive React frontend, enhancing the overall user experience and satisfaction."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "gamestate",
+      "name": "GameState - MiniGames",
+      "description": {
+        "short": "React-based mini games collection showcasing diverse functions and libraries with engaging gameplay.",
+        "long": "Developed React-based games showcasing diverse functions and libraries. Captivated users with engaging and addictive gameplay, resulting in countless hours of entertainment. Utilized React framework to create interactive and immersive gaming experiences. Demonstrated proficiency in implementing diverse functions and libraries to enhance gameplay."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "JavaScript"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "nile-store",
+      "name": "Nile Store - eCommerce Site",
+      "description": {
+        "short": "Experimental eCommerce frontend project built with React and inline styles, featuring product display, search, and sort functionality.",
+        "long": "Developed experimental frontend project for an ecom site to evaluate the performance and functionality of a react application with inline styles. Implemented features to display all available products on the site and provide detailed information for individual products. Integrated search functionality to enhance user experience and facilitate product discovery. Implemented sort functionality to enable users to easily organize and find desired products."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "JavaScript"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "cardinal",
+      "name": "Cardinal - Card Creator for Websites",
+      "description": {
+        "short": "Interactive card generator with customizable border and box shadow properties, allowing users to copy HTML/CSS code.",
+        "long": "Developed a cutting-edge card generator with an interactive user interface allowing users to create and preview custom cards. Implemented customizable attributes including border properties and box shadow properties for enhanced card design. Enabled users to conveniently copy the source code (html or css) of the generated card for direct integration into personal projects."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "JavaScript", "HTML", "CSS"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "quizzard",
+      "name": "Quizzard - Fun with Quizzes",
+      "description": {
+        "short": "Interactive quiz app with multiple categories (JavaScript, HTML, CSS, Mathematics) featuring light and dark mode.",
+        "long": "Developed a highly interactive quiz app with multiple categories including JavaScript, HTML and CSS, Mathematics, and others. Implemented a user-friendly interface with features such as a light and dark mode for enhanced user experience. Designed and integrated an engaging quiz format to test users knowledge in various subjects. Achieved a seamless user experience by incorporating intuitive navigation and responsive design principles."
+      },
+      "icon": "",
+      "category": "",
+      "type": "WEB",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": false,
+      "companyId": null,
+      "technologies": ["React", "JavaScript", "HTML", "CSS"],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "privycode-mobile",
+      "name": "PrivyCode - Safe Code Sharing",
+      "description": {
+        "short": "Mobile app for creating secure, time-limited, view-only access links to private GitHub repositories. Perfect for developers sharing code with recruiters, clients, or collaborators without compromising security.",
+        "long": "PrivyCode revolutionizes how developers share their code by creating secure, time-limited, view-only access links to private GitHub repositories. No more making your code public or managing complex permissions. Key features include secure by design (code stays private, only shared content is accessible), time-limited access with expiration dates, view-only access (recipients can view but cannot clone, download, or modify), usage analytics to track who viewed code and when, instant sharing to generate secure links in seconds, and mobile-first design to manage shared links on the go. Perfect for developers sharing code with recruiters, freelancers showing work to potential clients, teams collaborating with external reviewers, and open source maintainers sharing private projects."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": "com.samtastic.privycodemobile",
+      "isInternal": false,
+      "featured": true,
+      "companyId": null,
+      "technologies": [
+        "Expo",
+        "React Native",
+        "Reanimated",
+        "GitHub",
+        "EAS",
+        "Firebase"
+      ],
+      "rating": 0,
+      "screenshots": [],
+      "webUrls": ["https://privycode.com"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    }
+  ],
+  "educations": [
+    {
+      "id": "6946e7af3f00b5c4c4553b91",
+      "schoolName": "Relevel by Unacademy",
+      "startDate": "Sep 2022",
+      "endDate": "Sep 2023",
+      "degreeName": "",
+      "notes": "",
+      "activities": ""
+    },
+    {
+      "id": "6946e7af3f00b5c4c4553b92",
+      "schoolName": "Pragjyotish College",
+      "startDate": "Sep 2020",
+      "endDate": "Sep 2023",
+      "degreeName": "Bachelor of Arts - BA",
+      "notes": "",
+      "activities": ""
+    },
+    {
+      "id": "6946e7af3f00b5c4c4553b93",
+      "schoolName": "South Point School, Guwahati",
+      "startDate": "Apr 2018",
+      "endDate": "Apr 2020",
+      "degreeName": "",
+      "notes": "",
+      "activities": ""
+    },
+    {
+      "id": "6946e7af3f00b5c4c4553b94",
+      "schoolName": "Delhi Public School, Guwahati",
+      "startDate": "Apr 2008",
+      "endDate": "May 2018",
+      "degreeName": "",
+      "notes": "",
+      "activities": ""
+    }
+  ],
+  "certifications": [
+    {
+      "id": "6946e7b53f00b5c4c4553b95",
+      "name": "Problem Solving (Basic) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialId": "C7B03CF78DFF",
+      "link": "https://www.hackerrank.com/certificates/c7b03cf78dff"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b96",
+      "name": "Javascript (Basic) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialId": "363882C1A245",
+      "link": "https://www.hackerrank.com/certificates/363882c1a245"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b97",
+      "name": "Cascading Style Sheets (Basic) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialId": "D43ED93EEFBD",
+      "link": "https://www.hackerrank.com/certificates/d43ed93eefbd"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b98",
+      "name": "Javascript (Intermediate) Certification",
+      "issuer": "HackerRank",
+      "date": "Oct 2023",
+      "credentialId": "34C794BC3D7D",
+      "link": "https://www.hackerrank.com/certificates/34c794bc3d7d"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b99",
+      "name": "Frontend Developer (React) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialId": "DE0126770CAE",
+      "link": "https://www.hackerrank.com/certificates/de0126770cae"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b9a",
+      "name": "React (Basic) Certification",
+      "issuer": "HackerRank",
+      "date": "Nov 2023",
+      "credentialId": "5FA60388500F",
+      "link": "https://www.hackerrank.com/certificates/5fa60388500f"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b9b",
+      "name": "Problem Solving (Intermediate) Certification",
+      "issuer": "HackerRank",
+      "date": "Dec 2023",
+      "credentialId": "BF14375485F1",
+      "link": "https://www.hackerrank.com/certificates/bf14375485f1"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b9c",
+      "name": "Frontend Development Course Completion Certificate",
+      "issuer": "Relevel by Unacademy",
+      "date": "Sep 2023",
+      "credentialId": "N/A",
+      "link": "https://drive.google.com/file/d/1LKaKA9IrWg0TiGZqRwMh6rkDoeGRnfrC/view?usp=sharing"
+    },
+    {
+      "id": "6946e7b53f00b5c4c4553b9d",
+      "name": "FRONT END ENGINEER CERTIFICATE",
+      "issuer": "Pro5.ai (formerly Mangtas)",
+      "date": "May 2024",
+      "credentialId": "25688927928",
+      "link": ""
+    }
+  ],
+  "skillCategories": [
+    {
+      "id": "6946dfb63f00b5c4c4553b83",
+      "title": "Programming Languages",
+      "icon": "Code",
+      "skills": [
+        {
+          "name": "JavaScript",
+          "proficiency": "Advanced",
+          "description": "Core language for all my projects and development"
+        },
+        {
+          "name": "TypeScript",
+          "proficiency": "Intermediate",
+          "description": "Type-safe development for scalable applications"
+        },
+        {
+          "name": "HTML",
+          "proficiency": "Advanced",
+          "description": "Semantic markup and accessibility standards"
+        },
+        {
+          "name": "CSS",
+          "proficiency": "Advanced",
+          "description": "Modern styling with flexbox, grid, and animations"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b84",
+      "title": "Libraries & Frameworks",
+      "icon": "Palette",
+      "skills": [
+        {
+          "name": "React",
+          "proficiency": "Advanced",
+          "description": "Component-based UI development and hooks"
+        },
+        {
+          "name": "React Native",
+          "proficiency": "Advanced",
+          "description": "Cross-platform mobile development"
+        },
+        {
+          "name": "Next.js",
+          "proficiency": "Intermediate",
+          "description": "Full-stack React framework with SSR/SSG"
+        },
+        {
+          "name": "Expo",
+          "proficiency": "Advanced",
+          "description": "Rapid mobile app development and deployment"
+        },
+        {
+          "name": "Express.js",
+          "proficiency": "Intermediate",
+          "description": "Node.js web application framework"
+        },
+        {
+          "name": "Reanimated",
+          "proficiency": "Intermediate",
+          "description": "React Native animation library for smooth 60fps animations"
+        },
+        {
+          "name": "Bun",
+          "proficiency": "Intermediate",
+          "description": "Fast JavaScript runtime, bundler, and package manager"
+        },
+        {
+          "name": "Hono",
+          "proficiency": "Intermediate",
+          "description": "Ultrafast web framework for the edge"
+        },
+        {
+          "name": "React Query",
+          "proficiency": "Intermediate",
+          "description": "Data fetching and caching library for React"
+        },
+        {
+          "name": "Axios",
+          "proficiency": "Advanced",
+          "description": "Promise-based HTTP client for making API requests"
+        },
+        {
+          "name": "WebSocket",
+          "proficiency": "Intermediate",
+          "description": "Real-time bidirectional communication protocol"
+        },
+        {
+          "name": "Vite",
+          "proficiency": "Intermediate",
+          "description": "Fast build tool for modern web development"
+        },
+        {
+          "name": "Zod",
+          "proficiency": "Intermediate",
+          "description": "TypeScript-first schema validation library"
+        },
+        {
+          "name": "Formik",
+          "proficiency": "Intermediate",
+          "description": "Form library for React with validation"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b85",
+      "title": "State Management",
+      "icon": "Zap",
+      "skills": [
+        {
+          "name": "Redux (RTK)",
+          "proficiency": "Advanced",
+          "description": "Predictable state container for JavaScript apps"
+        },
+        {
+          "name": "Zustand",
+          "proficiency": "Intermediate",
+          "description": "Lightweight state management solution"
+        },
+        {
+          "name": "Context API",
+          "proficiency": "Intermediate",
+          "description": "React's built-in state management"
+        },
+        {
+          "name": "Redux Saga",
+          "proficiency": "Intermediate",
+          "description": "Middleware library for handling side effects in Redux"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b86",
+      "title": "Styling & UI",
+      "icon": "Palette",
+      "skills": [
+        {
+          "name": "Tailwind CSS",
+          "proficiency": "Advanced",
+          "description": "Utility-first CSS framework"
+        },
+        {
+          "name": "Bootstrap",
+          "proficiency": "Intermediate",
+          "description": "Responsive component framework"
+        },
+        {
+          "name": "Chakra UI",
+          "proficiency": "Beginner",
+          "description": "Modern React component library"
+        },
+        {
+          "name": "Material UI",
+          "proficiency": "Beginner",
+          "description": "React components implementing Material Design"
+        },
+        {
+          "name": "Sass/Less",
+          "proficiency": "Intermediate",
+          "description": "CSS preprocessors for enhanced styling"
+        },
+        {
+          "name": "PostCSS",
+          "proficiency": "Intermediate",
+          "description": "Tool for transforming CSS with JavaScript"
+        },
+        {
+          "name": "Stylus",
+          "proficiency": "Beginner",
+          "description": "Expressive and dynamic CSS preprocessor"
+        },
+        {
+          "name": "NativeWind",
+          "proficiency": "Intermediate",
+          "description": "Tailwind CSS for React Native"
+        },
+        {
+          "name": "Framer Motion",
+          "proficiency": "Intermediate",
+          "description": "Production-ready motion library for React"
+        },
+        {
+          "name": "GSAP",
+          "proficiency": "Intermediate",
+          "description": "Professional animation library for web"
+        },
+        {
+          "name": "Expo UI",
+          "proficiency": "Intermediate",
+          "description": "UI component library for Expo and React Native"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b87",
+      "title": "Backend & Databases",
+      "icon": "Database",
+      "skills": [
+        {
+          "name": "MongoDB",
+          "proficiency": "Intermediate",
+          "description": "NoSQL database for modern applications"
+        },
+        {
+          "name": "Firebase",
+          "proficiency": "Advanced",
+          "description": "Real-time database and authentication"
+        },
+        {
+          "name": "Node.js",
+          "proficiency": "Intermediate",
+          "description": "JavaScript runtime for server-side development"
+        },
+        {
+          "name": "Supabase",
+          "proficiency": "Intermediate",
+          "description": "Open source Firebase alternative with PostgreSQL"
+        },
+        {
+          "name": "Clerk",
+          "proficiency": "Intermediate",
+          "description": "Authentication and user management platform"
+        },
+        {
+          "name": "Nodemailer",
+          "proficiency": "Intermediate",
+          "description": "Email sending library for Node.js applications"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b88",
+      "title": "Tools & Platforms",
+      "icon": "Settings",
+      "skills": [
+        {
+          "name": "Git",
+          "proficiency": "Advanced",
+          "description": "Version control"
+        },
+        {
+          "name": "Github",
+          "proficiency": "Advanced",
+          "description": "Collaboration and version control"
+        },
+        {
+          "name": "Gitlab",
+          "proficiency": "Intermediate",
+          "description": "Collaboration and version control"
+        },
+        {
+          "name": "Bitbucket",
+          "proficiency": "Intermediate",
+          "description": "Git-based source code repository hosting"
+        },
+        {
+          "name": "npm",
+          "proficiency": "Advanced",
+          "description": "Package manager for JavaScript"
+        },
+        {
+          "name": "Yarn",
+          "proficiency": "Advanced",
+          "description": "Fast and reliable package manager"
+        },
+        {
+          "name": "VS Code",
+          "proficiency": "Advanced",
+          "description": "Primary development environment"
+        },
+        {
+          "name": "Cursor",
+          "proficiency": "Beginner",
+          "description": "AI-powered code editor"
+        },
+        {
+          "name": "Postman",
+          "proficiency": "Advanced",
+          "description": "API testing and development"
+        },
+        {
+          "name": "Android Studio",
+          "proficiency": "Advanced",
+          "description": "Android development environment"
+        },
+        {
+          "name": "Xcode",
+          "proficiency": "Intermediate",
+          "description": "iOS development and testing"
+        },
+        {
+          "name": "Electron",
+          "proficiency": "Beginner",
+          "description": "Desktop app development with web technologies"
+        },
+        {
+          "name": "Notion",
+          "proficiency": "Intermediate",
+          "description": "Documentation and project management"
+        },
+        {
+          "name": "ClickUp",
+          "proficiency": "Intermediate",
+          "description": "Project management and team collaboration"
+        },
+        {
+          "name": "PostHog",
+          "proficiency": "Intermediate",
+          "description": "Product analytics and feature flags platform"
+        },
+        {
+          "name": "Sentry",
+          "proficiency": "Intermediate",
+          "description": "Error tracking and performance monitoring"
+        },
+        {
+          "name": "CI/CD",
+          "proficiency": "Intermediate",
+          "description": "Continuous Integration and Continuous Deployment pipelines"
+        },
+        {
+          "name": "MCP",
+          "proficiency": "Intermediate",
+          "description": "Model Context Protocol for AI/LLM integration and tooling"
+        },
+        {
+          "name": "Claude Code",
+          "proficiency": "Intermediate",
+          "description": "AI-powered coding assistant by Anthropic"
+        },
+        {
+          "name": "Windsurf",
+          "proficiency": "Intermediate",
+          "description": "AI-powered code editor and development environment"
+        },
+        {
+          "name": "Qwen",
+          "proficiency": "Intermediate",
+          "description": "Large language model for AI-assisted development"
+        },
+        {
+          "name": "Gemini CLI",
+          "proficiency": "Intermediate",
+          "description": "Google Gemini AI command-line interface tool"
+        },
+        {
+          "name": "Linear",
+          "proficiency": "Intermediate",
+          "description": "Issue tracking and project management tool"
+        },
+        {
+          "name": "EAS",
+          "proficiency": "Intermediate",
+          "description": "Expo Application Services for OTA updates and app store deployment"
+        },
+        {
+          "name": "RevenueCat",
+          "proficiency": "Intermediate",
+          "description": "Subscription management and in-app purchase platform"
+        },
+        {
+          "name": "Razorpay SDK",
+          "proficiency": "Intermediate",
+          "description": "Payment gateway SDK for processing transactions"
+        },
+        {
+          "name": "SumoLogic",
+          "proficiency": "Intermediate",
+          "description": "Cloud-based log management and analytics platform"
+        },
+        {
+          "name": "HeyGen",
+          "proficiency": "Intermediate",
+          "description": "AI-powered video generation and avatar platform"
+        },
+        {
+          "name": "OpenAI",
+          "proficiency": "Intermediate",
+          "description": "AI API platform for language models and AI services"
+        },
+        {
+          "name": "Gemini",
+          "proficiency": "Intermediate",
+          "description": "Google AI model and API for AI-powered applications"
+        },
+        {
+          "name": "AI/ML",
+          "proficiency": "Intermediate",
+          "description": "Artificial Intelligence and Machine Learning technologies"
+        },
+        {
+          "name": "Prettier",
+          "proficiency": "Advanced",
+          "description": "Code formatter for consistent code style"
+        },
+        {
+          "name": "BiomeJS",
+          "proficiency": "Intermediate",
+          "description": "Fast linter and formatter for JavaScript and TypeScript"
+        },
+        {
+          "name": "Confluence",
+          "proficiency": "Intermediate",
+          "description": "Collaboration and documentation platform"
+        },
+        {
+          "name": "Figma",
+          "proficiency": "Intermediate",
+          "description": "Design and prototyping tool for UI/UX"
+        }
+      ]
+    },
+    {
+      "id": "6946dfb63f00b5c4c4553b89",
+      "title": "Cloud & Deployment",
+      "icon": "Cloud",
+      "skills": [
+        {
+          "name": "AWS",
+          "proficiency": "Intermediate",
+          "description": "Cloud services and deployment"
+        },
+        {
+          "name": "Vercel",
+          "proficiency": "Advanced",
+          "description": "Frontend deployment platform"
+        },
+        {
+          "name": "Render",
+          "proficiency": "Advanced",
+          "description": "Cloud platform for full-stack applications"
+        },
+        {
+          "name": "Hostinger",
+          "proficiency": "Intermediate",
+          "description": "Web hosting and deployment"
+        },
+        {
+          "name": "Google Cloud Console",
+          "proficiency": "Intermediate",
+          "description": "Cloud platform and services for application deployment and management"
+        },
+        {
+          "name": "Cloudflare",
+          "proficiency": "Intermediate",
+          "description": "Cloud platform for CDN, DNS, security, and web performance"
+        }
+      ]
+    }
+  ]
+}

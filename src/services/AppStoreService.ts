@@ -1,5 +1,5 @@
 import { AppStoreApp, ITunesLookupResponse, PlayStoreApp } from "../types/AppStore";
-import { StructuredData, PlayStoreInitData } from "../types/MongoDB";
+import { PlayStoreInitData, StructuredData } from "../types/AppStore";
 
 export class AppStoreService {
   /**

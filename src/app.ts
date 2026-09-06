@@ -1,17 +1,17 @@
 import { Hono } from "hono";
-import { corsMiddleware } from "./middleware/cors";
-import apps from "./routes/apps";
-import certifications from "./routes/certifications";
-import { contactRoutes } from "./routes/contact.routes";
-import educations from "./routes/educations";
-import experiences from "./routes/experiences";
-import health from "./routes/health";
-import me from "./routes/me";
-import skills from "./routes/skills";
-import stats from "./routes/stats";
-import utils from "./routes/utils";
-import works from "./routes/works";
-import type { Env } from "./types/env.type";
+import { corsMiddleware } from "@/middleware/cors";
+import apps from "@/routes/apps";
+import { certificationRoutes } from "@/routes/certification.routes";
+import { contactRoutes } from "@/routes/contact.routes";
+import { educationRoutes } from "@/routes/education.routes";
+import { experienceRoutes } from "@/routes/experience.routes";
+import { healthRoutes } from "@/routes/health.routes";
+import { profileRoutes } from "@/routes/profile.routes";
+import { skillRoutes } from "@/routes/skill.routes";
+import { statsRoutes } from "@/routes/stats.routes";
+import { utilRoutes } from "@/routes/util.routes";
+import { workRoutes } from "@/routes/work.routes";
+import type { Env } from "@/types/env.type";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -28,34 +28,28 @@ app.onError((err, c) => {
   );
 });
 
-// Apply CORS middleware to all routes
 app.use("*", corsMiddleware);
 
-// Mount route handlers with /api prefix
-app.route("/api/health", health);
-app.route("/api/experiences", experiences);
+app.route("/api/health", healthRoutes);
+app.route("/api/experiences", experienceRoutes);
 app.route("/api/apps", apps);
 app.route("/api/contact", contactRoutes);
-app.route("/api/stats", stats);
-app.route("/api/utils", utils);
-app.route("/api/works", works);
-app.route("/api/educations", educations);
-app.route("/api/certifications", certifications);
-app.route("/api/skills", skills);
-app.route("/api/me", me);
+app.route("/api/stats", statsRoutes);
+app.route("/api/utils", utilRoutes);
+app.route("/api/works", workRoutes);
+app.route("/api/educations", educationRoutes);
+app.route("/api/certifications", certificationRoutes);
+app.route("/api/skills", skillRoutes);
+app.route("/api/me", profileRoutes);
 
-// Root endpoint
 app.get("/", (c) =>
   c.text("Portfolio Backend API - Use /api/health for health check")
 );
 
-// Legacy health endpoint for backward compatibility
-app.route("/health", health);
+// Legacy paths kept for backward compatibility.
+app.route("/health", healthRoutes);
+app.route("/works", workRoutes);
 
-// Legacy works endpoint for backward compatibility
-app.route("/works", works);
-
-// 404 handler for unmatched routes
 app.notFound((c) =>
   c.json(
     {

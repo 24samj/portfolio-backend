@@ -2,11 +2,7 @@ import { Hono } from "hono";
 import { describe, expect, it } from "vitest";
 import { corsMiddleware } from "@/middleware/cors";
 
-/**
- * The middleware alone, on a bare app. The full `app` can't be imported under
- * the Workers pool yet — the mongodb driver's CJS graph loops in its ESM shim —
- * so until the D1 rewrite lands, this is the harness smoke test.
- */
+/** The middleware alone, on a bare app, so the assertions are only about CORS. */
 const app = new Hono();
 app.use("*", corsMiddleware);
 app.get("/ping", (c) => c.text("pong"));

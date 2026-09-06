@@ -12,6 +12,20 @@
     // anything else, and the runtime type needs an explicit `to`.
     "CONTACT_TO": "sumit.codes.24@gmail.com"
   },
+  // D1 (SQLite). Read-only portfolio content, seeded by migration. Created via
+  // `wrangler d1 create portfolio-db`; drizzle-kit generates SQL into
+  // `migrations/`, `wrangler d1 migrations apply` (db:local / db:remote) runs
+  // the *.sql files and tracks them in d1_migrations.
+  "d1_databases": [
+    {
+      "binding": "PORTFOLIO_DB",
+      "database_name": "portfolio-db",
+      // TODO: replace with the id from `wrangler d1 create portfolio-db` once
+      // Workers is activated on the account. Any value works for local dev.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
   // Contact-form outbound mail. Locked to the one verified destination address
   // (the inbox hi@sumit.codes forwards to), which is what keeps sending free on
   // the Workers Free plan — and means a bug here can't mail anyone else.

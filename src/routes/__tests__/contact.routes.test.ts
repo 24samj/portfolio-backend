@@ -1,3 +1,4 @@
+import { env as testEnv } from "cloudflare:test";
 import { describe, expect, it, vi } from "vitest";
 import { contactRoutes } from "@/routes/contact.routes";
 import type { Env } from "@/types/env.type";
@@ -15,7 +16,7 @@ const VALID = {
  */
 function fakeEnv(send: SendEmail["send"] = vi.fn().mockResolvedValue({})) {
   const env: Env = {
-    MONGODB_URI: "",
+    PORTFOLIO_DB: testEnv.PORTFOLIO_DB,
     EMAIL: { send },
     CONTACT_FROM: "contact@sumit.codes",
     CONTACT_TO: "inbox@example.com",
