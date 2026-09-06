@@ -36,19 +36,15 @@ This service exposes REST APIs for:
 
 ## Environment Variables
 
-Create `.env.local` (or `.env`) in `portfolio-backend/`:
+None required. There are no secrets in this project:
 
-```env
-FRONTEND_URL=
-```
-
-Notes:
-
-- There are no database secrets. Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio.sql`. Run `bun run db:local` once before `bun run dev`.
-- `POST /api/contact` needs no secrets: the `EMAIL` binding, `CONTACT_FROM` and `CONTACT_TO` are configured in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
-- Allowed CORS origins are defined in code (`src/constants/index.ts`) and include:
+- Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio.sql`. Run `bun run db:local` once before `bun run dev`.
+- `POST /api/contact` uses the `EMAIL` binding plus the `CONTACT_FROM` / `CONTACT_TO` vars, all in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
+- Allowed CORS origins are defined in code (`src/constants/index.ts`):
   - Production: `https://sumit.codes`
   - Local dev: `http://localhost:3000`, `http://localhost:3001`, `127.0.0.1` variants
+
+To override a var locally, copy `.dev.vars.example` to `.dev.vars` (gitignored) and uncomment the line.
 
 ## Scripts
 
@@ -62,7 +58,7 @@ npm run deploy      # deploy worker (minified)
 ## API Base URL
 
 - Local: `http://localhost:8787`
-- Production: your deployed Cloudflare Worker URL
+- Production: `https://portfolio.sumit.codes` (custom domain declared in `wrangler.jsonc`)
 
 All primary routes are mounted under `/api/*`.
 

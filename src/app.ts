@@ -69,7 +69,7 @@ app.get(
           "The API behind sumit.codes: portfolio content, live store listings, and the contact form.",
       },
       servers: [
-        { url: "https://api.sumit.codes", description: "Production" },
+        { url: "https://portfolio.sumit.codes", description: "Production" },
         { url: "http://localhost:8787", description: "Local dev" },
       ],
       tags: [
