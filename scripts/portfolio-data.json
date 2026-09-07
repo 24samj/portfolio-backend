@@ -501,28 +501,6 @@
       "googleGroupUrl": null
     },
     {
-      "id": "coinscout",
-      "name": "CoinScout - Cryptocurrency Tracking Application",
-      "description": {
-        "short": "Dynamic React-based crypto asset tracking app with search functionality and interactive price history graphs.",
-        "long": "Developed a dynamic React-based Crypto Asset-Tracking App to enable seamless tracking and analysis of various cryptocurrencies. Implemented a user-friendly interface allowing users to search and explore detailed information about different crypto coins. Incorporated a visually appealing graph feature to showcase price history for selected time ranges, enhancing data visualization and analysis capabilities."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
       "id": "gamestate",
       "name": "GameState - MiniGames",
       "description": {
