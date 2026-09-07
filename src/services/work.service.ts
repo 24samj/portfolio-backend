@@ -122,9 +122,14 @@ async function enrichAll(rows: WorkRow[]): Promise<Work[]> {
   });
 }
 
+/** Featured works lead; otherwise seed order. Stable, so ties keep their place. */
+function featuredFirst(rows: WorkRow[]): WorkRow[] {
+  return rows.slice().sort((a, b) => b.featured - a.featured);
+}
+
 export async function listWorks(d1: D1Database): Promise<Work[]> {
   const rows = await getDb(d1).select().from(works);
-  return enrichAll(rows);
+  return enrichAll(featuredFirst(rows));
 }
 
 export async function listWorksByIds(
@@ -138,7 +143,7 @@ export async function listWorksByIds(
     .select()
     .from(works)
     .where(inArray(works.id, ids));
-  return enrichAll(rows);
+  return enrichAll(featuredFirst(rows));
 }
 
 export async function getWork(

@@ -94,6 +94,19 @@ describe("GET /api/works", () => {
     expect(res.status).toBe(400);
   });
 
+  it("puts featured works first, seed order otherwise", async () => {
+    const all = (await (await get("/api/works")).json()) as List<Work>;
+    const flags = all.data.map((w) => w.featured);
+    const lastFeatured = flags.lastIndexOf(true);
+    expect(flags.indexOf(false)).toBeGreaterThan(lastFeatured);
+    expect(all.data.slice(0, 2).map((w) => w._id)).toEqual(["zluper", "bvmrf"]);
+
+    const narrowed = (await (
+      await get("/api/works?ids=eazydukan,zluper")
+    ).json()) as List<Work>;
+    expect(narrowed.data.map((w) => w._id)).toEqual(["zluper", "eazydukan"]);
+  });
+
   it("treats a bare ?ids= as no filter", async () => {
     const res = await get("/api/works?ids=");
     const body = (await res.json()) as List<Work>;
