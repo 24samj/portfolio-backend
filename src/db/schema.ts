@@ -54,7 +54,6 @@ export const works = sqliteTable("works", {
   descriptionShort: text("description_short").notNull(),
   descriptionLong: text("description_long").notNull(),
   icon: text("icon").notNull().default(""),
-  // Empty until store enrichment fills it at read time.
   category: text("category").notNull().default(""),
   type: text("type", { enum: WORK_TYPES }).notNull(),
   appStoreId: text("app_store_id"),
@@ -68,7 +67,7 @@ export const works = sqliteTable("works", {
     .$type<string[]>()
     .notNull()
     .default([]),
-  // Store rating, fractional. Seeded 0; enrichment overrides at read time.
+  // Store rating, fractional. Seeded; 0 when unknown.
   rating: real("rating").notNull().default(0),
   screenshots: text("screenshots", { mode: "json" })
     .$type<string[]>()

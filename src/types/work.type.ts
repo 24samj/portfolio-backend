@@ -6,7 +6,7 @@ export type Work = {
   name: string;
   description: { short: string; long: string };
   icon: string;
-  /** Store genre; filled by store enrichment when the seed leaves it empty. */
+  /** Store genre. Seeded; empty for most works. */
   category: string;
   type: WorkType;
   appStoreId: string | null;

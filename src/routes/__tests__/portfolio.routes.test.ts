@@ -1,18 +1,9 @@
 import { env } from "cloudflare:test";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import app from "@/index";
 import type { Experience } from "@/types/experience.type";
 import type { Skill, SkillCategory } from "@/types/skill.type";
 import type { Work } from "@/types/work.type";
-
-// The store scrapers hit apple.com / play.google.com. Fail them here so the
-// list falls back to seeded values, which is also the path worth asserting.
-vi.mock("@/services/app-store.service", () => ({
-  getAppStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
-}));
-vi.mock("@/services/play-store.service", () => ({
-  getPlayStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
-}));
 
 type List<T> = { success: true; count: number; data: T[] };
 type Item<T> = { success: true; data: T };
@@ -40,7 +31,7 @@ describe("GET /api/experiences", () => {
     expect(body.count).toBe(5);
     expect(body.data.map((e) => e.workEnd === null)).toEqual([
       true,
-      true,
+      false,
       false,
       false,
       false,
@@ -79,12 +70,17 @@ describe("GET /api/works", () => {
     });
   });
 
-  it("narrows by ?ids and keeps the seeded rating when stores are down", async () => {
+  it("narrows by ?ids and serves the curated screenshots as seeded", async () => {
     const res = await get("/api/works?ids=eazydukan,%20rhia,");
     const body = (await res.json()) as List<Work>;
 
     expect(body.count).toBe(2);
     expect(body.data.map((w) => w._id).sort()).toEqual(["eazydukan", "rhia"]);
+    const eazydukan = body.data.find((w) => w._id === "eazydukan");
+    expect(eazydukan?.screenshots).toHaveLength(19);
+    expect(eazydukan?.screenshots[0]).toBe(
+      "https://images.sumit.codes/portfolio/works/eazydukan/mobile/01-home.jpg"
+    );
     expect(body.data.every((w) => w.rating === 0)).toBe(true);
   });
 
@@ -94,12 +90,25 @@ describe("GET /api/works", () => {
     expect(res.status).toBe(400);
   });
 
+  it("puts featured works first, seed order otherwise", async () => {
+    const all = (await (await get("/api/works")).json()) as List<Work>;
+    const flags = all.data.map((w) => w.featured);
+    const lastFeatured = flags.lastIndexOf(true);
+    expect(flags.indexOf(false)).toBeGreaterThan(lastFeatured);
+    expect(all.data.slice(0, 2).map((w) => w._id)).toEqual(["zluper", "bvmrf"]);
+
+    const narrowed = (await (
+      await get("/api/works?ids=eazydukan,zluper")
+    ).json()) as List<Work>;
+    expect(narrowed.data.map((w) => w._id)).toEqual(["zluper", "eazydukan"]);
+  });
+
   it("treats a bare ?ids= as no filter", async () => {
     const res = await get("/api/works?ids=");
     const body = (await res.json()) as List<Work>;
 
     expect(res.status).toBe(200);
-    expect(body.count).toBe(17);
+    expect(body.count).toBe(11);
   });
 });
 
@@ -170,9 +179,9 @@ describe("the rest of the read surface", () => {
     await expect(res.json()).resolves.toMatchObject({
       data: {
         totalCompanies: 5,
-        totalProjects: 17,
+        totalProjects: 11,
         currentPosition: true,
-        totalTechnologies: expect.any(Number),
+        totalTechnologies: 20,
       },
     });
   });

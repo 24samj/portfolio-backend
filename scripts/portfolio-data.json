@@ -6,7 +6,7 @@
       "firstName": "Sumit",
       "lastName": "C.",
       "headline": "Frontend Lead | Mobile/Web Apps",
-      "summary": "No inspirational quote here bro. I've done and continue to do a lot more than just code. You can read more below or just skip. Honestly, who even has time to read all of this crap anyway?",
+      "summary": "No inspirational quote here. I've done and continue to do a lot more than just code. You can read more below or just skip. Honestly, who even has time to read all of this crap anyway?",
       "industry": "Software Development",
       "location": "Guwahati, Assam, India",
       "birthDate": "Nov 17",
@@ -50,7 +50,7 @@
       "name": "Lovepack Consumers Pvt. Ltd.",
       "role": "Software Engineer",
       "workStart": "2024-08-01",
-      "workEnd": null,
+      "workEnd": "2026-09-01",
       "location": "Remote",
       "description": "Developed three major applications: EazyDukan, a multilingual retail management platform (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, AI-powered menu scanning, promotional material generation, and online ordering with delivery coordination. Built WebRasoi, a restaurant-focused version with enhanced AI-based menu creation from photos and streamlined inventory management. Created Zluper, a thrift fashion marketplace with an Instagram Reels-like feed optimized with HLS video streaming and WebP images, featuring wishlisting, rewards, referrals, wallet cashbacks, creator program, and a comprehensive admin dashboard for managing inventory, orders, and platform operations. All projects utilized modern tech stacks including React Native, React.js, Next.js, TypeScript, and various cloud services.",
       "type": "PART_TIME",
@@ -84,7 +84,7 @@
       "location": "Remote",
       "description": "Contributed to the development of RenovateAI, an AI-powered home design application that enables users to visualize and plan home renovations by transforming photos of their spaces into professionally styled interiors with virtual staging, wall paint previews, and furniture arrangement. Completely revamped key user-facing features including the onboarding flow, renovation experience, and home screen, resulting in increased user conversions. Implemented comprehensive accessibility (a11y) improvements across all features worked on, ensuring the app is usable and inclusive for all users. Improved the legacy codebase architecture and optimized performance throughout the app, significantly reducing technical debt and enhancing overall app responsiveness. Handled on-call responsibilities and resolved critical production bugs to ensure a seamless and frictionless user experience for homeowners planning their renovation projects.",
       "type": "FULL_TIME",
-      "works": ["renovate-ai"],
+      "works": ["renovate-ai", "yardplan"],
       "gradient": {
         "from": "pink",
         "to": "orange"
@@ -124,7 +124,27 @@
         "Tailwind"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/02-pos-billing.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/03-transaction-logs.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/04-add-product.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/05-product-photo.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/06-menu-setup.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/07-menu-scan.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/08-delivery-radius.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/09-upi-qr.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/10-marketplaces.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/01-storefront.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/02-product.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/03-location.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/04-catalog.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/05-cart.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/06-coupons.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/07-order-status.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/08-order-history.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/09-order-details.jpg"
+      ],
       "webUrls": ["https://www.eazydukan.com", "https://shop.eazydukan.com/"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -158,7 +178,26 @@
         "GitLab"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/webrasoi/01-manage-menu.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/02-inventory-operations.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/03-category-details.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/04-outlet-management.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/05-online-store.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/06-orders.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/07-order-details.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/08-delivery-settings.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/09-coupons.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/10-configure-checkout.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/11-store-marketing.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/12-staff-management.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/13-card-payments.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/14-analytics.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/15-wallet-subscription.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/16-delivery-partners.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/17-storefront-promo.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/18-more.jpg"
+      ],
       "webUrls": ["webrasoi.com"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -198,7 +237,25 @@
         "Razorpay SDK"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/02-product-detail.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/03-co-ord-sets.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/04-categories.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/05-product.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/06-cart.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/07-cart-coupon.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/08-order-history.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/09-returns.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/10-profile.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/02-listing.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/03-product.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/04-filters.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/05-checkout.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/06-order-success.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/07-profile.jpg"
+      ],
       "webUrls": ["zluper.com", "web.zluper.com"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -229,7 +286,16 @@
         "SumoLogic"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/01-weekly-checklist.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/02-replace-tires.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/03-vehicle-list.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/04-tire-diagram.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/05-urgent-maintenance.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/06-job-order-dropoff.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/07-job-order-map.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/08-inspection-history.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -262,7 +328,15 @@
         "Thermal Printers"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-pos/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/02-order-summary.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/03-payment-method.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/04-print-ticket.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/05-reports.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/06-history.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/07-closing-report.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -293,7 +367,13 @@
         "Redux"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/01-login.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/02-clock-in.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/03-apply-leave.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/04-leave-range.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/05-leave-requests.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -321,7 +401,18 @@
         "Redux Saga"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/bvmrf/01-splash.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/02-login.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/03-home.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/04-quick-menu.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/05-badges.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/06-badge-detail.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/07-surveys.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/08-trials.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/09-resources.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/10-articles.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -393,161 +484,18 @@
         "PostHog"
       ],
       "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "clientflow",
-      "name": "ClientFlow - Customer Relationship Management Application",
-      "description": {
-        "short": "CRM application with three distinct user roles (Admins, Engineers, Customers) with secure access control through AuthN and AuthZ protocols.",
-        "long": "Developed a system with three distinct user roles: Admins, Engineers, and Customers. Implemented secure access control measures through AuthN and AuthZ protocols. Utilized MongoDB as the backend database, Express for API handling, and created a user-friendly React frontend."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "coinscout",
-      "name": "CoinScout - Cryptocurrency Tracking Application",
-      "description": {
-        "short": "Dynamic React-based crypto asset tracking app with search functionality and interactive price history graphs.",
-        "long": "Developed a dynamic React-based Crypto Asset-Tracking App to enable seamless tracking and analysis of various cryptocurrencies. Implemented a user-friendly interface allowing users to search and explore detailed information about different crypto coins. Incorporated a visually appealing graph feature to showcase price history for selected time ranges, enhancing data visualization and analysis capabilities."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "flickbook",
-      "name": "FlickBook - Movie Booking Application",
-      "description": {
-        "short": "Movie booking system with three user roles (Admins, Hall Owners, Users) with secure authentication and authorization.",
-        "long": "Created and designed a dynamic system with three distinct user roles: Admins, Hall Owners, and Users. Implemented robust security measures by integrating AuthN and AuthZ protocols for secure access. Leveraged MongoDB as the database backbone to ensure efficient data storage and retrieval. Utilized Express framework to handle APIs, ensuring seamless communication between the frontend and backend. Developed a user-friendly and intuitive React frontend, enhancing the overall user experience and satisfaction."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "gamestate",
-      "name": "GameState - MiniGames",
-      "description": {
-        "short": "React-based mini games collection showcasing diverse functions and libraries with engaging gameplay.",
-        "long": "Developed React-based games showcasing diverse functions and libraries. Captivated users with engaging and addictive gameplay, resulting in countless hours of entertainment. Utilized React framework to create interactive and immersive gaming experiences. Demonstrated proficiency in implementing diverse functions and libraries to enhance gameplay."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "nile-store",
-      "name": "Nile Store - eCommerce Site",
-      "description": {
-        "short": "Experimental eCommerce frontend project built with React and inline styles, featuring product display, search, and sort functionality.",
-        "long": "Developed experimental frontend project for an ecom site to evaluate the performance and functionality of a react application with inline styles. Implemented features to display all available products on the site and provide detailed information for individual products. Integrated search functionality to enhance user experience and facilitate product discovery. Implemented sort functionality to enable users to easily organize and find desired products."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "cardinal",
-      "name": "Cardinal - Card Creator for Websites",
-      "description": {
-        "short": "Interactive card generator with customizable border and box shadow properties, allowing users to copy HTML/CSS code.",
-        "long": "Developed a cutting-edge card generator with an interactive user interface allowing users to create and preview custom cards. Implemented customizable attributes including border properties and box shadow properties for enhanced card design. Enabled users to conveniently copy the source code (html or css) of the generated card for direct integration into personal projects."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript", "HTML", "CSS"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "quizzard",
-      "name": "Quizzard - Fun with Quizzes",
-      "description": {
-        "short": "Interactive quiz app with multiple categories (JavaScript, HTML, CSS, Mathematics) featuring light and dark mode.",
-        "long": "Developed a highly interactive quiz app with multiple categories including JavaScript, HTML and CSS, Mathematics, and others. Implemented a user-friendly interface with features such as a light and dark mode for enhanced user experience. Designed and integrated an engaging quiz format to test users knowledge in various subjects. Achieved a seamless user experience by incorporating intuitive navigation and responsive design principles."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript", "HTML", "CSS"],
-      "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/renovate-ai/01-remodel-with-ai.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/02-any-style.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/03-kitchen-and-bath.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/04-type-what-you-want.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/05-floors-counters.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/06-wall-colors-live.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/07-paint-instantly.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/08-materials.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/09-living-room-render.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/10-cost-estimate.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -576,8 +524,70 @@
         "Firebase"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/01-welcome.jpg",
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/02-generate-link.jpg",
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/03-analytics.jpg"
+      ],
       "webUrls": ["https://privycode.com"],
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "yardplan",
+      "name": "YardPlan",
+      "description": {
+        "short": "AI landscaping app: photograph your yard, get Gemini-rendered redesigns you can iterate on, then a buildable plan with plants suited to your region. Built end to end: the Expo SDK 56 / React Native new-architecture app and its Cloudflare Workers backend (Hono, D1, R2, Queues).",
+        "long": "YardPlan lets homeowners photograph their yard and see it redesigned by AI. Each render can branch from the original photo or from an earlier render, so users explore variations without losing their place, and a finished design turns into a buildable plan with region-appropriate plants. Built the product end to end. The mobile app runs on Expo SDK 56 and React Native 0.85 (new architecture only) with React 19 and the React Compiler, expo-router file-based routing, and a strict layered architecture (utils, services, api, hooks, providers, screens) enforced by repo rules. It ships Firebase auth (Google, Apple, Facebook, passwordless email), RevenueCat subscriptions and paywalls, iOS widgets, share-intent and Branch deep links, push notifications, an offline mode, Lingui i18n, and PostHog analytics with a generated event catalog, styled through semantic theme tokens via uniwind. The backend is a Firebase-authenticated Cloudflare Worker on Hono with D1 for data, R2 for photos and renders, and Cloudflare Queues driving the Gemini render and plan pipelines asynchronously, so a render survives the app closing. Both sides use Drizzle, Biome/ultracite, tests and husky to keep the codebase consistent."
+      },
+      "icon": "",
+      "category": "",
+      "type": "MOBILE",
+      "appStoreId": "6784333021",
+      "playStoreId": "app.yardplan",
+      "isInternal": false,
+      "featured": true,
+      "companyId": "renovateai",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "React 19",
+        "React Compiler",
+        "TypeScript",
+        "expo-router",
+        "uniwind",
+        "Tailwind",
+        "React Query",
+        "Redux Toolkit",
+        "Firebase",
+        "RevenueCat",
+        "PostHog",
+        "Branch",
+        "Lingui",
+        "Reanimated",
+        "Skia",
+        "MMKV",
+        "EAS",
+        "Cloudflare Workers",
+        "Hono",
+        "D1",
+        "R2",
+        "Cloudflare Queues",
+        "Drizzle",
+        "Gemini",
+        "Biome",
+        "Jest"
+      ],
+      "rating": 0,
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/yardplan/01-reimagine-your-yard.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/02-priced-plan.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/03-describe-your-dream.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/04-know-what-grows.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/05-redesigned-yard.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/06-build-this-weekend.jpg"
+      ],
+      "webUrls": ["yardplan.app"],
       "sourceCode": null,
       "googleGroupUrl": null
     }
