@@ -181,7 +181,7 @@ describe("the rest of the read surface", () => {
         totalCompanies: 5,
         totalProjects: 18,
         currentPosition: true,
-        totalTechnologies: expect.any(Number),
+        totalTechnologies: 20,
       },
     });
   });

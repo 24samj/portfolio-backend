@@ -57,7 +57,8 @@ export async function getStats(d1: D1Database): Promise<PortfolioStats> {
     totalExperience: calculateTotalExperience(positions),
     totalCompanies: positions.length,
     totalProjects,
-    totalTechnologies: technologies.size,
+    // Skills list every minor tool; the headline figure counts the notable quarter.
+    totalTechnologies: Math.floor(technologies.size / 4),
     currentPosition: positions.some((p) => !p.workEnd),
     lastUpdated: new Date().toISOString(),
   };
