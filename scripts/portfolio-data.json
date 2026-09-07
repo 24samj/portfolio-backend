@@ -501,28 +501,6 @@
       "googleGroupUrl": null
     },
     {
-      "id": "clientflow",
-      "name": "ClientFlow - Customer Relationship Management Application",
-      "description": {
-        "short": "CRM application with three distinct user roles (Admins, Engineers, Customers) with secure access control through AuthN and AuthZ protocols.",
-        "long": "Developed a system with three distinct user roles: Admins, Engineers, and Customers. Implemented secure access control measures through AuthN and AuthZ protocols. Utilized MongoDB as the backend database, Express for API handling, and created a user-friendly React frontend."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
       "id": "coinscout",
       "name": "CoinScout - Cryptocurrency Tracking Application",
       "description": {
@@ -545,28 +523,6 @@
       "googleGroupUrl": null
     },
     {
-      "id": "flickbook",
-      "name": "FlickBook - Movie Booking Application",
-      "description": {
-        "short": "Movie booking system with three user roles (Admins, Hall Owners, Users) with secure authentication and authorization.",
-        "long": "Created and designed a dynamic system with three distinct user roles: Admins, Hall Owners, and Users. Implemented robust security measures by integrating AuthN and AuthZ protocols for secure access. Leveraged MongoDB as the database backbone to ensure efficient data storage and retrieval. Utilized Express framework to handle APIs, ensuring seamless communication between the frontend and backend. Developed a user-friendly and intuitive React frontend, enhancing the overall user experience and satisfaction."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "Express.js", "MongoDB", "Node.js"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
       "id": "gamestate",
       "name": "GameState - MiniGames",
       "description": {
@@ -582,72 +538,6 @@
       "featured": false,
       "companyId": null,
       "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "nile-store",
-      "name": "Nile Store - eCommerce Site",
-      "description": {
-        "short": "Experimental eCommerce frontend project built with React and inline styles, featuring product display, search, and sort functionality.",
-        "long": "Developed experimental frontend project for an ecom site to evaluate the performance and functionality of a react application with inline styles. Implemented features to display all available products on the site and provide detailed information for individual products. Integrated search functionality to enhance user experience and facilitate product discovery. Implemented sort functionality to enable users to easily organize and find desired products."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "cardinal",
-      "name": "Cardinal - Card Creator for Websites",
-      "description": {
-        "short": "Interactive card generator with customizable border and box shadow properties, allowing users to copy HTML/CSS code.",
-        "long": "Developed a cutting-edge card generator with an interactive user interface allowing users to create and preview custom cards. Implemented customizable attributes including border properties and box shadow properties for enhanced card design. Enabled users to conveniently copy the source code (html or css) of the generated card for direct integration into personal projects."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript", "HTML", "CSS"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
-      "id": "quizzard",
-      "name": "Quizzard - Fun with Quizzes",
-      "description": {
-        "short": "Interactive quiz app with multiple categories (JavaScript, HTML, CSS, Mathematics) featuring light and dark mode.",
-        "long": "Developed a highly interactive quiz app with multiple categories including JavaScript, HTML and CSS, Mathematics, and others. Implemented a user-friendly interface with features such as a light and dark mode for enhanced user experience. Designed and integrated an engaging quiz format to test users knowledge in various subjects. Achieved a seamless user experience by incorporating intuitive navigation and responsive design principles."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript", "HTML", "CSS"],
       "rating": 0,
       "screenshots": [],
       "webUrls": null,

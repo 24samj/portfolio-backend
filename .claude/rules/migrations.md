@@ -66,7 +66,9 @@ bun run build:seed
 - Not listed in `migrations/meta/_journal.json` — drizzle didn't create it and
   doesn't track it. Wrangler applies every `*.sql` in the folder regardless.
 - Written with `INSERT OR REPLACE`, so re-applying a regenerated seed overwrites
-  rather than failing on a primary-key conflict. Wrangler only re-runs it if the
+  rather than failing on a primary-key conflict, and each table starts with a
+  `DELETE ... WHERE id NOT IN (...)` so removing an entry from the JSON removes
+  the row too. Wrangler only re-runs it if the
   file is renamed, though: to ship a content edit, bump the filename
   (`9999_seed_portfolio_v2.sql`) in `build-seed.ts` and delete the old one.
 - A column added to `schema.ts` needs a matching column in `build-seed.ts`, or

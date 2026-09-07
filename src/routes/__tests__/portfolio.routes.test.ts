@@ -108,7 +108,7 @@ describe("GET /api/works", () => {
     const body = (await res.json()) as List<Work>;
 
     expect(res.status).toBe(200);
-    expect(body.count).toBe(18);
+    expect(body.count).toBe(13);
   });
 });
 
@@ -179,7 +179,7 @@ describe("the rest of the read surface", () => {
     await expect(res.json()).resolves.toMatchObject({
       data: {
         totalCompanies: 5,
-        totalProjects: 18,
+        totalProjects: 13,
         currentPosition: true,
         totalTechnologies: 20,
       },
