@@ -40,7 +40,7 @@ describe("GET /api/experiences", () => {
     expect(body.count).toBe(5);
     expect(body.data.map((e) => e.workEnd === null)).toEqual([
       true,
-      true,
+      false,
       false,
       false,
       false,
@@ -99,7 +99,7 @@ describe("GET /api/works", () => {
     const body = (await res.json()) as List<Work>;
 
     expect(res.status).toBe(200);
-    expect(body.count).toBe(17);
+    expect(body.count).toBe(18);
   });
 });
 
@@ -170,7 +170,7 @@ describe("the rest of the read surface", () => {
     await expect(res.json()).resolves.toMatchObject({
       data: {
         totalCompanies: 5,
-        totalProjects: 17,
+        totalProjects: 18,
         currentPosition: true,
         totalTechnologies: expect.any(Number),
       },
