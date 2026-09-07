@@ -401,7 +401,18 @@
         "Redux Saga"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/bvmrf/01-splash.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/02-login.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/03-home.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/04-quick-menu.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/05-badges.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/06-badge-detail.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/07-surveys.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/08-trials.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/09-resources.jpg",
+        "https://images.sumit.codes/portfolio/works/bvmrf/10-articles.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -473,7 +484,18 @@
         "PostHog"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/renovate-ai/01-remodel-with-ai.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/02-any-style.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/03-kitchen-and-bath.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/04-type-what-you-want.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/05-floors-counters.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/06-wall-colors-live.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/07-paint-instantly.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/08-materials.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/09-living-room-render.jpg",
+        "https://images.sumit.codes/portfolio/works/renovate-ai/10-cost-estimate.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -656,7 +678,11 @@
         "Firebase"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/01-welcome.jpg",
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/02-generate-link.jpg",
+        "https://images.sumit.codes/portfolio/works/privycode-mobile/03-analytics.jpg"
+      ],
       "webUrls": ["https://privycode.com"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -707,7 +733,14 @@
         "Jest"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/yardplan/01-reimagine-your-yard.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/02-priced-plan.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/03-describe-your-dream.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/04-know-what-grows.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/05-redesigned-yard.jpg",
+        "https://images.sumit.codes/portfolio/works/yardplan/06-build-this-weekend.jpg"
+      ],
       "webUrls": ["yardplan.app"],
       "sourceCode": null,
       "googleGroupUrl": null
