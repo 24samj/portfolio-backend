@@ -46,8 +46,7 @@ async function lookup(id: string, timeoutMs: number): Promise<AppStoreApp> {
 
 /**
  * One iOS app via the public iTunes Lookup API. The real cause is logged; the
- * caller always sees the same generic error (that's what the API has always
- * returned, and the works enrichment matches on it).
+ * caller always sees the same generic error, as the API has always returned.
  */
 export async function getAppStoreApp(
   id: string,

@@ -124,7 +124,27 @@
         "Tailwind"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/02-pos-billing.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/03-transaction-logs.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/04-add-product.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/05-product-photo.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/06-menu-setup.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/07-menu-scan.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/08-delivery-radius.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/09-upi-qr.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/mobile/10-marketplaces.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/01-storefront.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/02-product.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/03-location.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/04-catalog.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/05-cart.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/06-coupons.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/07-order-status.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/08-order-history.jpg",
+        "https://images.sumit.codes/portfolio/works/eazydukan/web/09-order-details.jpg"
+      ],
       "webUrls": ["https://www.eazydukan.com", "https://shop.eazydukan.com/"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -158,7 +178,26 @@
         "GitLab"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/webrasoi/01-manage-menu.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/02-inventory-operations.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/03-category-details.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/04-outlet-management.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/05-online-store.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/06-orders.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/07-order-details.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/08-delivery-settings.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/09-coupons.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/10-configure-checkout.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/11-store-marketing.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/12-staff-management.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/13-card-payments.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/14-analytics.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/15-wallet-subscription.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/16-delivery-partners.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/17-storefront-promo.jpg",
+        "https://images.sumit.codes/portfolio/works/webrasoi/18-more.jpg"
+      ],
       "webUrls": ["webrasoi.com"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -198,7 +237,25 @@
         "Razorpay SDK"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/02-product-detail.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/03-co-ord-sets.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/04-categories.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/05-product.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/06-cart.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/07-cart-coupon.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/08-order-history.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/09-returns.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/mobile/10-profile.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/02-listing.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/03-product.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/04-filters.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/05-checkout.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/06-order-success.jpg",
+        "https://images.sumit.codes/portfolio/works/zluper/web/07-profile.jpg"
+      ],
       "webUrls": ["zluper.com", "web.zluper.com"],
       "sourceCode": null,
       "googleGroupUrl": null
@@ -229,7 +286,16 @@
         "SumoLogic"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/01-weekly-checklist.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/02-replace-tires.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/03-vehicle-list.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/04-tire-diagram.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/05-urgent-maintenance.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/06-job-order-dropoff.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/07-job-order-map.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-fleet/08-inspection-history.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -262,7 +328,15 @@
         "Thermal Printers"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-pos/01-home.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/02-order-summary.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/03-payment-method.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/04-print-ticket.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/05-reports.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/06-history.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-pos/07-closing-report.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
@@ -293,7 +367,13 @@
         "Redux"
       ],
       "rating": 0,
-      "screenshots": [],
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/01-login.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/02-clock-in.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/03-apply-leave.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/04-leave-range.jpg",
+        "https://images.sumit.codes/portfolio/works/konversi-attendance/05-leave-requests.jpg"
+      ],
       "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null

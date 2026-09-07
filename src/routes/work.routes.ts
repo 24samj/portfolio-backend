@@ -24,7 +24,7 @@ workRoutes.get(
     tags: ["Works"],
     summary: "List works",
     description:
-      "Every project, with live store data (screenshots, rating, category) merged in where an App Store or Play Store id is set. `?ids=a,b` narrows the list — the experience card uses it to load its works.",
+      "Every project, featured first, with curated screenshots served from images.sumit.codes. `?ids=a,b` narrows the list — the experience card uses it to load its works.",
     parameters: [
       {
         in: "query",

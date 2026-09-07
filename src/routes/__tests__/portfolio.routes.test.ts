@@ -1,18 +1,9 @@
 import { env } from "cloudflare:test";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import app from "@/index";
 import type { Experience } from "@/types/experience.type";
 import type { Skill, SkillCategory } from "@/types/skill.type";
 import type { Work } from "@/types/work.type";
-
-// The store scrapers hit apple.com / play.google.com. Fail them here so the
-// list falls back to seeded values, which is also the path worth asserting.
-vi.mock("@/services/app-store.service", () => ({
-  getAppStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
-}));
-vi.mock("@/services/play-store.service", () => ({
-  getPlayStoreApp: vi.fn().mockRejectedValue(new Error("offline")),
-}));
 
 type List<T> = { success: true; count: number; data: T[] };
 type Item<T> = { success: true; data: T };
@@ -79,12 +70,17 @@ describe("GET /api/works", () => {
     });
   });
 
-  it("narrows by ?ids and keeps the seeded rating when stores are down", async () => {
+  it("narrows by ?ids and serves the curated screenshots as seeded", async () => {
     const res = await get("/api/works?ids=eazydukan,%20rhia,");
     const body = (await res.json()) as List<Work>;
 
     expect(body.count).toBe(2);
     expect(body.data.map((w) => w._id).sort()).toEqual(["eazydukan", "rhia"]);
+    const eazydukan = body.data.find((w) => w._id === "eazydukan");
+    expect(eazydukan?.screenshots).toHaveLength(19);
+    expect(eazydukan?.screenshots[0]).toBe(
+      "https://images.sumit.codes/portfolio/works/eazydukan/mobile/01-home.jpg"
+    );
     expect(body.data.every((w) => w.rating === 0)).toBe(true);
   });
 
