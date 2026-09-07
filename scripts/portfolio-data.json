@@ -501,28 +501,6 @@
       "googleGroupUrl": null
     },
     {
-      "id": "gamestate",
-      "name": "GameState - MiniGames",
-      "description": {
-        "short": "React-based mini games collection showcasing diverse functions and libraries with engaging gameplay.",
-        "long": "Developed React-based games showcasing diverse functions and libraries. Captivated users with engaging and addictive gameplay, resulting in countless hours of entertainment. Utilized React framework to create interactive and immersive gaming experiences. Demonstrated proficiency in implementing diverse functions and libraries to enhance gameplay."
-      },
-      "icon": "",
-      "category": "",
-      "type": "WEB",
-      "appStoreId": null,
-      "playStoreId": null,
-      "isInternal": false,
-      "featured": false,
-      "companyId": null,
-      "technologies": ["React", "JavaScript"],
-      "rating": 0,
-      "screenshots": [],
-      "webUrls": null,
-      "sourceCode": null,
-      "googleGroupUrl": null
-    },
-    {
       "id": "privycode-mobile",
       "name": "PrivyCode - Safe Code Sharing",
       "description": {
