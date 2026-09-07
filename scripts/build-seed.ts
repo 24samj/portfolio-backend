@@ -1,7 +1,7 @@
 /**
  * Seed generator. Reads `scripts/portfolio-data.json` (the portfolio content,
  * exported once from the old Mongo database and edited in place since) and
- * writes `migrations/9999_seed_portfolio_v2.sql`. Run it after any content edit:
+ * writes `migrations/9999_seed_portfolio_v3.sql`. Run it after any content edit:
  *
  *   bun run build:seed
  *
@@ -18,7 +18,7 @@ const DATA_JSON = join(ROOT, "scripts/portfolio-data.json");
 // Numbered high on purpose: wrangler applies migrations in lexicographic order,
 // so the seed always lands after whatever schema migration drizzle-kit generates
 // next, and its number can never collide with drizzle's incrementing ones.
-const SEED_SQL = join(ROOT, "migrations/9999_seed_portfolio_v2.sql");
+const SEED_SQL = join(ROOT, "migrations/9999_seed_portfolio_v3.sql");
 
 type Gradient = { from: string; to: string };
 

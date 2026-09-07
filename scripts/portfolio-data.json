@@ -461,7 +461,7 @@
       },
       "icon": "",
       "category": "",
-      "type": "MOBILE",
+      "type": "MULTI_PLATFORM",
       "appStoreId": "1661709494",
       "playStoreId": "app.renovateai",
       "isInternal": false,
@@ -496,7 +496,7 @@
         "https://images.sumit.codes/portfolio/works/renovate-ai/09-living-room-render.jpg",
         "https://images.sumit.codes/portfolio/works/renovate-ai/10-cost-estimate.jpg"
       ],
-      "webUrls": null,
+      "webUrls": ["https://studio.renovateai.app"],
       "sourceCode": null,
       "googleGroupUrl": null
     },
@@ -587,7 +587,7 @@
         "https://images.sumit.codes/portfolio/works/yardplan/05-redesigned-yard.jpg",
         "https://images.sumit.codes/portfolio/works/yardplan/06-build-this-weekend.jpg"
       ],
-      "webUrls": ["yardplan.app"],
+      "webUrls": null,
       "sourceCode": null,
       "googleGroupUrl": null
     }

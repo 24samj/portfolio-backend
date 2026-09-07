@@ -38,7 +38,7 @@ This service exposes REST APIs for:
 
 None required. There are no secrets in this project:
 
-- Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio_v2.sql`. Run `bun run db:local` once before `bun run dev`.
+- Content lives in D1 (`PORTFOLIO_DB` binding in `wrangler.jsonc`), seeded from `migrations/9999_seed_portfolio_v3.sql`. Run `bun run db:local` once before `bun run dev`.
 - `POST /api/contact` uses the `EMAIL` binding plus the `CONTACT_FROM` / `CONTACT_TO` vars, all in `wrangler.jsonc`. The binding is locked to one verified destination address, which keeps sending free on the Workers Free plan.
 - Allowed CORS origins are defined in code (`src/constants/index.ts`):
   - Production: `https://sumit.codes`
@@ -188,7 +188,7 @@ Rate-limit headers are returned on both success and throttled responses.
 
 Data:
 
-- Content is read-only and shipped as a seed migration. Edit `scripts/portfolio-data.json`, run `bun run build:seed`, commit the regenerated `migrations/9999_seed_portfolio_v2.sql`. See `.claude/rules/migrations.md`.
+- Content is read-only and shipped as a seed migration. Edit `scripts/portfolio-data.json`, run `bun run build:seed`, commit the regenerated `migrations/9999_seed_portfolio_v3.sql`. See `.claude/rules/migrations.md`.
 - Health route runs `SELECT 1` against D1 and always returns HTTP 200 with status detail (`ok` or `degraded`).
 
 ## Deployment
