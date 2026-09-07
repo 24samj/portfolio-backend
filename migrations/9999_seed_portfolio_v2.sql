@@ -5,7 +5,7 @@
 
 DELETE FROM profile WHERE id NOT IN ('6946e6673f00b5c4c4553b8a');
 INSERT OR REPLACE INTO profile (id, type, first_name, last_name, headline, summary, industry, location, birth_date, website, twitter_handles) VALUES
-  ('6946e6673f00b5c4c4553b8a', 'profile', 'Sumit', 'C.', 'Frontend Lead | Mobile/Web Apps', 'No inspirational quote here bro. I''ve done and continue to do a lot more than just code. You can read more below or just skip. Honestly, who even has time to read all of this crap anyway?', 'Software Development', 'Guwahati, Assam, India', 'Nov 17', 'sumit.codes', '[]');
+  ('6946e6673f00b5c4c4553b8a', 'profile', 'Sumit', 'C.', 'Frontend Lead | Mobile/Web Apps', 'No inspirational quote here. I''ve done and continue to do a lot more than just code. You can read more below or just skip. Honestly, who even has time to read all of this crap anyway?', 'Software Development', 'Guwahati, Assam, India', 'Nov 17', 'sumit.codes', '[]');
 
 DELETE FROM experiences WHERE id NOT IN ('ariveguru', 'konversi', 'lovepack', 'physicswallah', 'renovateai');
 INSERT OR REPLACE INTO experiences (id, name, role, work_start, work_end, location, description, type, works, gradient) VALUES
