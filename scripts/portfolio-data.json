@@ -37,7 +37,7 @@
       "workStart": "2024-10-01",
       "workEnd": "2025-04-30",
       "location": "Remote",
-      "description": "Developed a Fleet Management App with comprehensive job flow management, job history tracking, and real-time location tracking for job assignments, along with image uploads and technician maintenance workflows. Built a POS App for park operations that handled up to 1000+ transactions per day, integrating thermal printer support, transaction history management, and report data printing capabilities. Created an Attendance Logging App using Expo's geolocation services and camera-based photo verification to enforce secure clock-in/out functionality, manage leave requests, and track daily work hours for employees.",
+      "description": "Sole developer on three mobile applications actively used in daily operations: a Fleet Management App handling job assignments and real-time location tracking, a high-volume POS App processing 1000+ transactions per day for park operations, and an Attendance Logging App enforcing secure clock-in/out via geolocation and photo verification. Owned each app end-to-end — architecture, frontend implementation, and production support — with a strong focus on reliability and correctness given how central these apps were to daily business operations. Ensured consistent, responsive behavior across both phone and tablet form factors, and worked directly with the teams using these apps daily to triage, debug, and resolve issues in real time. Built with React Native and Expo.",
       "type": "CONTRACT",
       "works": ["konversi-fleet", "konversi-pos", "konversi-attendance"],
       "gradient": {
@@ -52,7 +52,7 @@
       "workStart": "2024-08-01",
       "workEnd": "2026-09-01",
       "location": "Remote",
-      "description": "Developed three major applications: EazyDukan, a multilingual retail management platform (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, AI-powered menu scanning, promotional material generation, and online ordering with delivery coordination. Built WebRasoi, a restaurant-focused version with enhanced AI-based menu creation from photos and streamlined inventory management. Created Zluper, a thrift fashion marketplace with an Instagram Reels-like feed optimized with HLS video streaming and WebP images, featuring wishlisting, rewards, referrals, wallet cashbacks, creator program, and a comprehensive admin dashboard for managing inventory, orders, and platform operations. All projects utilized modern tech stacks including React Native, React.js, Next.js, TypeScript, and various cloud services.",
+      "description": "Sole frontend developer across three product lines — EazyDukan, WebRasoi, and Zluper — owning the mobile and web frontend end-to-end, from architecture through production. Took full ownership of the release lifecycle: publishing app store updates, pushing OTA updates, monitoring error rates and performance metrics, and optimizing Core Web Vitals. Also contributed to backend and cloud infrastructure work as needed, working across the stack when required. Built primarily with React Native, React.js, Next.js, and TypeScript, with supporting cloud services across the projects.",
       "type": "PART_TIME",
       "works": ["eazydukan", "webrasoi", "zluper"],
       "gradient": {
