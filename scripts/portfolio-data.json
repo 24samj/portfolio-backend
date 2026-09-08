@@ -37,7 +37,7 @@
       "workStart": "2024-10-01",
       "workEnd": "2025-04-30",
       "location": "Remote",
-      "description": "Sole developer on three mobile applications actively used in daily operations: a Fleet Management App handling job assignments and real-time location tracking, a high-volume POS App processing 1000+ transactions per day for park operations, and an Attendance Logging App enforcing secure clock-in/out via geolocation and photo verification. Owned each app end-to-end — architecture, frontend implementation, and production support — with a strong focus on reliability and correctness given how central these apps were to daily business operations. Ensured consistent, responsive behavior across both phone and tablet form factors, and worked directly with the teams using these apps daily to triage, debug, and resolve issues in real time. Built with React Native and Expo.",
+      "description": "Sole developer on three apps: vehicle maintenance for a trucking operation, point of sale for a park, and verified attendance. Each was mine end to end — architecture, implementation, releases, and the production support that follows. All three had to hold up on phones and tablets, and on an operations floor rather than at a desk. I worked with the people using them daily, which is the fastest way to find out what a screen actually costs someone mid-shift.",
       "type": "CONTRACT",
       "works": ["konversi-fleet", "konversi-pos", "konversi-attendance"],
       "gradient": {
@@ -52,7 +52,7 @@
       "workStart": "2024-08-01",
       "workEnd": "2026-09-01",
       "location": "Remote",
-      "description": "Sole frontend developer across three product lines — EazyDukan, WebRasoi, and Zluper — owning the mobile and web frontend end-to-end, from architecture through production. Took full ownership of the release lifecycle: publishing app store updates, pushing OTA updates, monitoring error rates and performance metrics, and optimizing Core Web Vitals. Also contributed to backend and cloud infrastructure work as needed, working across the stack when required. Built primarily with React Native, React.js, Next.js, and TypeScript, with supporting cloud services across the projects.",
+      "description": "Sole frontend developer across three product lines — EazyDukan, WebRasoi, and Zluper — owning the mobile and web frontend end-to-end, from architecture through production. All three reached real users: Induskriti, a well-known terracotta chain, ran both its POS and inventory management on EazyDukan, as did several smaller shops. A restaurant or two used WebRasoi's restaurant-specific flows, and Zluper took orders daily from launch. Took full ownership of the release lifecycle — app store releases, OTA updates, error and performance monitoring, and Core Web Vitals — and contributed to backend and cloud infrastructure when the work called for it. The final year of it ran alongside a full-time role elsewhere.",
       "type": "PART_TIME",
       "works": ["eazydukan", "webrasoi", "zluper"],
       "gradient": {
@@ -82,9 +82,9 @@
       "workStart": "2025-09-01",
       "workEnd": null,
       "location": "Remote",
-      "description": "Contributed to the development of RenovateAI, an AI-powered home design application that enables users to visualize and plan home renovations by transforming photos of their spaces into professionally styled interiors with virtual staging, wall paint previews, and furniture arrangement. Completely revamped key user-facing features including the onboarding flow, renovation experience, and home screen, resulting in increased user conversions. Implemented comprehensive accessibility (a11y) improvements across all features worked on, ensuring the app is usable and inclusive for all users. Improved the legacy codebase architecture and optimized performance throughout the app, significantly reducing technical debt and enhancing overall app responsiveness. Handled on-call responsibilities and resolved critical production bugs to ensure a seamless and frictionless user experience for homeowners planning their renovation projects.",
+      "description": "Frontend across iOS, Android and web on a shipping consumer AI product, plus two of the services behind it. Rebuilt onboarding and then A/B tested the new flow against the old one, which is where the conversion gains came from. Set up the app's design system and removed the two UI libraries it had accumulated, Tamagui and NativeBase, over four phases; a later pass settled the app on a single experience and deleted 268 files and roughly 60,000 lines of what those migrations had left stranded. Built the asset library service every style, material and user upload is served from — curated assets shared, user uploads private, new collections added as data rather than as a schema change — and the remote-config service the app reads its flags and tutorials from, backed by one JSON document the team edits in an internal dashboard. Both were written with AI assistance and neither was architected by it — collections as data rather than schema, and one canonical shape for the config, are the calls that keep them simple. Accessibility went in alongside each feature rather than after it, product analytics with it, and on-call and production triage came with the seat.",
       "type": "FULL_TIME",
-      "works": ["renovate-ai", "yardplan"],
+      "works": ["renovate-ai", "yardplan", "video-lab"],
       "gradient": {
         "from": "pink",
         "to": "orange"
@@ -96,11 +96,11 @@
       "id": "eazydukan",
       "name": "EazyDukan",
       "description": {
-        "short": "Multilingual retail management platform (mobile & web) with subscription tiers, multi-outlet management, full POS system, and AI-powered features. Web platform provides a large UI for managing inventory, adding transactions (POS), and quick commerce functionality.",
-        "long": "Developed a multilingual retail management app (mobile & web) featuring subscription tiers, multi-outlet and staff management, a full POS system with real-time inventory tracking, and support for cash, QR code, and Razorpay SMS payments. Integrated AI capabilities to auto-scan restaurant menus into inventory, generate promotional materials, manage coupons, handle product returns, and offer a one-click \"86\" function, alongside detailed sales, revenue, and analytics reporting. Built online ordering with delivery coordination (in-house or third-party), WhatsApp-based customer feedback, and a Customer Display mode for scrolling in-store promotions. The web project is mainly the mobile app but easier to manage stuff like a large UI for managing inventory, adding transactions (POS), etc. The shop.eazydukan.com is a quick commerce platform that shows shops nearby, and users could buy from them. The \"shop\" is a wildcard subdomain and could be named to anything based on your eazydukan account, so you could advertise your shop as dominos.eazydukan.com and it would take the user to a page where the user could purchase anything from your shop online, and the store owner could have it delivered to them."
+        "short": "Retail operations platform for small shops and restaurants: a full point of sale with live inventory, multiple outlets and staff, plus AI that builds a shop's whole catalog from a photograph of its menu. Mobile and web in English, Hindi and Bengali, with a paired tablet as a customer-facing display and a storefront for online orders.",
+        "long": "EazyDukan is a retail operations platform for small shops and restaurants, sold in subscription tiers, built for both mobile and web, and localized into English, Hindi and Bengali. An owner gets a full point of sale with live inventory, multiple outlets, staff accounts, coupons, returns, and sales and revenue reporting; the web build is the same product with room to breathe, for bulk inventory work and running a till on a larger screen. Payments cover cash, QR and card, plus SMS payment links for a customer who is not standing at the counter. The AI paths are the shortcut that made it worth switching: photograph a printed menu or price list and the app builds the catalog from it, so the owner checks names and prices instead of typing hundreds of rows, and item photography can be generated the same way. Anything that sells out is marked unavailable for the day in one tap. Marketing works like that too — the app drafts a seasonal or discount message and hands it to WhatsApp, addressed to whoever is in the shop. A paired tablet becomes a customer-facing display, with the phone as sender and the tablet as receiver, sitting in the store cycling through what is on offer. Online orders arrive through a storefront that lists nearby shops, where every account gets its own subdomain, so a store can advertise its own address and then fulfil deliveries in-house or hand them to a third party."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/eazydukan/icon.png",
+      "category": "Productivity",
       "type": "MULTI_PLATFORM",
       "appStoreId": null,
       "playStoreId": "com.eazydukan",
@@ -153,11 +153,11 @@
       "id": "webrasoi",
       "name": "WebRasoi",
       "description": {
-        "short": "Restaurant-focused version of EazyDukan with enhanced functionality for restaurants, including AI-based menu creation, one-click \"86\" feature, and AI-generated images and descriptions for a polished experience.",
-        "long": "WebRasoi is a restaurant-focused version of EazyDukan with way better functionality specifically designed for restaurants. It features AI-based inventory (menu) creation, one-click \"86\" feature for out-of-stock items, and AI-generated images and descriptions so it never felt bland. Similar to EazyDukan, when adding inventory, you could just take a picture of what the item is, and AI would fill all of the relevant details, ask you to confirm, and done. This streamlined the menu creation process and ensured consistent, professional-looking menu items with AI-generated content."
+        "short": "The restaurant build of EazyDukan. Photograph a printed menu and the app fills in dishes, prices, descriptions and generated imagery for the owner to review; a dish that runs out comes off the menu for the day in one tap.",
+        "long": "WebRasoi is EazyDukan rebuilt around a kitchen rather than a shop floor. The catalog becomes a menu, which makes the AI intake path the centre of the product rather than a convenience: photograph the printed menu and the app fills in dishes, prices and descriptions, generating item imagery for kitchens that have never photographed their own food, leaving the owner to review instead of type. A dish that runs out is taken off the menu for the rest of the day in a single tap. Everything a restaurant still needs from the retail product — orders, payments, staff, outlets, reporting, the same English, Hindi and Bengali localization — carries across unchanged; what differs is that every flow assumes service rather than shelves."
       },
       "icon": "",
-      "category": "",
+      "category": "Food & Drink",
       "type": "MOBILE",
       "appStoreId": null,
       "playStoreId": "com.webrasoi",
@@ -206,11 +206,11 @@
       "id": "zluper",
       "name": "Zluper",
       "description": {
-        "short": "Thrift fashion app where users can discover and purchase amazing thrift clothing from top brands. Features an Instagram Reels-like feed with HLS-optimized video streaming via expo-video and WebP-optimized images, wishlisting, rewards, referrals, wallet cashbacks, and a creator program for influencer events. Built an admin dashboard for easier management of inventory, data, orders, and more.",
-        "long": "Zluper is a thrift fashion app where users can checkout amazing thrift clothing from top brands, buy them, share them, buy them for friends, get rewards, and participate in influencer events through Zluper's creator program (sign up available on web). The mobile version is WAY better with an Instagram Reels-like feed on the homescreen that you can scroll through all day to checkout amazing fashion. It uses HLS with expo-video for videos to ensure network quality does not affect how fast/slow the media loads, only the quality, and WebP format with expo-image for optimized image loading. The app leverages Expo Application Services (EAS) for OTA updates and easier version releases on app stores. Key features include the performant Instagram Reels-like feed with support for both videos and images, wishlisting, buying, coupon codes, referrals, sharing, rewards, wallet cashbacks, referral earnings, and more. The web version is also available for purchasing, though the mobile experience is significantly enhanced. Additionally, I built a comprehensive admin dashboard that provides easier management of inventory, inventory data, orders, and other administrative tasks, streamlining the backend operations for the platform."
+        "short": "Thrift fashion marketplace where most stock is one-of-one, so the app is built around discovery instead of search. A full-screen vertical feed ranks on gender and the shopper's sizes, and a \"buy for someone\" mode re-ranks it to a friend's. Built the consumer app for iOS and Android, the web build, the warehouse operations app, and the admin console.",
+        "long": "Zluper is a thrift fashion marketplace: the stock is mostly one-of-one — a single piece in a single size — plus lowerwear and accessories like rings and keychains. That inventory shape is why the app leads with discovery rather than search. The home experience is a full-screen vertical media feed ranked by gender and by the sizes captured at onboarding, and it auto-selects the shopper's size when a piece has it, falling back to a size picker when it does not. A \"buy for someone\" mode swaps in a friend's sizes and re-ranks the feed to them. Around that sit wishlists, coupons, a wallet with cashback, referrals, a creator program with tiers and payouts, and ticketed in-app support. A shake game gives stock away: shake hard enough for long enough and you win, with the score verified before a prize is drawn and claimed inside a time window. Video streams adaptively, and the feed recycles its rows with a player only for the item on screen, which keeps an endless scroll smooth on cheap Android hardware. The warehouse has its own operations app for barcode scanning, label printing, crate audits and SKU intake, while listings are drafted in an admin console with AI-generated imagery and held for human review before going live. The returns pipeline was built server-side. Shipped across seventeen releases with over-the-air updates, feature flags and a generated analytics catalog."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/zluper/icon.png",
+      "category": "Shopping",
       "type": "MULTI_PLATFORM",
       "appStoreId": "6754866276",
       "playStoreId": "com.zluper",
@@ -264,11 +264,11 @@
       "id": "konversi-fleet",
       "name": "Konversi Fleet - Truck Fleet Management App",
       "description": {
-        "short": "Truck fleet management app with job flow, job history, real-time location tracking for job assignments, image uploads, and technician maintenance workflows.",
-        "long": "Developed a Fleet Management App job flow, job history and real-time location tracking for job assignments, image uploads, and technician maintenance workflows."
+        "short": "Fleet maintenance app for a trucking operation. Scan a vehicle's QR code and its job opens with the drop-off point and an estimated arrival time; weekly inspection checklists, a position-by-position tire diagram, parts logging and photo evidence all attach to the job.",
+        "long": "A fleet maintenance app for a trucking operation, built around the technician rather than the dispatcher. Vehicles carry QR codes: scan one and the job opens with its details, its drop-off point and an estimated time to reach the site, and the technician starts and works it from there. Weekly checklists walk an inspection across the whole vehicle, a tire diagram records condition and replacements position by position, and anything urgent becomes its own job with a table of the parts and quantities it consumed. Photos attach to a job as the record of what was picked up or repaired, and a technician logs the work actually done rather than just closing the ticket. In-progress and completed jobs sit in their own views, every vehicle keeps an inspection history, and roles separate what a technician sees from what an operator does."
       },
       "icon": "",
-      "category": "",
+      "category": "Logistics",
       "type": "MOBILE",
       "appStoreId": null,
       "playStoreId": null,
@@ -304,11 +304,11 @@
       "id": "konversi-pos",
       "name": "Konversi POS - Full-fledged POS App",
       "description": {
-        "short": "Full-fledged POS app for park operations with thermal printer support, transaction history, and report data printing. Handled 500-1000+ daily transactions seamlessly.",
-        "long": "Built a POS App for park operations, integrating thermal printer support, transaction history, and report data printing. The app handled 500-1000+ transactions daily seamlessly with no hiccups."
+        "short": "Point of sale for park operations at 1,000+ transactions a day, with per-outlet stock across a chain and QR-coded receipts printed from a paired thermal printer — the printing built as a native module, because nothing off the shelf produced it.",
+        "long": "A point of sale for park operations, running 1,000+ transactions a day. One account covers a whole chain: each site is a selectable outlet and the till only offers stock that outlet actually holds, so an invoice cannot be raised against inventory sitting somewhere else. Order summary, payment method and receipt are one continuous flow, and the app pairs straight to a thermal printer to print a ticket carrying a QR code alongside the full transaction detail. That printing was the hard part — nothing off the shelf produced the QR receipt this needed, so it was built as a native module. Reporting covers transaction history and the end-of-day closing report the site reconciles against."
       },
       "icon": "",
-      "category": "",
+      "category": "Point of Sale",
       "type": "MOBILE",
       "appStoreId": null,
       "playStoreId": null,
@@ -345,11 +345,11 @@
       "id": "konversi-attendance",
       "name": "KWork - Attendance Tracking/Logging App",
       "description": {
-        "short": "Attendance tracking app using Expo geolocation and camera-based photo verification for secure clock-in/out, leave management, and daily work hour tracking.",
-        "long": "Created an Attendance Logging App using Expo's geolocation services and camera-based photo verification to enforce secure clock-in/out, manage leave requests, and track daily work hours."
+        "short": "Attendance app that makes clocking in verifiable rather than trusted: a photo goes to the backend and the device's location is checked against a radius the organization sets. Leave requests run through the same app, single date or range, tracked through approval.",
+        "long": "An attendance app that makes clocking in verifiable rather than trusted. A clock-in sends a photo to the backend and checks the device's location against a radius the organization sets, so a shift can only be opened from inside the workplace, and daily hours accumulate from the clock-in and clock-out pairs. Leave runs through the same app: pick a single date or a range, raise the request, and follow it through pending, accepted or rejected. It stayed a work in progress, with the verification and leave workflows as the parts that worked end to end."
       },
       "icon": "",
-      "category": "",
+      "category": "Workforce",
       "type": "MOBILE",
       "appStoreId": null,
       "playStoreId": null,
@@ -382,11 +382,11 @@
       "id": "bvmrf",
       "name": "BVMRF - Vet Health",
       "description": {
-        "short": "Comprehensive mobile app designed to support Veterans in their health and well-being journey, offering educational resources, personalized content on therapeutic areas, VA facility directory, and information on eligibility and benefits.",
-        "long": "BVMRF Vet-Health is a comprehensive mobile application designed to support Veterans in their health and well-being journey. It offers a wealth of educational resources, personalized content on specific therapeutic areas, and valuable information on VA-related topics and services. Users can access a vast library of educational content tailored to their specific needs, stay informed about relevant therapeutic areas, and learn about the latest treatments and therapies available for Veterans. The app also provides a comprehensive directory of VA facilities and services, guidance on eligibility and benefits, and updates on VA-related news. Additionally, it keeps users informed about advancements in medical research and clinical trials, offering opportunities to participate in studies that may benefit them and contribute to the advancement of Veterans healthcare. The app is developed by the Bronx Veterans Medical Research Foundation (BVMRF), a nonprofit organization dedicated to advancing research and education activities to enhance the quality of care and health for Veterans."
+        "short": "A white-label health app: one codebase, a separately branded release for each client. The build shown here is the public one, serving Veterans with educational material, a facilities directory and benefits guidance. Underneath sat a JavaScript codebase with no TypeScript, which is where most of the work went.",
+        "long": "One codebase, several clients: this was a white-label health app where each client got its own branded release off a shared template. The build shown here is the public one, for a foundation supporting Veterans, and it is the version that demonstrates the features — the two iterations worked on directly were a clinical-trial companion for a US medical client, which never shipped, and a build for a large US retailer. What the released app does: a library of educational material tailored to a user's therapeutic areas, a directory of Veterans Affairs facilities and services, guidance on eligibility and benefits, and news on research and clinical trials a user might be eligible to join. The interesting part was underneath. It was a JavaScript codebase with no TypeScript, so the work was performance passes, pulling out legacy code, repairing styling that had drifted, and adding features to a template that several clients depended on."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/bvmrf/icon.png",
+      "category": "Education",
       "type": "MOBILE",
       "appStoreId": "6476032857",
       "playStoreId": "my.bvmrf.app",
@@ -421,11 +421,11 @@
       "id": "rhia",
       "name": "RHIA - Life-like AI Assistant",
       "description": {
-        "short": "Life-like AI assistant for user registration, appointment scheduling, and task management, deployable across multiple office locations to streamline operations and improve productivity.",
-        "long": "Built RHIA, an AI assistant for tasks like user registration, appointment scheduling, and task management, deployable across multiple office locations. Leveraged AI technologies efficiently to streamline office operations and improve productivity. This was a POC project, supposed to be demo'd at the Bengaluru Tech Summit. You would literally talk to a person (AI) on screen, regarding whatever you wanted to talk about (obviously it being relevant to who RHIA would be working for OR what data was fed into RHIA)."
+        "short": "A voice-first stand-in for the receptionist desk: walk up, ask about the company it was set up for, book an appointment. Registration ran entirely by voice, down to reading a one-time code back to it. A proof of concept, built before grounding an assistant in a company's own data was routine.",
+        "long": "RHIA was an attempt at the receptionist desk you walk past in every office building: something you approach, talk to, and get answers from. It was set up per company, so it could answer questions about that specific organization from the material it had been given, and it could book appointments. Registration happened entirely by voice — speak your phone number, receive a one-time code, and read the code back to confirm it, with no keyboard anywhere in the flow. Built as a proof of concept, and it was ambitious for its moment: this predated the tooling that now makes grounding an assistant in a company's own data routine, so most of it had to be assembled rather than wired together, and it was heading for a demo at the Bengaluru Tech Summit."
       },
       "icon": "",
-      "category": "",
+      "category": "Conversational AI",
       "type": "WEB",
       "appStoreId": null,
       "playStoreId": null,
@@ -456,11 +456,11 @@
       "id": "renovate-ai",
       "name": "Renovate AI",
       "description": {
-        "short": "AI-powered home design and renovation app with virtual staging, 3D elevations, image upscaling, and over 100 curated styles. Revamped onboarding and home screen, significantly improving user conversions and app performance.",
-        "long": "Worked on various projects/part of the Renovate AI mobile app, such as completely revamping the onboarding, renovation experience, home screen, and more, increasing user conversions. Worked on improving legacy codebase and increased performance throughout the app, removing a huge chunk of technical debt. Handled on-call as well as critical bugs in production, ensuring end users have a frictionless app experience. Renovate AI is a cutting-edge application that revolutionizes home design and renovation processes using advanced AI. It features virtual staging, 3D elevations, image upscaling to 4K, exterior renovation, landscaping design with over 40 styles, sketch-to-render capabilities, wall makeovers, exterior painting, and object removal. The app is powered by over 10 AI models and offers more than 100 curated styles for interior and exterior design."
+        "short": "AI home design app: photograph a room, facade or yard and get it redesigned — virtual staging, paint previews, object removal, sketch-to-render, 4K upscaling — across more than a hundred curated styles. A canvas and material matching give direct control rather than prompt-guessing, and a design consultation flow hands a project to a human designer.",
+        "long": "Renovate AI turns a photograph of a room, a facade or a yard into a finished redesign, then keeps going from there. Virtual staging fills an empty room, interior and exterior paint previews put a color on the actual wall, furniture gets rearranged, objects get removed, sketches become renders, and an image can be upscaled to 4K — more than ten models behind over a hundred curated interior and exterior styles. A canvas hands the user direct control over what changes instead of leaving it to a prompt, material match lifts a specific finish out of a catalog and applies it in place, and an inspiration library keeps the references that got them there. Renders branch into their own iterations, so a variation can be chased without losing the version worth keeping, and the history stays browsable. For anyone who would rather have a person than a model, a design consultation flow hands the project to a human designer, with the brief and assets collected in the app. It runs on iOS, Android and a web studio, with in-app tutorials, subscription tiers and push notifications around the core product."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/renovate-ai/icon.png",
+      "category": "Graphics & Design",
       "type": "MULTI_PLATFORM",
       "appStoreId": "1661709494",
       "playStoreId": "app.renovateai",
@@ -483,7 +483,7 @@
         "Sentry",
         "PostHog"
       ],
-      "rating": 0,
+      "rating": 4.64,
       "screenshots": [
         "https://images.sumit.codes/portfolio/works/renovate-ai/01-remodel-with-ai.jpg",
         "https://images.sumit.codes/portfolio/works/renovate-ai/02-any-style.jpg",
@@ -504,11 +504,11 @@
       "id": "privycode-mobile",
       "name": "PrivyCode - Safe Code Sharing",
       "description": {
-        "short": "Mobile app for creating secure, time-limited, view-only access links to private GitHub repositories. Perfect for developers sharing code with recruiters, clients, or collaborators without compromising security.",
-        "long": "PrivyCode revolutionizes how developers share their code by creating secure, time-limited, view-only access links to private GitHub repositories. No more making your code public or managing complex permissions. Key features include secure by design (code stays private, only shared content is accessible), time-limited access with expiration dates, view-only access (recipients can view but cannot clone, download, or modify), usage analytics to track who viewed code and when, instant sharing to generate secure links in seconds, and mobile-first design to manage shared links on the go. Perfect for developers sharing code with recruiters, freelancers showing work to potential clients, teams collaborating with external reviewers, and open source maintainers sharing private projects."
+        "short": "Personal project: the mobile companion to the open-source PrivyCode web app, on the same backend. Sign in with GitHub, browse your repositories, and hand someone a view-only link to a private one that expires — built to learn OAuth, token handling on a device, and access that is genuinely time-limited.",
+        "long": "A personal project, and a small one on purpose. PrivyCode gives a private GitHub repository a view-only link that expires, so code can be shown to a recruiter or a client without making the repository public or handing over collaborator access. This is the mobile companion to the open-source web version, running against the same backend: sign in with GitHub, browse your repositories, and generate a link that lets the recipient read but not clone, download or modify. It was built to work through the parts that are easy to get wrong rather than to ship a product — the GitHub OAuth handshake, holding a token on a device, and enforcing access that is genuinely one-time and time-limited rather than merely hidden."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/privycode-mobile/icon.png",
+      "category": "Productivity",
       "type": "MOBILE",
       "appStoreId": null,
       "playStoreId": "com.samtastic.privycodemobile",
@@ -537,11 +537,11 @@
       "id": "yardplan",
       "name": "YardPlan",
       "description": {
-        "short": "AI landscaping app: photograph your yard, get Gemini-rendered redesigns you can iterate on, then a buildable plan with plants suited to your region. Built end to end: the Expo SDK 56 / React Native new-architecture app and its Cloudflare Workers backend (Hono, D1, R2, Queues).",
-        "long": "YardPlan lets homeowners photograph their yard and see it redesigned by AI. Each render can branch from the original photo or from an earlier render, so users explore variations without losing their place, and a finished design turns into a buildable plan with region-appropriate plants. Built the product end to end. The mobile app runs on Expo SDK 56 and React Native 0.85 (new architecture only) with React 19 and the React Compiler, expo-router file-based routing, and a strict layered architecture (utils, services, api, hooks, providers, screens) enforced by repo rules. It ships Firebase auth (Google, Apple, Facebook, passwordless email), RevenueCat subscriptions and paywalls, iOS widgets, share-intent and Branch deep links, push notifications, an offline mode, Lingui i18n, and PostHog analytics with a generated event catalog, styled through semantic theme tokens via uniwind. The backend is a Firebase-authenticated Cloudflare Worker on Hono with D1 for data, R2 for photos and renders, and Cloudflare Queues driving the Gemini render and plan pipelines asynchronously, so a render survives the app closing. Both sides use Drizzle, Biome/ultracite, tests and husky to keep the codebase consistent."
+        "short": "AI landscaping app: photograph a yard, explore renders that branch off one another, then get a buildable plan with plants suited to the region. A two-person build, and the effort went into making a cross-platform app feel genuinely native on iOS — real platform controls, haptics, and render progress that keeps ticking on the Lock Screen while the app is closed.",
+        "long": "YardPlan turns a photograph of a yard into a redesign, and then into something buildable: renders to explore, and a plan with plants that suit the region. Built fresh by two engineers, with most of the mobile app and about half the backend written here. Renders form a tree rather than a chain — one starts either from the original photo or from another render's output, so trying a different direction is just another branch, and the request carries no image because the server resolves the input from the parent. Generation runs on its own queue, so a render outlives the app being closed and is only called failed once retries are exhausted. Nothing double-charges for that: one job at a time, a deterministic key so a redelivered job resumes from the image it already made, and a refund in exactly one place. Frontend is the specialism, and the backend was written with AI assistance — but the decisions were not delegated along with the typing: what the queue had to guarantee, where state was allowed to live, what a failed job must never cost. Most of the effort, though, went into making a cross-platform app feel like a native iOS one. Sheets, context menus and the segmented control are real platform controls rather than imitations, glass steps down to system blur on older iOS and on Android, every tappable surface answers with haptics, and pinch-to-zoom settles on a spring. Render progress shows up on the Lock Screen and Dynamic Island, animated by the system from a pair of timestamps, so it keeps moving with the app suspended or killed. Both sides hold themselves to written rules — one-way dependencies between layers, semantic color tokens, generated event names so no analytics string is typed by hand — and the backend's 597 tests run against the real migrations on a real database rather than mocks, because the SQL is what is under test; it ships on both stores, in English and Spanish."
       },
-      "icon": "",
-      "category": "",
+      "icon": "https://images.sumit.codes/portfolio/works/yardplan/icon.png",
+      "category": "Graphics & Design",
       "type": "MOBILE",
       "appStoreId": "6784333021",
       "playStoreId": "app.yardplan",
@@ -578,7 +578,7 @@
         "Biome",
         "Jest"
       ],
-      "rating": 0,
+      "rating": 4.65,
       "screenshots": [
         "https://images.sumit.codes/portfolio/works/yardplan/01-reimagine-your-yard.jpg",
         "https://images.sumit.codes/portfolio/works/yardplan/02-priced-plan.jpg",
@@ -588,6 +588,50 @@
         "https://images.sumit.codes/portfolio/works/yardplan/06-build-this-weekend.jpg"
       ],
       "webUrls": null,
+      "sourceCode": null,
+      "googleGroupUrl": null
+    },
+    {
+      "id": "video-lab",
+      "name": "Video Lab",
+      "description": {
+        "short": "An AI video generator built around a catalog instead of a prompt box: pick a template, hand it a photo, and it renders — or write your own prompt and choose the model and style. Subscription-gated, with coins that generations spend. Built solo, app and backend.",
+        "long": "Video Lab turns a photo into a short AI video. The home screen is a catalog rather than a prompt box — a hero carousel and category sections like flying or viral effects, each template a looping preview with a one-line pitch — so you pick a look, hand it a photo, and it renders. There is a free-form path too: write a prompt and choose the model and the style yourself. The app is subscription-gated end to end, a subscription grants the coins that generations spend, and a template shows its cost before you commit to it. Built solo, app and backend, and the decisions underneath are the part worth reading. A template is always image-to-video, so nothing stores what kind of thing a template is: the request shape decides the pipeline, and the two request bodies are a union of closed objects rather than one object with optional fields, so the rules fall out of the shapes instead of being checked after the fact. Models are rows, not an enum — a new one launches as an insert, disabling one drops it from the picker and stops it being accepted in the same instant, and it stays readable because old jobs still point at it. Every vendor sits behind one adapter, submit a job and poll a handle, so the pipeline never learns a vendor's name and adding one is three edits and no change to the pipeline. Generation runs on a durable workflow that outlives the request, catalog assets are public while anything a user made stays private, and credits are ours to account for while subscription state is mirrored in from the store."
+      },
+      "icon": "https://images.sumit.codes/portfolio/works/video-lab/icon.png",
+      "category": "Photo & Video",
+      "type": "MOBILE",
+      "appStoreId": null,
+      "playStoreId": null,
+      "isInternal": false,
+      "featured": true,
+      "companyId": "renovateai",
+      "technologies": [
+        "Expo",
+        "React Native",
+        "TypeScript",
+        "Reanimated",
+        "Skia",
+        "Redux Toolkit",
+        "React Query",
+        "Firebase Auth",
+        "RevenueCat",
+        "Cloudflare Workers",
+        "Hono",
+        "D1",
+        "R2",
+        "Drizzle"
+      ],
+      "rating": 0,
+      "screenshots": [
+        "https://images.sumit.codes/portfolio/works/video-lab/01-start-with-a-look.jpg",
+        "https://images.sumit.codes/portfolio/works/video-lab/02-bring-one-photo.jpg",
+        "https://images.sumit.codes/portfolio/works/video-lab/03-tap-continue.jpg",
+        "https://images.sumit.codes/portfolio/works/video-lab/04-get-a-video-back.jpg",
+        "https://images.sumit.codes/portfolio/works/video-lab/05-keep-it-or-send-it.jpg",
+        "https://images.sumit.codes/portfolio/works/video-lab/06-trim-it-first.jpg"
+      ],
+      "webUrls": ["https://video.voxapp.ai"],
       "sourceCode": null,
       "googleGroupUrl": null
     }
