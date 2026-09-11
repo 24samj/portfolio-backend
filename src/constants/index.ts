@@ -8,6 +8,7 @@ export const RATE_LIMITS = {
   educations: { windowMs: 60 * 1000, maxRequests: 1000 },
   certifications: { windowMs: 60 * 1000, maxRequests: 1000 },
   skills: { windowMs: 60 * 1000, maxRequests: 1000 },
+  portfolio: { windowMs: 60 * 1000, maxRequests: 1000 },
   default: { windowMs: 60 * 1000, maxRequests: 100 },
 } as const;
 

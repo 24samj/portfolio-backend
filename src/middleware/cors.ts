@@ -16,6 +16,11 @@ export const corsMiddleware = async (c: Context, next: Next) => {
     c.header("Access-Control-Allow-Credentials", "true");
   }
 
+  // Required, now that a success carries Cache-Control: the allow-origin header
+  // above echoes the request, so a held response must not be handed to a
+  // different origin than the one it was built for.
+  c.header("Vary", "Origin");
+
   // Always set, so a preflight from any origin gets a well-formed answer.
   c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   c.header("Access-Control-Allow-Headers", "Content-Type, Authorization");

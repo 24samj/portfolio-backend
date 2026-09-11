@@ -5,11 +5,22 @@ import type { Context } from "hono";
  * failures carry `error` (a stable label) and `message` (the detail).
  */
 
+/**
+ * The content is read-only and seeded, so a success can be held. A short
+ * browser TTL, a longer shared one, and a day of stale-while-revalidate so a
+ * cold cache serves the last answer rather than waiting on D1. Only successes:
+ * a 404 or a 500 must never be held.
+ */
+const CACHE_CONTROL =
+  "public, max-age=60, s-maxage=300, stale-while-revalidate=86400";
+
 export function listResponse<T>(c: Context, data: T[]): Response {
+  c.header("Cache-Control", CACHE_CONTROL);
   return c.json({ success: true, count: data.length, data });
 }
 
 export function itemResponse<T>(c: Context, data: T): Response {
+  c.header("Cache-Control", CACHE_CONTROL);
   return c.json({ success: true, data });
 }
 
