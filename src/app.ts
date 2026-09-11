@@ -8,6 +8,7 @@ import { contactRoutes } from "@/routes/contact.routes";
 import { educationRoutes } from "@/routes/education.routes";
 import { experienceRoutes } from "@/routes/experience.routes";
 import { healthRoutes } from "@/routes/health.routes";
+import { portfolioRoutes } from "@/routes/portfolio.routes";
 import { profileRoutes } from "@/routes/profile.routes";
 import { skillRoutes } from "@/routes/skill.routes";
 import { statsRoutes } from "@/routes/stats.routes";
@@ -48,6 +49,7 @@ app.route("/api/educations", educationRoutes);
 app.route("/api/certifications", certificationRoutes);
 app.route("/api/skills", skillRoutes);
 app.route("/api/me", profileRoutes);
+app.route("/api/portfolio", portfolioRoutes);
 
 // Legacy paths kept for backward compatibility. Hidden from the spec below.
 app.route("/health", healthRoutes);
@@ -81,6 +83,7 @@ app.get(
         { name: "Educations" },
         { name: "Certifications" },
         { name: "Stats", description: "Headline numbers" },
+        { name: "Portfolio", description: "Every resource in one response" },
         { name: "Apps", description: "Live App Store / Play Store listings" },
         { name: "Contact", description: "The contact form" },
         { name: "Utils" },

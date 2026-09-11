@@ -2,6 +2,7 @@ import { env } from "cloudflare:test";
 import { describe, expect, it } from "vitest";
 import app from "@/index";
 import type { Experience } from "@/types/experience.type";
+import type { Portfolio } from "@/types/portfolio.type";
 import type { Skill, SkillCategory } from "@/types/skill.type";
 import type { Work } from "@/types/work.type";
 
@@ -202,5 +203,62 @@ describe("the rest of the read surface", () => {
       success: false,
       error: "Not found",
     });
+  });
+});
+
+describe("GET /api/portfolio", () => {
+  it("returns every resource in one response", async () => {
+    const res = await get("/api/portfolio");
+    const body = (await res.json()) as Item<Portfolio>;
+
+    expect(res.status).toBe(200);
+    expect(body.success).toBe(true);
+    expect(Object.keys(body.data).sort()).toEqual([
+      "certifications",
+      "educations",
+      "experiences",
+      "profile",
+      "skills",
+      "stats",
+      "works",
+    ]);
+    expect(body.data.profile).not.toBeNull();
+    expect(body.data.skills.length).toBeGreaterThan(0);
+    expect(body.data.experiences.length).toBeGreaterThan(0);
+    expect(body.data.educations.length).toBeGreaterThan(0);
+    expect(body.data.certifications.length).toBeGreaterThan(0);
+    expect(body.data.works.length).toBeGreaterThan(0);
+    expect(body.data.stats.totalCompanies).toBeGreaterThan(0);
+  });
+
+  it("carries the same rows as the per-resource routes", async () => {
+    const aggregate = (await (
+      await get("/api/portfolio")
+    ).json()) as Item<Portfolio>;
+    const works = (await (await get("/api/works")).json()) as List<Work>;
+    const experiences = (await (
+      await get("/api/experiences")
+    ).json()) as List<Experience>;
+
+    expect(aggregate.data.works).toEqual(works.data);
+    expect(aggregate.data.experiences).toEqual(experiences.data);
+  });
+});
+
+describe("caching", () => {
+  it("holds a success and varies it by origin", async () => {
+    const res = await get("/api/portfolio");
+
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, max-age=60, s-maxage=300, stale-while-revalidate=86400"
+    );
+    expect(res.headers.get("Vary")).toBe("Origin");
+  });
+
+  it("never holds a 404", async () => {
+    const res = await get("/api/works/not-a-real-work");
+
+    expect(res.status).toBe(404);
+    expect(res.headers.get("Cache-Control")).toBeNull();
   });
 });

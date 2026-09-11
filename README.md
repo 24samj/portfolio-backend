@@ -13,6 +13,7 @@ This service exposes REST APIs for:
 - Certifications (`/api/certifications`)
 - Education (`/api/educations`)
 - Stats (`/api/stats`)
+- The whole portfolio in one response (`/api/portfolio`)
 - Contact email (`/api/contact`)
 - App store lookup (`/api/apps/app-store/:id`, `/api/apps/play-store/:id`)
 - Utility helpers (`/api/utils/format-date/:date`)
@@ -103,6 +104,12 @@ All primary routes are mounted under `/api/*`.
 
 - `GET /api/stats`
 
+### Portfolio
+
+- `GET /api/portfolio` — profile, skills, experiences, educations,
+  certifications, works and stats together, so a screen makes one request
+  instead of one per collection
+
 ### Profile
 
 - `GET /api/me`
@@ -174,9 +181,22 @@ Configured in `src/constants/index.ts` and applied per route via middleware.
 - Certifications: 1000 req/min/IP
 - Skills: 1000 req/min/IP
 - Stats: 500 req/min/IP
+- Portfolio: 1000 req/min/IP
 - Default: 100 req/min/IP
 
 Rate-limit headers are returned on both success and throttled responses.
+
+## Caching
+
+The content is read-only and seeded, so every successful `GET` carries
+`Cache-Control: public, max-age=60, s-maxage=300, stale-while-revalidate=86400`
+and `Vary: Origin`. Errors, 404s and the contact endpoint are never cacheable.
+
+A Worker on a custom domain runs in front of Cloudflare's cache rather than
+behind it, so these headers are honoured by browsers and intermediaries but do
+not by themselves populate the edge cache. To get that, either add a Cache Rule
+for `portfolio.sumit.codes` that respects the origin TTL, or have the caller ask
+for it on the way out.
 
 ## Architecture Notes
 
